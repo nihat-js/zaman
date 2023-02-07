@@ -1,4 +1,8 @@
-const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+const User = require('../models/User')
+
+
 module.exports = async function login (req,res){
   if (!req.body.username ||!req.body.password){
     return res.json({message:"Invalid Data", status : false})

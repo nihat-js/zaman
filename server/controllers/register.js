@@ -1,9 +1,12 @@
+const User = require('../models/User')
+const bcrypt = require('bcrypt')
 async function register(req,res){
 
-  if (!req.body.username || !req.body.email && !req.body.password){
+  let {username,email , password} = req.body 
+
+  if (  !(username && email && password )){
     return res.json({message:"Invalid Data" , status : false})
   }
-  let {username,email , password} = req.body 
   username = username.toLowerCase()
   email = email.toLowerCase()
   const usernameCheck = await User.findOne({username : username})
@@ -30,3 +33,5 @@ async function register(req,res){
   }
 
 }
+
+module.exports = register

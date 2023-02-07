@@ -1,13 +1,16 @@
-async function sendMessage(req,res){
-  // const sender = "63e0c7c9929c725bdb4caecf"
-  // const receiver = "63e0c7c9929c725bdb4caecf"
+const Message = require('../models/Message')
 
-  if (!req.body.sender ||!req.body.receiver || !req.body.text || !req.body.chatId){
+async function sendMessage(req,res){
+
+  let {user_id , text,chat_id} = req.body
+
+  console.log(user_id,text,chat_id)
+
+  if (!  (user_id && text && chat_id ) ){
     return res.json({message:"Invalid Data", status : false})
   }
 
-  let  {sender,receiver,text} = req.body
-  const message = new Message({text,sender,receiver,chatId  })  
+  const message = new Message({text,sender : user_id,chat_id})
 
   const savedMessage = await message.save()
   if (!savedMessage){
@@ -15,3 +18,5 @@ async function sendMessage(req,res){
   }
   res.json({message : "Message sent successfully", status : true, data : savedMessage})
 }
+
+module.exports = sendMessage

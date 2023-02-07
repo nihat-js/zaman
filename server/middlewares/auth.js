@@ -1,5 +1,5 @@
-const User = require('../models/UserModel');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 async function auth(req, res, next) {
   let { token } = req.body
@@ -7,7 +7,6 @@ async function auth(req, res, next) {
     return res.json({ message: "Invalid data" })
   }
   const decoded = jwt.verify(token, process.env.JWT_SECRET)
-  console.log(decoded)
 
   let user = await User.findById(decoded.user_id)
   if (!user) {
@@ -15,7 +14,7 @@ async function auth(req, res, next) {
   }
 
   if (user.active_device?.session == decoded.session) {
-    res.user_id = decoded.user_id
+    req.body.user_id = decoded.user_id
     next()
   }
 }
