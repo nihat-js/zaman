@@ -27,7 +27,7 @@ app.post('/register',register)
 app.post('/login',login)
 app.post("/load-chats",auth,loadChats)
 app.post("/send-message",auth,sendMessage)
-app.post("/load-messages",loadMessages)
+app.post("/load-messages",auth,loadMessages)
 
 
 

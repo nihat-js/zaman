@@ -1,4 +1,41 @@
 .chat-page{
+  section.start{
+    .container{
+      max-width: 1200px;
+      margin: 0 auto;
+      .row{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 3fr 8fr;
+        .left{
+          .box {
+            border : 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.20);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+          }
+          .active {
+            background-color: #ccc
+          }
+        }
+        .right{
+          .body{
+            width: 100%;
+            .received {
+              display: flex;
+              justify-content: flex-start;
+            }
+            .sent{
+              display: flex;
+              justify-content: flex-end;
+            }
+          }
+        }
+      }
+    }
+  }
   .container{
     display: grid;
     grid-template-columns: 3fr 8fr;

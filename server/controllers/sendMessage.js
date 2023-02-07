@@ -4,7 +4,6 @@ async function sendMessage(req,res){
 
   let {user_id , text,chat_id} = req.body
 
-  console.log(user_id,text,chat_id)
 
   if (!  (user_id && text && chat_id ) ){
     return res.json({message:"Invalid Data", status : false})
