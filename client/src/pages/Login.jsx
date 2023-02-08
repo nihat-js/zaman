@@ -16,7 +16,15 @@ export default function Index() {
 
 
   return (
-    <div>
+    <div className='login-page'>
+      <section className="start">
+        <div className="container">
+          <form action="">
+            <input type="text" placeholder='username' />
+            <input type="text" placeholder='password' />
+          </form>
+        </div>
+      </section>
       <button onClick={() => login()}> Login </button>
     </div>
 

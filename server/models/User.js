@@ -7,7 +7,10 @@ const schema = new mongoose.Schema({
   active_devices : [],
   pp : {type : String , default : ''},
   active_device : {},
-
+  followers_count : {type : Number, default : 0},
+  followings_count : {type : Number, default : 0 },
+  posts_count : {type : Number, default : 0 },
+  
 })
 
 

@@ -15,8 +15,8 @@ const login = require('./controllers/login')
 const sendMessage = require('./controllers/sendMessage')
 const loadMessages = require('./controllers/loadMessages')
 const loadChats = require('./controllers/loadChats')
-
-
+const followUser = require('./controllers/followUser')
+const getUserStats = require("./controllers/getUserStats")
 
 app.use(cors())
 app.use(express.json())
@@ -28,6 +28,9 @@ app.post('/login',login)
 app.post("/load-chats",auth,loadChats)
 app.post("/send-message",auth,sendMessage)
 app.post("/load-messages",auth,loadMessages)
+app.post("/follow-user",auth,followUser)
+
+app.post('/get-user-stats',getUserStats)
 
 
 
