@@ -17,7 +17,9 @@ const loadMessages = require('./controllers/loadMessages')
 const loadChats = require('./controllers/loadChats')
 const followUser = require('./controllers/followUser')
 const getUserStats = require("./controllers/getUserStats")
-
+const post = require('./controllers/post')
+const getUserPosts = require('./controllers/getUserPosts')
+const reactToPost = require('./controllers/reactToPost')
 app.use(cors())
 app.use(express.json())
 
@@ -31,7 +33,9 @@ app.post("/load-messages",auth,loadMessages)
 app.post("/follow-user",auth,followUser)
 
 app.post('/get-user-stats',getUserStats)
-
+app.post('/get-user-posts',getUserPosts)
+app.post('/post',auth,post)
+app.post('/react-to-post',auth,reactToPost)
 
 
 

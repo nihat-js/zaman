@@ -10,6 +10,8 @@ const schema = new mongoose.Schema({
   followers_count : {type : Number, default : 0},
   followings_count : {type : Number, default : 0 },
   posts_count : {type : Number, default : 0 },
+  privacy : {type : Number, default : 0}, // 0 public 1 private
+
   
 })
 

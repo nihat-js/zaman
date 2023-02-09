@@ -1,6 +1,6 @@
 const User = require('../models/User')
 
-async function getUserStats() {
+async function getUserStats(req,res) {
   let { target_username } = req.body
   if (!target_username) {
     return res.json({ message: "Invalid data", status: false })
@@ -21,4 +21,4 @@ async function getUserStats() {
 
 }
 
-module.e
+module.exports = getUserStats
