@@ -75,7 +75,7 @@ export default function PostBox(props) {
         <div className='reactions flex gap-1 mt-2'>
           {reactions.map(item => {
             if (item.name == 'like') {
-              return <img className="w-4" src={likeSvg} />
+              return <img className="w-4" src={likeColorfulSvg} />
             } else if (item.name == 'love') {
               return <img className="w-4" src={loveSvg} />
             } else if (item.name == 'haha') {
