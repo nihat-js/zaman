@@ -8,6 +8,8 @@ import Chat from './pages/Chat'
 import Profile from './pages/Profile'
 import Feed from './pages/Feed'
 
+import './assets/css/tailwind.css'
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Routes>

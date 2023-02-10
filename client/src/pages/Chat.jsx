@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { getCookie } from '../utils/getCookie'
 import axios from 'axios'
-import './Chat.scss'
-
+// import './Chat.scss'
+import Nav from '../components/Nav'
 export default function Chat() {
 
   const [messages, setMessages] = useState([])
@@ -49,7 +49,7 @@ export default function Chat() {
   return (
     <div className='chat-page'>
 
-
+      <Nav/>
       <section className="start">
         <div className="container">
           <div className="row">

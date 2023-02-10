@@ -20,6 +20,8 @@ const getUserStats = require("./controllers/getUserStats")
 const post = require('./controllers/post')
 const getUserPosts = require('./controllers/getUserPosts')
 const reactToPost = require('./controllers/reactToPost')
+
+const getExplorePosts = require('./controllers/getExplorePosts')
 app.use(cors())
 app.use(express.json())
 
@@ -36,6 +38,7 @@ app.post('/get-user-stats',getUserStats)
 app.post('/get-user-posts',getUserPosts)
 app.post('/post',auth,post)
 app.post('/react-to-post',auth,reactToPost)
+app.post('/get-explore-posts',auth,getExplorePosts)
 
 
 

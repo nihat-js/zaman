@@ -1,0 +1,101 @@
+import axios from "axios";
+import { getCookie } from "../utils/getCookie";
+import { useState } from "react";
+import likeSvg from "../assets/svg/like.svg"
+import likeFilledSvg from '../assets/svg/like-filled.svg'
+import likeColorfulSvg from '../assets/svg/like-colorful.svg'
+import loveSvg from '../assets/svg/love.svg'
+import hahaSvg from '../assets/svg/haha.svg'
+import 
+import { Link } from 'react-router-dom'
+
+const getMonthName = (month, lang = "en") => {
+  const monthNamesEn = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const monthNamesAz = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];
+  if (lang === "en") {
+    return monthNamesEn[month - 1]
+  } else if (lang === "az") {
+    return monthNamesAz[month - 1]
+  }
+}
+const calculateTimeForUser = (stringDate) => {
+  let text;
+  let original = new Date(stringDate);
+  let current = new Date()
+  if (current.getDate() == original.getDate()) {
+    text = "Today" + original.getHours() + ":" + original.getMinutes()
+  } else if (current.getDate() == original.getDate() + 1) {
+    text = "Yesterday" + original.getHours() + ":" + original.getMinutes()
+  }
+  else if (current.getFullYear() == original.getFullYear()) {
+    text = original.getDate() + " " + getMonthName(original.getUTCMonth()) + " " + original.getHours() + ":" + original.getMinutes()
+  }
+  return text
+}
+
+export default function PostBox(props) {
+
+  const [isReacted, setIsReacted] = useState(false);
+  const [isCommentsExtended, setIsCommentsExtended] = useState(false);
+
+  const { createdAt, text, reactions, _id, author } = props.data
+  let totalReactionsCount = 0;
+  let timeForUser = calculateTimeForUser(createdAt)
+  reactions.map(item => {
+    totalReactionsCount += item.count
+  })
+
+
+  async function reactToPost(name) {
+    let response = await axios.post('http://localhost:5000/react-to-post',
+      { token: getCookie('token'), post_id: _id, name, })
+    console.log(response.data)
+  }
+
+  async function findComments() {
+
+  }
+
+  return (
+    <div className="flex gap-2 bg-white mb-6 py-3 px-2" >
+      <div className="left">
+        <Link to={`/profile/${author.username}`}>
+          <img className="w-8  border-2 rounded-full " src={author.pp} alt="" />
+        </Link>
+      </div>
+      <div className="right">
+        <div className="header flex">
+          <h2 className="username font-bold cursor-pointer "> <Link to={"/profile/" + author.username}>  @{author.username}   </Link> </h2>
+          <p className="date"> {timeForUser}  </p>
+        </div>
+        <div className="body text-slate-500 ">
+          {text}
+        </div>
+        <div className='reactions flex gap-2'>
+          {reactions.map(item => {
+            if (item.name == 'like') {
+              return <img className="w-4" src={likeSvg} />
+            } else if (item.name == 'love') {
+              return <img className="w-4" src={loveSvg} />
+            } else if (item.name == 'haha') {
+              return <img className="w-4" src={hahaSvg} />
+            }
+          })}
+          <span>
+            {totalReactionsCount}
+          </span>
+        </div>
+        <div className="actions flex gap-2 mt-2">
+          <div className="flex gap-1  py-2 pr-4 hover:bg-gray-300 cursor-pointer" onClick={() => reactToPost('like')} >
+            <img className="w-5 rounded-full " src={likeSvg} alt="" />
+            <span> Like </span>
+          </div>
+          <button> Comments </button>
+
+          {/* <button onClick={() => reactToPost('love')} > <img className="w-5 rounded-full" src={loveSvg} /> </button> */}
+          {/* <button onClick={() => reactToPost('haha')} > <img className="w-5 rounded-full " src={hahaSvg} />  </button> */}
+        </div>
+      </div>
+    </div>
+  )
+}

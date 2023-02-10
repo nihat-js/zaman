@@ -4,7 +4,6 @@ const allReactions = ['like', 'love', 'haha', 'wow', 'sad', 'angry',]
 
 async function reactToPost (req,res){
  const {post_id , user_id, name}  = req.body
-
  if ( !post_id || !name  || !user_id){
   return res.json({message : 'Please provide post_id and name'})
  }
@@ -51,3 +50,5 @@ async function reactToPost (req,res){
 
 
 }
+
+module.exports = reactToPost
