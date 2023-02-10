@@ -22,6 +22,8 @@ const getUserPosts = require('./controllers/getUserPosts')
 const reactToPost = require('./controllers/reactToPost')
 const isReactedToPost = require('./controllers/isReactedToPost')
 const getExplorePosts = require('./controllers/getExplorePosts')
+const addComment = require('./controllers/addComment')
+
 app.use(cors())
 app.use(express.json())
 
@@ -40,7 +42,7 @@ app.post('/post',auth,post)
 app.post('/react-to-post',auth,reactToPost)
 app.post('/get-explore-posts',auth,getExplorePosts)
 app.post('/is-reacted-to-post',auth,isReactedToPost)
-
+app.post('/add-comment',auth,addComment)
 
 
 

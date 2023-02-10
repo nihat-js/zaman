@@ -1,6 +1,10 @@
 import axios from "axios";
 import { getCookie } from "../utils/getCookie";
 import { useState } from "react";
+import { Link } from 'react-router-dom'
+
+import AddComment from "./AddComment";
+
 import likeSvg from "../assets/svg/like.svg"
 import likeFilledSvg from '../assets/svg/like-filled.svg'
 import likeColorfulSvg from '../assets/svg/like-colorful.svg'
@@ -8,7 +12,6 @@ import loveSvg from '../assets/svg/love.svg'
 import hahaSvg from '../assets/svg/haha.svg'
 import commentSvg from '../assets/svg/comment.svg'
 import shareSvg from '../assets/svg/share.svg'
-import { Link } from 'react-router-dom'
 
 const getMonthName = (month, lang = "en") => {
   const monthNamesEn = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -36,10 +39,9 @@ const calculateTimeForUser = (stringDate) => {
 
 export default function PostBox(props) {
 
-  const [isReacted, setIsReacted] = useState(false);
   const [isCommentsExtended, setIsCommentsExtended] = useState(false);
 
-  const { createdAt, text, reactions, _id, author } = props.data
+  const { createdAt, text, reactions, _id, author , reaction } = props.data
   let totalReactionsCount = 0;
   let timeForUser = calculateTimeForUser(createdAt)
   reactions.map(item => {
@@ -53,12 +55,16 @@ export default function PostBox(props) {
     console.log(response.data)
   }
 
-  async function findComments() {
-
+  async function unreactToPost(name) {
+    let response = await axios.post('http://localhost:5000/unreact-to-post',
+      { token: getCookie('token'), post_id: _id, name, })
+    console.log(response.data)
   }
 
+
   return (
-    <div className="flex gap-2 bg-white mb-6 py-3 px-2" >
+    <div className=" bg-white mb-6 py-3 px-2" >
+      <div className="post-header flex gap-2 ">
       <div className="left">
         <Link to={`/profile/${author.username}`}>
           <img className="w-8  border-2 rounded-full " src={author.pp} alt="" />
@@ -88,8 +94,8 @@ export default function PostBox(props) {
         </div>
         <div className="actions flex gap-2 mt-2">
           <div className="flex gap-1  py-2 px-2 hover:bg-gray-300 cursor-pointer" onClick={() => reactToPost('like')} >
-            <img className="w-5 rounded-full " src={likeSvg} alt="" />
-            <span> Like </span>
+            <img className="w-5 rounded-full " src={ reaction == "like" ? likeFilledSvg : likeSvg} alt="" />
+            <span onClick={ () => reaction ? unReactToPost() : reactToPost() }  > Like </span>
           </div>
           <div className="flex gap-1  py-2 px-2 hover:bg-gray-300 cursor-pointer"  >
             <img className="w-5 rounded-full " src={commentSvg} alt="" />
@@ -104,6 +110,10 @@ export default function PostBox(props) {
           {/* <button onClick={() => reactToPost('love')} > <img className="w-5 rounded-full" src={loveSvg} /> </button> */}
           {/* <button onClick={() => reactToPost('haha')} > <img className="w-5 rounded-full " src={hahaSvg} />  </button> */}
         </div>
+      </div>
+      </div>
+      <div className="comments">
+          <AddComment id={_id} />
       </div>
     </div>
   )
