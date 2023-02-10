@@ -6,7 +6,8 @@ import likeFilledSvg from '../assets/svg/like-filled.svg'
 import likeColorfulSvg from '../assets/svg/like-colorful.svg'
 import loveSvg from '../assets/svg/love.svg'
 import hahaSvg from '../assets/svg/haha.svg'
-import 
+import commentSvg from '../assets/svg/comment.svg'
+import shareSvg from '../assets/svg/share.svg'
 import { Link } from 'react-router-dom'
 
 const getMonthName = (month, lang = "en") => {
@@ -64,14 +65,14 @@ export default function PostBox(props) {
         </Link>
       </div>
       <div className="right">
-        <div className="header flex">
+        <div className="header flex gap-2 align-center">
           <h2 className="username font-bold cursor-pointer "> <Link to={"/profile/" + author.username}>  @{author.username}   </Link> </h2>
-          <p className="date"> {timeForUser}  </p>
+          <p className="date text-gray-700 text-sm" > {timeForUser}  </p>
         </div>
-        <div className="body text-slate-500 ">
+        <div className="body  mt-2 ">
           {text}
         </div>
-        <div className='reactions flex gap-2'>
+        <div className='reactions flex gap-1 mt-2'>
           {reactions.map(item => {
             if (item.name == 'like') {
               return <img className="w-4" src={likeSvg} />
@@ -86,11 +87,19 @@ export default function PostBox(props) {
           </span>
         </div>
         <div className="actions flex gap-2 mt-2">
-          <div className="flex gap-1  py-2 pr-4 hover:bg-gray-300 cursor-pointer" onClick={() => reactToPost('like')} >
+          <div className="flex gap-1  py-2 px-2 hover:bg-gray-300 cursor-pointer" onClick={() => reactToPost('like')} >
             <img className="w-5 rounded-full " src={likeSvg} alt="" />
             <span> Like </span>
           </div>
-          <button> Comments </button>
+          <div className="flex gap-1  py-2 px-2 hover:bg-gray-300 cursor-pointer"  >
+            <img className="w-5 rounded-full " src={commentSvg} alt="" />
+            <span> Comment </span>
+          </div>
+
+          <div className="flex gap-1  py-2 px-2 hover:bg-gray-300 cursor-pointer"  >
+            <img className="w-5 rounded-full " src={shareSvg} alt="" />
+            <span> Share </span>
+          </div>
 
           {/* <button onClick={() => reactToPost('love')} > <img className="w-5 rounded-full" src={loveSvg} /> </button> */}
           {/* <button onClick={() => reactToPost('haha')} > <img className="w-5 rounded-full " src={hahaSvg} />  </button> */}
