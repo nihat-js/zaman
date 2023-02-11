@@ -4,7 +4,8 @@ const Comment = mongoose.model('comments', new mongoose.Schema({
   author_id : { type: mongoose.Schema.Types.ObjectId, ref: 'users', required : true } ,
   post_id : { type: mongoose.Schema.Types.ObjectId, ref: 'posts', required: true },
   text : { type: String, required: true },
-  reactions : []
+  reactions : [],
+  sources : [],
 },{timestamps : true}))
 
 

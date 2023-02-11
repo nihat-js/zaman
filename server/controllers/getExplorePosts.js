@@ -4,8 +4,8 @@ const User = require('../models/User')
 
 
 async function getExplorePosts(req, res) {
+  console.log('zee end')
   const { user_id } = req.body
-
   let posts = await Post.find().populate('author', ['username', 'pp'])
   let arr = JSON.parse(JSON.stringify(posts))
   

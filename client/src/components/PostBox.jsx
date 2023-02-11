@@ -1,9 +1,10 @@
 import axios from "axios";
 import { getCookie } from "../utils/getCookie";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
 
 import AddComment from "./AddComment";
+import CommentBox from './CommentBox'
 
 import likeSvg from "../assets/svg/like.svg"
 import likeFilledSvg from '../assets/svg/like-filled.svg'
@@ -48,6 +49,13 @@ export default function PostBox(props) {
     totalReactionsCount += item.count
   })
 
+  useEffect(()=>{
+    if (isCommentsExtended) {
+
+    }
+  },[isCommentsExtended])
+
+
 
   async function reactToPost(name) {
     let response = await axios.post('http://localhost:5000/react-to-post',
@@ -79,13 +87,13 @@ export default function PostBox(props) {
           {text}
         </div>
         <div className='reactions flex gap-1 mt-2'>
-          {reactions.map(item => {
+          {reactions.map( (item,index)=> {
             if (item.name == 'like') {
-              return <img className="w-4" src={likeColorfulSvg} />
+              return <img key={index} className="w-4" src={likeColorfulSvg} />
             } else if (item.name == 'love') {
-              return <img className="w-4" src={loveSvg} />
+              return <img key={index} className="w-4" src={loveSvg} />
             } else if (item.name == 'haha') {
-              return <img className="w-4" src={hahaSvg} />
+              return <img key={index}  className="w-4" src={hahaSvg} />
             }
           })}
           <span>
@@ -114,6 +122,7 @@ export default function PostBox(props) {
       </div>
       <div className="comments">
           <AddComment id={_id} />
+          <CommentBox id={_id} />
       </div>
     </div>
   )
