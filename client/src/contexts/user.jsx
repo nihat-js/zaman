@@ -1,5 +1,17 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext , Provider } from "react";
 
 export const UserContext = createContext()
 
-async function getUsernameAndPp(){}
+const User = {
+  username : "",
+  pp  : ""
+}
+
+
+export default function UserProvider ({children}) {
+  return (
+    <UserContext.Provider value={User}>
+      {children}
+    </UserContext.Provider>
+  )
+}
