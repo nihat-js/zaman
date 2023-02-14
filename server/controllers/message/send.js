@@ -1,15 +1,20 @@
+const Chat = require('../../models/Chat')
 const Message = require('../../models/Message')
 
 
 async function sendMessage(req,res){
-  let {user_id} = req.body
-  user_id = "63e112f7d236da678203de3a"
-  let { text,chat_id} = req.body.action
 
-
+  let {user_id,text,chat_id} = req.body
+  console.log(user_id,text,chat_id)
   if (!  (user_id && text && chat_id ) ){
     return res.json({message:"Invalid Data", status : false})
   }
+
+  const hasAccessToChat = await Chat.findOne({_id : chat_id ,users :  { $in : user_id } })
+  if (!hasAccessToChat){
+    return res.json({message:"You don't have access to this chat", status : false})
+  }
+  
 
   const message = new Message({text,sender : user_id,chat_id})
 

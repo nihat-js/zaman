@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const schema=  new mongoose.Schema({
-  users : [{ type : mongoose.Schema.Types.ObjectId, ref : 'users' }],
+  users_id : [{ type : mongoose.Schema.Types.ObjectId, ref : 'users' }],
+  message_count : { type : Number, default : 0 }
 })
 
 const Chat = mongoose.model('chats', schema);

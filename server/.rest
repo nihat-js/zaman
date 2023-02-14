@@ -1,44 +1,11 @@
-post http://localhost:5000/register 
+### send message
+
+post http://localhost:5000/api/message/send
 Content-Type: application/json
 
-{
-  "username" : "ulvi",
-  "password" : "ulvi1234",
-  "email" : "ulviavv@gmail.com"
-}
-
-### Login
-post http://localhost:5000/login
-Content-Type:  application/json
 
 {
-  "username" : "nihat_",
-  "password" : "nihat1234"
+  "text" : "New car",
+  "chat_id"  : "63eb9fdd7f29fd5bc61b4149",
+  "token" : 
 }
-
-### Send message
-post http://localhost:5000/message
-Content-Type:  application/json
-
-{
-  "user_id" : "wao",
-  "action" : {
-    "type" : "send",
-    "text" : "Eltun now , I am working",
-    "chat_id" : "63e112f7d236da678203de3a"
-  },
-  "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjoiMzFkMWFhNjI3YWJlMTM3ODA4YzNlZTgxMTk3MWVmMTA5ZDk1ZGQ0YWU2ZjhmYmM1ZWYwZDE1MDdhODg5YTNmYiIsImlwIjoiOjpmZmZmOjEyNy4wLjAuMSIsInVzZXJfaWQiOiI2M2UwYzdjOTkyOWM3MjViZGI0Y2FlY2YiLCJpYXQiOjE2NzU4MDUwOTl9.dvYTzPtkg9aHRi5FH2b08kaaFjtVUJpLk5yIWT2L0AA"
-}
-
-### Load Chats
-post http://localhost:5000/load-chats
-Content-Type: application/json
-
-{
-  "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjoiMzFkMWFhNjI3YWJlMTM3ODA4YzNlZTgxMTk3MWVmMTA5ZDk1ZGQ0YWU2ZjhmYmM1ZWYwZDE1MDdhODg5YTNmYiIsImlwIjoiOjpmZmZmOjEyNy4wLjAuMSIsInVzZXJfaWQiOiI2M2UwYzdjOTkyOWM3MjViZGI0Y2FlY2YiLCJpYXQiOjE2NzU4MDUwOTl9.dvYTzPtkg9aHRi5FH2b08kaaFjtVUJpLk5yIWT2L0AA"
-}
-
-
-### Load Messages
-
-
