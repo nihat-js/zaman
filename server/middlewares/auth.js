@@ -17,7 +17,6 @@ async function auth(req, res, next) {
   }
   
   if (user.active_device?.session == decoded.session) {
-    console.log('zib')
     req.body.user_id = decoded.user_id
     console.log("Authentication successfull")
     next()

@@ -17,13 +17,17 @@ Content-Type:  application/json
 }
 
 ### Send message
-post http://localhost:5000/send-message
+post http://localhost:5000/message
 Content-Type:  application/json
 
 {
-  "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjoiMzFkMWFhNjI3YWJlMTM3ODA4YzNlZTgxMTk3MWVmMTA5ZDk1ZGQ0YWU2ZjhmYmM1ZWYwZDE1MDdhODg5YTNmYiIsImlwIjoiOjpmZmZmOjEyNy4wLjAuMSIsInVzZXJfaWQiOiI2M2UwYzdjOTkyOWM3MjViZGI0Y2FlY2YiLCJpYXQiOjE2NzU4MDUwOTl9.dvYTzPtkg9aHRi5FH2b08kaaFjtVUJpLk5yIWT2L0AA",
-  "text" : "Eltun now , I am working",
-  "chat_id" : "63e112f7d236da678203de3a"
+  "user_id" : "wao",
+  "action" : {
+    "type" : "send",
+    "text" : "Eltun now , I am working",
+    "chat_id" : "63e112f7d236da678203de3a"
+  },
+  "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjoiMzFkMWFhNjI3YWJlMTM3ODA4YzNlZTgxMTk3MWVmMTA5ZDk1ZGQ0YWU2ZjhmYmM1ZWYwZDE1MDdhODg5YTNmYiIsImlwIjoiOjpmZmZmOjEyNy4wLjAuMSIsInVzZXJfaWQiOiI2M2UwYzdjOTkyOWM3MjViZGI0Y2FlY2YiLCJpYXQiOjE2NzU4MDUwOTl9.dvYTzPtkg9aHRi5FH2b08kaaFjtVUJpLk5yIWT2L0AA"
 }
 
 ### Load Chats
@@ -36,3 +40,5 @@ Content-Type: application/json
 
 
 ### Load Messages
+
+

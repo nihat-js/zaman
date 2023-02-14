@@ -1,8 +1,10 @@
 const Message = require('../../models/Message')
 
-async function sendMessage(req,res){
 
-  let {user_id , text,chat_id} = req.body
+async function sendMessage(req,res){
+  let {user_id} = req.body
+  user_id = "63e112f7d236da678203de3a"
+  let { text,chat_id} = req.body.action
 
 
   if (!  (user_id && text && chat_id ) ){
