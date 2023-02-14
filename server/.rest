@@ -1,11 +1,14 @@
-### send message
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjoiNmNhMTc4YTg4Mzc0NmZmYzljYmY5MWM1MDliYTUwMWMwNDRhMGM5ZWMxMThhZjE1ZWM5MTQzODFkNzZlMTcxYSIsImlwIjoiOjpmZmZmOjEyNy4wLjAuMSIsInVzZXJfaWQiOiI2M2ViOTU2ZDQzNWViNzEzYTc2ZGE3MDQiLCJpYXQiOjE2NzY0MDk1MjJ9.5leaQu1TTAF37qzOyAZuBBkia9et-cHMUualDrzdjkk
 
-post http://localhost:5000/api/message/send
-Content-Type: application/json
+### send
+
+post http://localhost:5000/api/message/load
+Content-Type:  application/json
 
 
 {
-  "text" : "New car",
-  "chat_id"  : "63eb9fdd7f29fd5bc61b4149",
-  "token" : 
+  "text" : "Pain is my body",
+  "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjoiNmNhMTc4YTg4Mzc0NmZmYzljYmY5MWM1MDliYTUwMWMwNDRhMGM5ZWMxMThhZjE1ZWM5MTQzODFkNzZlMTcxYSIsImlwIjoiOjpmZmZmOjEyNy4wLjAuMSIsInVzZXJfaWQiOiI2M2ViOTU2ZDQzNWViNzEzYTc2ZGE3MDQiLCJpYXQiOjE2NzY0MDk1MjJ9.5leaQu1TTAF37qzOyAZuBBkia9et-cHMUualDrzdjkk",
+  "chat_id" : "63ebfb7bc94e042fc845a422",
+  "skip" : "451asf" 
 }

@@ -6,14 +6,13 @@ const User = require('../models/User');
 async function auth(req, res, next) {
   let { token } = req.body
   if (!token) {
-    return res.json({ message: "Invalid data" })
+    return res.json({ message: "Empty token" })
   }
   const decoded = jwt.verify(token, process.env.JWT_SECRET)
-  console.log(decoded)
-  
+  // console.log(decoded)
   let user = await User.findById(decoded.user_id)
   if (!user) {
-    return res.json({ message: "Invalid dataa" })
+    return res.json({ message: "Invalid auth" })
   }
   
   if (user.active_device?.session == decoded.session) {

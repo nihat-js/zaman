@@ -8,7 +8,7 @@ const schema=  new mongoose.Schema({
   reactions : [{type : mongoose.Schema.Types.ObjectId, ref : 'users',}],
   reactions_count  :{type :Number , default : 0}
   
-}, )
+},{timestamps : true} )
 
 const Message = mongoose.model('messages', schema);
 

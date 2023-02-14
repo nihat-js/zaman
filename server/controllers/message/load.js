@@ -1,18 +1,31 @@
 const Message = require('../../models/Message')
-
+const Chat = require('../../models/Chat')
 async function loadMessages(req, res) {
 
-  const { chat_id , user_id } = req.body
+  let { chat_id , user_id , limit , skip } = req.body
+  limit =  parseInt(limit)
+  skip = parseInt(skip)
 
+
+  if (!limit  || isNaN(limit) || limit > 15 || limit < 1    ){
+    limit = 15
+  }
+  if (!skip  || isNaN(skip) || skip < 1    ){
+    skip = 0
+  }
 
   if (!chat_id) {
     return res.json({ message: "Invalid Data", status: false })
   }
-  let messages = await Message.find({ chat_id  : chat_id})
+
+  const hasAccessToChat = await Chat.findOne({_id : chat_id ,users_id :  { $in : user_id } })
+  if (!hasAccessToChat){
+    return res.json({message:"You don't have access to this chat", status : false})
+  }
+
+  let messages = await Message.find({ chat_id  : chat_id}).sort({createdAt : -1 }).limit(limit).skip(skip)
   let arr = []
 
-  // let user = await User.findById(user_id)
-  // let user_pp = user.pp
 
   
 
