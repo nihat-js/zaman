@@ -1,5 +1,5 @@
-const Chat = require('../models/Chat')
-const User = require('../models/User')
+const Chat = require('../../models/Chat')
+const User = require('../../models/User')
 async function loadChats(req,res){
   const  {user_id} = req.body
   let chats = await Chat.find({ users : {$in : user_id } })

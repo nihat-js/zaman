@@ -13,8 +13,12 @@ async function main(req,res) {
 
   let user = await User.findById(user_id)
 
-  if (action.type == "set_avatar"){
+  switch(action.type){
     
+  }
+
+  if (action.type == "set_avatar"){
+
   }
 
 

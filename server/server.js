@@ -3,26 +3,35 @@ const express = require('express')
 const cors = require('cors')
 const mongoose =  require('mongoose')
 const app = express()
+const graphQl = require('graphql')
+const {graphQlHttp} = require('express-graphql')
 
+
+
+const schema = new graphQl.GraphQLSchema({query : })
 
 //middlewares
+
 const auth  = require('./middlewares/auth')
 
 //controllers
 const register = require('./controllers/register')
 const login = require('./controllers/login')
 
-const sendMessage = require('./controllers/sendMessage')
-const loadMessages = require('./controllers/loadMessages')
-const loadChats = require('./controllers/loadChats')
+const sendMessage = require('./controllers/message/sendMessage')
+const loadMessages = require('./controllers/message/loadMessages')
+const loadChats = require('./controllers/chat/loadChats')
 const followUser = require('./controllers/followUser')
 const getUserStats = require("./controllers/getUserStats")
 const post = require('./controllers/post')
 const getUserPosts = require('./controllers/getUserPosts')
 const reactToPost = require('./controllers/reactToPost')
-const isReactedToPost = require('./controllers/isReactedToPost')
+const isReactedToPost = require('./controllers/post/isReactedToPost')
 const getExplorePosts = require('./controllers/getExplorePosts')
-const addComment = require('./controllers/addComment')
+const addComment = require('./controllers/comment/addComment')
+
+
+
 
 app.use(cors())
 app.use(express.json())

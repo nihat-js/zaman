@@ -1,4 +1,4 @@
-const PostReaction = require('../models/PostReaction')
+const PostReaction = require('../../models/PostReaction')
 
  async function isReactedToPost (req,res) {
   const { user_id , post_id } = req.body

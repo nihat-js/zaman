@@ -1,4 +1,4 @@
-const Comment = require('../models/Comment')
+const Comment = require('../../models/Comment')
 
 async function addComment (req,res){
   let author_id = req.body.user_id

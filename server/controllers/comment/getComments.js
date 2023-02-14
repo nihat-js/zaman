@@ -1,4 +1,4 @@
-const Comment  = require('../models/Comment')
+const Comment  = require('../../models/Comment')
 async function getComments(req,res){
   const {post_id} = req.body
   if (!post_id){
