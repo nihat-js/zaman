@@ -76,7 +76,7 @@ export default function Index() {
 
               <div 
               className={`flex gap-2 absolute  duration-200 ${!hasUsernameFocus && usernameValue != "" ? "top-0" : "top-5"} `} >
-                onClick={ () => }
+                onClick={ }
                 <img src={userSvg} alt="" className='w-4' />
                 <span className='text-gray-400 text-sm'> Username </span>
               </div>

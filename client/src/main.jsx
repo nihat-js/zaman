@@ -22,7 +22,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/chat' element={<Chat />} />
         <Route path='/profile/:username' element={<Profile />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/settings' element={<Settings />} />
+        <Route path='/settings/' element={<Settings />} />
+        <Route path='/logout' element = {<Logout/>} />
       </Routes>
     </BrowserRouter>
   </UserProvider>

@@ -10,7 +10,7 @@ export default function Index() {
   const [sections, setSections] = useState(sectionsArr)
   const [selectedSection, setSelectedSection] = useState(sectionsArr[0])
   const [components, setComponents] = useState([
-    <SetProfilePicture/> , <ChangePassword/> , <Privacy/>
+    <SetProfilePicture />, <ChangePassword />, <Privacy />
   ])
 
 
@@ -40,59 +40,18 @@ export default function Index() {
   )
 }
 
-function SetProfilePicture() {
-  const [sampleImages, setSampleImages] = useState([
-    "https://images.freeimages.com/images/large-previews/023/geek-avatar-1632962.jpg",
-    "https://images.freeimages.com/images/large-previews/962/avatar-man-with-mustages-1632966.jpg",
-    "https://images.freeimages.com/images/large-previews/d66/woman-avatar-1632963.jpg"
-  ])
-
-  function changeProfilePicture(src)  {
-    console.log(src)
-  }
-
-  return (
-    <div>
-      <div className="samples">
-        <div className="row flex gap-3">
-        {sampleImages.map((item, index) => <img src={item} key={index} className="w-14 rounded-full cursor-pointer " onClick={() => changeProfilePicture(item) } />)}
-        </div>
-      </div>
-    </div>
-  )
-}
 
 
-function ChangePassword(){
-  return(
-    <div>
-      <form action="">
-        <input type="text" placeholder='Old Password' />
-        <input type="text" placeholder='New Password' />
-        <input type="text" placeholder='Confirm new password' />
-        <button> Change Password </button>
-      </form>
-    </div>
-  )
-}
 
-function Privacy () {
-  return (
-    <div>
-      <p className="text">
-      When your account is public, your profile and posts can be seen by anyone, on or off Instagram, even if they don’t have an  account.
-      </p>
-    </div>
-  )
-}
 
-function StorySettings(){
-  return (
-    <div>
-      <p className="text"> Who can't see your stor settings </p>
-    </div>
-  )
-}
+
+
+
+
+
+
+
+
 
 function MainInfo() {
   <div>

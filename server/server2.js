@@ -3,6 +3,11 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
+
+const multer = require('multer')
+const storage = multer.diskStorage({
+  
+})
 //middlewares
 const auth = require('./middlewares/auth')
 //routes
