@@ -8,6 +8,7 @@ import Chat from './pages/Chat'
 import Profile from './pages/Profile'
 import Feed from './pages/Feed'
 import Settings from './pages/Settings'
+import Logout from './pages/Logout'
 import './assets/css/tailwind.css'
 
 import UserProvider from './contexts/user'

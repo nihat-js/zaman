@@ -1,4 +1,5 @@
-export default function ChangePassword() {
+
+export default function Index() {
   return (
     <div>
       <form action="">

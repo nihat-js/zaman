@@ -1,17 +1,26 @@
 import Nav from '../components/Nav'
 
-import { useState } from 'react'
+import Pp from '../components/Settings/Pp'
+import Main from '../components/Settings/Main'
+import Password from '../components/Settings/Password'
+import Privacy from '../components/Settings/Privacy'
+import Story from '../components/Settings/Story'
+
+import { useEffect, useState } from 'react'
+
+
 export default function Index() {
 
-  const sectionsArr = [
-    'Set avatar', 'Change Password', 'Privacy'
-  ]
+  const tabNames = ['Set Profile Picture', 'Main', 'Change Password', 'Privacy', 'Story']
+  const tabComponents = [<Pp />, <Main />, <Password />, <Privacy />, <Story />]
 
-  const [sections, setSections] = useState(sectionsArr)
-  const [selectedSection, setSelectedSection] = useState(sectionsArr[0])
-  const [components, setComponents] = useState([
-    <SetProfilePicture />, <ChangePassword />, <Privacy />
-  ])
+
+  useEffect(() => {
+    setActiveTab(tabNames[0])
+  }, [])
+
+  const [activeTab, setActiveTab] = useState('')
+
 
 
   return (
@@ -21,15 +30,14 @@ export default function Index() {
         <div className="container mx-auto ">
           <div className="row flex  gap-12">
             <div className="left-column w-4/12 border-r-gray-700 ">
-              {sections.map((item, index) => <h4 key={index}
-                onClick={() => setSelectedSection(item)}
-                className={`px-2 py-4 bg-white border border-gray-300 border-1 border-l-0 ${selectedSection == item ? " border-l-2 border-l-danube-800" : ""} `} > {item} </h4>)}
+              {tabNames.map((item, index) => <h4 key={index}
+                onClick={() => setActiveTab(index)}
+                className={`px-2 py-4 bg-white border border-gray-300 border-1 border-l-0 ${activeTab == item ? " border-l-2 border-l-danube-800" : ""} `} > {item} </h4>)}
             </div>
             <div className="right-column w-8/12">
               {(() => {
-                console.log(selectedSection, sectionsArr[0])
-                let index = sectionsArr.indexOf(selectedSection)
-                return components[index]
+                console.log(tabComponents[activeTab])
+                return tabComponents[ tabNames.indexOf(activeTab)]
               }
               )()}
             </div>
@@ -52,12 +60,3 @@ export default function Index() {
 
 
 
-
-function MainInfo() {
-  <div>
-    <input type="text" placeholder='Username' />
-    <input type="text" placeholder='Bio' />
-
-    <input type="text" />
-  </div>
-}

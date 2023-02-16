@@ -1,4 +1,4 @@
-function Privacy() {
+export default function Privacy() {
   return (
     <div>
       <p className="text">
