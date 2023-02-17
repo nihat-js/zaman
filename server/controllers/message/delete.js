@@ -5,7 +5,7 @@ async function index(req,res){
     return res.json({message : "Invalid data"})
   }
 
-  const messages = await Message.find({user_id : user_id,message_id wwwwww})
+  const messages = await Message.find({user_id : user_id,message_id })
 
 }
 

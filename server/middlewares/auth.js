@@ -4,6 +4,7 @@ const User = require('../models/User');
 
 
 async function auth(req, res, next) {
+
   let { token } = req.body
   if (!token) {
     return res.json({ message: "Empty token" })
