@@ -5,7 +5,7 @@ const schema = new mongoose.Schema({
   email : {type : String , required : true, unique: true,},
   password : {type : String, required: true},
   active_devices : [],
-  pp : {type : String , default : ''},
+  avatar : {type : String , default : ''},
   active_device : {},
   followers_count : {type : Number, default : 0},
   followings_count : {type : Number, default : 0 },

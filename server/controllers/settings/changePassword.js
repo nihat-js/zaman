@@ -16,10 +16,10 @@ async function index(req,res){
 
   const hash = await bcrypt.hash(new_password,10)
   user.password = hash
-  if (hash){
-    return
-  }
+  const savedUser = await user.save()
+  if (!savedUser){    return res.status(500) }
 
+  const token = jwt.sign({user_id:user_id},process.env.SECRET)
 
   
 }

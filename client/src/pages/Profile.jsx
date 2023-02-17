@@ -13,29 +13,19 @@ export default function Index() {
 
   const [posts, setPosts] = useState([])
 
-  async function getUserStats() {
-    let response = await axios.post('http://localhost:5000/get-user-stats', { target_username })
-    setStats(response.data.data)
-
-
+  
+  const target = {
+    username : "Eltun",
+    avatar : "",
+    created : "",
   }
-
-  async function follow() {
-    let response = await axios.post('http://localhost:5000/follow-user', { target_username, token: getCookie('token') })
-    console.log(response.data)
-  }
-
-  async function getUserPosts() {
-    let response = await axios.post('http://localhost:5000/get-user-posts', { target_username: "nihat_" })
-    setPosts(response.data.data)
-    console.log("Get user posts", response.data)
-  }
-
+  
 
   useEffect(() => {
-    getUserStats()
-    getUserPosts()
+    // getUserProfile()
   }, [])
+
+  
 
   return (
     <div className="profile-page">
@@ -55,6 +45,16 @@ export default function Index() {
             {posts.map((item, index) => <PostBox key={index} target_username={target_username} data={item} />)}
           </div>
 
+        </div>
+      </section>
+
+      <section className="start">
+        <div className="container">
+          <div className="row" style={{maxWidth:"600px"}}>
+              <div className="img-wrap">
+                <img src={target.avatar == "" ? "http:localhost:5000/" : "a"} alt="" />
+              </div>
+          </div>
         </div>
       </section>
 
