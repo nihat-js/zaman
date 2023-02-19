@@ -13,6 +13,7 @@ const schema = new mongoose.Schema({
   stories_count : {type : Number, default : 0 },
   privacy : {type : Number, default : 0}, // 0 public 1 private
   interests : []  ,
+  unseen_notifications_count : {type : Number , default : 0},
   cake_day : { type : Date , default : Date.now() }
 })
 

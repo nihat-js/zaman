@@ -28,7 +28,7 @@ export default function Index({ children }) {
 
 
   return (
-    <MainContext.Provider >
+    <MainContext.Provider value={{}} >
       {children}
     </MainContext.Provider>
   )

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-  following_id : {type : mongoose.Schema.Types.ObjectId, ref : 'users'},
-  followed_id : {type : mongoose.Schema.Types.ObjectId, ref : 'users'},
+  who_id : {type : mongoose.Schema.Types.ObjectId, ref : 'users'},
+  whom_id : {type : mongoose.Schema.Types.ObjectId, ref : 'users'},
 },{timestamps:true})
 
 

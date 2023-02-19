@@ -8,7 +8,7 @@ import Nav from '../components/Nav'
 import PostBox from '../components/PostBox'
 import CreatePost from "../components/CreatePost";
 import SuggestedProfiles from "../components/SuggestedProfiles";
-
+import Notification from '../components/Notification'
 
 export default function Index() {
 
@@ -26,7 +26,7 @@ export default function Index() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    getExplorePosts()
+    // getExplorePosts()
   }, [])
 
   return (
@@ -40,7 +40,11 @@ export default function Index() {
         <div className="w-9/12">
           {posts.map((item, index) => <PostBox key={index} data={item} />)}
         </div>
-        <div className="w-3/12"> <SuggestedProfiles /> </div>
+        <div className="w-3/12"> 
+        <Notification />
+        <SuggestedProfiles /> 
+        
+        </div>
       </div>
 
 

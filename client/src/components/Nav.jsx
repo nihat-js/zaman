@@ -7,6 +7,9 @@ import logoutSvg from '../assets/svg/logout.svg'
 import homeSvg from '../assets/svg/home.svg'
 import chatSvg from '../assets/svg/chat.svg'
 import moonSvg from '../assets/svg/moon.svg'
+import notificationSvg from '../assets/svg/notification.svg'
+
+
 import { useState } from 'react'
 
 export default function Index() {
@@ -15,7 +18,6 @@ export default function Index() {
 
   const linkClassName = "px-4 py-2 rounded-lg hover:bg-gray-300 cursor-pointer "
   const user = getUser()
-
 
 
   return (
@@ -37,6 +39,16 @@ export default function Index() {
                 <Link to='/chat'>
                   <img className='w-6' src={chatSvg} alt="" />
                 </Link>
+              </li>
+
+              <li className={linkClassName} >
+                <Link to='/notifications'>
+                  <img className='w-6' src={notificationSvg} alt="" />
+                </Link>
+              </li>
+
+              <li className={linkClassName}>
+                <img className='w-6 h-6' src={moonSvg} alt="" />
               </li>
 
               <li className="px-4 py-2 rounded-lg hover:bg-gray-300  relative cursor-pointer" >
@@ -72,9 +84,7 @@ export default function Index() {
 
 
               </li>
-              <li className={linkClassName}>
-                <img className='w-6 h-6' src={moonSvg} alt="" />
-              </li>
+              
             </ul>
           </div>
         </div>
