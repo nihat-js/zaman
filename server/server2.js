@@ -34,6 +34,7 @@ app.post('/api/follow',auth,follow)
 app.post('/api/unfollow',auth,unfollow)
 
 
+
 const server = app.listen(process.env.PORT || 3000, () => { console.log(`Server is running on port ${server.address().port}`)})
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGODB_URI, ()=>{  console.log("Connected to MongoDB")})

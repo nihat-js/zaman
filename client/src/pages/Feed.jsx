@@ -13,31 +13,32 @@ import Notification from '../components/Notification'
 export default function Index() {
 
 
+  const [posts,setPosts] = useState([])
 
 
-
-  async function getExplorePosts() {
-    let response = await axios.post('http://localhost:5000/get-home-posts', { token: getCookie('token') })
-    setPosts(response.data.data)
-    console.log(response.data)
+  async function getHomePosts() {
+    try{
+      let response = await axios.post('http://localhost:5000/api/get/home-posts', { token: getCookie('token') })
+      setPosts(response.data)
+      console.log(response.data)
+    }catch(err){
+      console.log(err)
+    }
   }
 
 
-  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // getExplorePosts()
+    getHomePosts()
   }, [])
 
   return (
     <div className="feed-page min-h-screen bg-slate-100">
       <Nav />
-      <div style={{ maxWidth: "1200px" }} className="mx-auto">
-        <CreatePost />
-      </div>
 
-      <div style={{ maxWidth: "1200px" }} className="flex mx-auto gap-12">
+      <div style={{ maxWidth: "1200px" }} className="flex mx-auto gap-12 mt-6">
         <div className="w-9/12">
+        <CreatePost />
           {posts.map((item, index) => <PostBox key={index} data={item} />)}
         </div>
         <div className="w-3/12"> 

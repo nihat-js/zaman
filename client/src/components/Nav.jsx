@@ -22,7 +22,7 @@ export default function Index() {
 
   return (
     <nav className='shadow-md py-3 bg-white' >
-      <div className="container mx-auto  ">
+      <div style={{maxWidth : "1200px"}} className="container mx-auto  ">
         <div className="row flex justify-between align-center">
           <div className="brand">
             <Link to='/feed'> <img src={zamanImage} alt="" /> </Link>

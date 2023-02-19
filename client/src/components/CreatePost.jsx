@@ -3,11 +3,14 @@ import gallerySvg from '../assets/svg/gallery.svg'
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { getCookie } from "../utils/getCookie";
+import getUser from '../utils/getUser'
 export default function CreatePost() {
 
   const [text, setText] = useState('');
-  const userPp = "https://cdn-icons-png.flaticon.com/512/1173/1173745.png"
-  const username = "nihat_"
+
+  const user = getUser()
+  const {username , avatar} = user
+
   async function handleButton(e) {
     e.preventDefault()
     let response = await axios.post('http://localhost:5000/post', { text: text, token: getCookie('token') })
@@ -21,7 +24,7 @@ export default function CreatePost() {
         <div className="row flex gap-2  py-4 px-5">
           <div className="left">
             <Link to={"profile/" + username} >
-              <img src={userPp} className="w-8" alt="" />
+              <img src={avatar ? "http://localhost:5000/avatars/" + avatar : "http://localhost:5000/avatars/default.svg" } className="w-8" alt="" />
             </Link>
           </div>
           <div className="right ">

@@ -9,7 +9,7 @@ export default function Chat() {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedChat, setSelectedChat] = useState(null)
   const [chats, setChats] = useState([])
-  const [text,setText] = useState('')
+  const [text, setText] = useState('')
   // const [chatId] = "63e112f7d236da678203de3a"
   // const senderId = "63e1101e1c0a167a1f3c11ec" // nihat
   // const receiverId = ""
@@ -22,7 +22,7 @@ export default function Chat() {
 
   async function sendMessage(e) {
     e.preventDefault()
-    let response = await axios.post('http://localhost:5000/send-message', { token: getCookie('token') , chat_id : selectedChat , text : text   })
+    let response = await axios.post('http://localhost:5000/send-message', { token: getCookie('token'), chat_id: selectedChat, text: text })
     console.log('message sent', response.data.data)
     setText('')
     loadMessages()
@@ -49,8 +49,8 @@ export default function Chat() {
   return (
     <div className='chat-page'>
 
-      <Nav/>
-      <section className="start">
+      <Nav />
+      {/* <section className="start">
         <div className="container">
           <div className="row">
             <div className="left">
@@ -79,7 +79,47 @@ export default function Chat() {
             </div>
           </div>
         </div>
+      </section> */}
+
+      <section className="start py-10">
+        <div style={{ maxWidth: "1200px" }} className="mx-auto">
+          <div className="row flex ">
+            <div className="left w-4/12 border-r-gray-600  border-r-2 ">
+              <h4 className="title font-bold mb-6 "> Chat </h4>
+              <div className="chat-filter flex gap-2">
+                <p className='px-2 py-2 text-gray-600 bg-gray-300 hover:bg-gray-300 rounded-md cursor-pointer ' > All </p>
+                <p className='px-2 py-2 text-gray-600  rounded-md  hover:bg-gray-300 cursor-pointer ' > Users </p>
+                <p className='px-2 py-2 text-gray-600  rounded-md  hover:bg-gray-300 cursor-pointer ' > Groups </p>
+              </div>
+              <div className="messages mt-4">
+                <Box />
+                <Box />
+                <Box />
+                <Box />
+              </div>
+
+            </div>
+            <div className="right w-8/12">
+              
+            </div>
+          </div>
+        </div>
       </section>
+
     </div>
+  )
+}
+
+
+function Box() {
+  return (
+    <div className='message flex gap-3 items-center py-2 hover:bg-slate-200 rounded-md'>
+      <div className='w-14 h-14 bg-slate-200 rounded-full ' > <img src="" alt="" /> </div>
+      <div>
+        <p className="username text-sm"> Debug </p>
+        <p className="last-message text-sm text-gray-600"> Ne vaxt gelirsen </p>
+      </div>
+    </div>
+
   )
 }
