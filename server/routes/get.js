@@ -1,10 +1,9 @@
 const route  = require('express').Router()
 const auth = require('../middlewares/auth')
 
-// const offlineData = require('../controllers/get/offlineData')
+const suggestedProfiles = require('../controllers/get/suggestedProfiles')
 
 
-// route.post('/offline-data',auth,offlineData)
-
+route.post('/suggested-profiles',auth,suggestedProfiles)
 
 module.exports = route

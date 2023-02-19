@@ -12,7 +12,8 @@ const schema = new mongoose.Schema({
   posts_count : {type : Number, default : 0 },
   stories_count : {type : Number, default : 0 },
   privacy : {type : Number, default : 0}, // 0 public 1 private
-  interests : []  
+  interests : []  ,
+  cake_day : { type : Date , default : Date.now() }
 })
 
 

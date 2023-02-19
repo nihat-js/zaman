@@ -7,6 +7,7 @@ import { getCookie } from '../utils/getCookie'
 import Nav from '../components/Nav'
 import PostBox from '../components/PostBox'
 import CreatePost from "../components/CreatePost";
+import SuggestedProfiles from "../components/SuggestedProfiles";
 
 
 export default function Index() {
@@ -16,7 +17,7 @@ export default function Index() {
 
 
   async function getExplorePosts() {
-    let response = await axios.post('http://localhost:5000/get-explore-posts', { token: getCookie('token') })
+    let response = await axios.post('http://localhost:5000/get-home-posts', { token: getCookie('token') })
     setPosts(response.data.data)
     console.log(response.data)
   }
@@ -31,12 +32,17 @@ export default function Index() {
   return (
     <div className="feed-page min-h-screen bg-slate-100">
       <Nav />
-      <CreatePost/>
-      <section className="m  py-10">
-        <div className="container mx-auto">
+      <div style={{ maxWidth: "1200px" }} className="mx-auto">
+        <CreatePost />
+      </div>
+
+      <div style={{ maxWidth: "1200px" }} className="flex mx-auto gap-12">
+        <div className="w-9/12">
           {posts.map((item, index) => <PostBox key={index} data={item} />)}
         </div>
-      </section>
+        <div className="w-3/12"> <SuggestedProfiles /> </div>
+      </div>
+
 
     </div>
   )

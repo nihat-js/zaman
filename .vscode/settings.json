@@ -5,7 +5,16 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "**/Thumbs.db": true
+    "**/Thumbs.db": true,
+    "server/.env": true,
+    "server/.rest": true,
+    "server/package-lock.json": true,
+    "server/package.json": true
   },
-  "hide-files.files": []
+  "hide-files.files": [
+    "server/.env",
+    "server/.rest",
+    "server/package-lock.json",
+    "server/package.json"
+  ]
 }

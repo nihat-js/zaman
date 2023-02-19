@@ -1,15 +1,11 @@
 import { useRef , useState } from 'react'
 import axios from 'axios'
-import sample1 from '../../../../storage/pp/sample-1.svg'
-import sample2 from '../../../../storage/pp/sample-2.svg'
-import sample3 from '../../../../storage/pp/sample-3.svg'
-import sample4 from '../../../../storage/pp/sample-4.svg'
 
 import {getCookie} from '../../utils/getCookie'
 
 export default function SetProfilePicture() {
 
-  const sampleImages = [sample1, sample2, sample3, sample4]
+  const sampleImages = ["sample-1.svg", "sample-2.svg", "sample-3.svg", "sample-4.svg"]
   const inputFile = useRef()
   const [image, setImage] = useState()
 

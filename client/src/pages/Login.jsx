@@ -6,25 +6,16 @@ import userSvg from '../assets/svg/user.svg'
 import loadingWhiteSvg from '../assets/svg/loading-white.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import { getCookie } from '../utils/getCookie'
+
+import InputGroup from '../components/InputGroup'
+
 export default function Index() {
 
   const navigate = useNavigate();
-
-
-  const URL = "http://localhost:5000/login"
-
-
-
-  const [usernameValue, setUsernameValue] = useState("")
-  const [passwordValue, setPasswordValue] = useState("")
-  const usernameInput = useRef()
-  const [hasUsernameFocus, setHasUsernameFocus] = useState(false)
-  const [hasPasswordFocus, setHasPasswordFocus] = useState(false)
-
-
-
-
-  const [isProcessing, setIsProcessing] = useState(false)
+  const URL = "http://localhost:5000/api/entry/login"
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState(false)
 
 
@@ -39,26 +30,23 @@ export default function Index() {
   }, [])
 
   async function login() {
-    if (usernameValue === '' || passwordValue === '') {
+    if (username === '' || password === '') {
       setError("Please fill the fields")
       return false
     }
-
-    setIsProcessing(true)
-    let response = await axios.post(URL, { "username": usernameValue, "password": passwordValue })
-    // console.log(response)
-    if (response.data.status) {
+    setIsSubmitting(true)
+    try{
+      let response = await axios.post(URL, { "username": username, "password": password })
       document.cookie = "token=" + response.data.token
+      localStorage.setItem("user",JSON.stringify(response.data.user))
       navigate('/feed')
-    } else {
-      setError(response.data.message)
+    } catch(error)
+     {
+      setError(error.response.data.message)
     }
-    setIsProcessing(false)
+    setIsSubmitting(false)
   }
 
-  useEffect(() => {
-
-  })
 
 
 
@@ -71,38 +59,24 @@ export default function Index() {
         <div className="container mx-auto min-h-screen  flex justify-center items-center">
           <form action=" " style={{ minWidth: "400px" }} className="px-8 py-6 bg-white rounded-md shadow-md">
             <h1 className="title  text-4xl text-center mb-10 font-bold "> Login  </h1>
-
-            <div className={`username mb-12 relative   `}>
-
-              <div 
-              className={`flex gap-2 absolute  duration-200 ${!hasUsernameFocus && usernameValue != "" ? "top-0" : "top-5"} `} >
-                onClick={ }
-                <img src={userSvg} alt="" className='w-4' />
-                <span className='text-gray-400 text-sm'> Username </span>
-              </div>
-              <input type="text" 
-              ref={inpUsername}
-              className='w-full border-b-2 px-3 py-1 border-b-gray-200 outline-none'
-                value={usernameValue}
-                onChange={ (e) => setUsernameValue(e.target.value) }
-                onFocus={() => setHasUsernameFocus(true)}
-                onBlur={ () => setHasUsernameFocus(false)}
-              />
-            </div>
-
-
+            <InputGroup text="Username" image={userSvg} type="text" value={username} setValue={setUsername} />
+            <InputGroup text="Password" image={lockSvg} type="password" value={password} setValue={setPassword} />
             <div className="forgot-password">
-              <span className="text-sm cursor-pointer font-semibold px-3 py-2  hover:bg-danube-600 text-danube-600 rounded-md hover:text-white " >  <Link to='/forgot-password'> Forgot Password     </Link>  </span>
+              <span className="text-sm cursor-pointer font-semibold px-3 py-2  hover:bg-danube-600 text-danube-600 rounded-md hover:text-white " >
+                <Link to='/forgot-password'> Forgot Password     </Link>
+              </span>
             </div>
             <div className="errors mt-3">
               <span className='text-sm text-red-700 font-bold' > {error} </span>
             </div>
+
             <div className="button-wrap flex justify-center mt-10  ">
-              <button onClick={(e) => { e.preventDefault(); isProcessing === false ? login(e) : "" }}
+              <button
+                onClick={(e) => { e.preventDefault(); isSubmitting === false ? login() : "" }}
                 className={`flex gap-2  justify-center items-center bg-teal-600 hover:bg-teal-700 text-white rounded-md text-xl 
-              hover:shadow-md py-2 px-4 w-8/12 ${isProcessing && 'cursor-not-allowed'} `}>
-                <img className={` ${isProcessing ? 'w-5 animate-spin' : 'hidden'} `} src={loadingWhiteSvg} alt="" />
-                <span> Login</span>
+              hover:shadow-md py-2 px-4 w-8/12 ${isSubmitting && 'cursor-not-allowed'} `}>
+                <img className={`w-5 ${isSubmitting ? 'animate-spin' : 'hidden'} `} src={loadingWhiteSvg} alt="" />
+                <span> Login </span>
               </button>
             </div>
             <div className="i-have mt-8 text-center">
@@ -112,7 +86,6 @@ export default function Index() {
                 </Link>
               </span>
             </div>
-
           </form>
         </div>
       </section>
@@ -125,14 +98,3 @@ export default function Index() {
 }
 
 
-function InputGroup(props) {
-  const { value } = props
-
-  return (
-    <div className='group'>
-      <span> Test </span>
-      <input type="text" />
-    </div>
-  )
-
-}

@@ -11,11 +11,11 @@ import Settings from './pages/Settings'
 import Logout from './pages/Logout'
 import './assets/css/tailwind.css'
 
-import UserProvider from './contexts/user'
+import MainProvider from './contexts/Main'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <UserProvider>
+  <MainProvider>
     <BrowserRouter>
       <Routes>
         <Route path='/register' element={<Register />} />
@@ -27,6 +27,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/logout' element = {<Logout/>} />
       </Routes>
     </BrowserRouter>
-  </UserProvider>
+  </MainProvider>
 
 )

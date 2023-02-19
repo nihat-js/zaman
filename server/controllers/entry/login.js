@@ -4,20 +4,21 @@ const User = require('../../models/User')
 
 
 module.exports = async function login (req,res){
+  console.log('bura geldi')
   if (!req.body.username ||!req.body.password){
-    return res.json({message:"Invalid Data", status : false})
+    return res.status(406)  
   }
   let {username, password}  = req.body
-  username = username.toLowerCase()
+  username = username.toLowerCase().trim()
   
   let user = await User.findOne({username : username})
   if (!user){
-    return res.json({message:"User not found", status : false })
+    return res.status(402).json({message : "User not found"})
   }
   const isPasswordValid = await bcrypt.compare(password, user.password)
   
   if (!isPasswordValid){
-    return res.json({message:"Invalid Password", status : false })
+    return res.status(401).json({message:"Invalid Password",  })
   }
   
   const active_device = {
@@ -30,11 +31,16 @@ module.exports = async function login (req,res){
 
   let userSaved = await user.save()
   if (!userSaved){
-    return res.json({message:"Error happened", status : false })
+    return res.status(500).json({message:"Something went wrong", })
   }
-  
 
-  res.json({message:"Logged in successfully", status : true,  token : jwt.sign(active_device, process.env.JWT_SECRET)}  )
+  const obj = {
+    username : user.username,
+    avatar : user.avatar ,
+    cake_day : user.cake_day,
+  }
+
+  res.status(200).json({message:"Logged in successfully", user : obj ,  token : jwt.sign(active_device, process.env.JWT_SECRET)}  )
 
 }
 

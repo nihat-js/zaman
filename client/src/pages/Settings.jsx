@@ -1,6 +1,6 @@
 import Nav from '../components/Nav'
 
-import Pp from '../components/Settings/Pp'
+import Avatar from '../components/Settings/Avatar'
 import Main from '../components/Settings/Main'
 import Password from '../components/Settings/Password'
 import Privacy from '../components/Settings/Privacy'
@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 export default function Index() {
 
   const tabNames = ['Set Profile Picture', 'Main', 'Change Password', 'Privacy', 'Story']
-  const tabComponents = [<Pp />, <Main />, <Password />, <Privacy />, <Story />]
+  const tabComponents = [<Avatar/>, <Main />, <Password />, <Privacy />, <Story />]
 
 
   useEffect(() => {
