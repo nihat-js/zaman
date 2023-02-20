@@ -6,7 +6,6 @@ const schema=  new mongoose.Schema({
   chat_id : {type : mongoose.Schema.Types.ObjectId, ref:'chats',  required  : true},
   seen_by : [{type : mongoose.Schema.Types.ObjectId, ref : 'users',}],
   reactions : [{type : mongoose.Schema.Types.ObjectId, ref : 'users',}],
-  reactions_count  :{type :Number , default : 0}
   
 },{timestamps : true} )
 

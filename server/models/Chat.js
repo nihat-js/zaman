@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const schema=  new mongoose.Schema({
   users_id : [{ type : mongoose.Schema.Types.ObjectId, ref : 'users' }],
-  message_count : { type : Number, default : 0 }
+  // type : { type : String , default : 'private' },
+  theme : {type  : String , default : "" },
+  last_message : {type  : String, default : "" },
+  messages_count : { type : Number, default : 0 },
 })
 
 const Chat = mongoose.model('chats', schema);

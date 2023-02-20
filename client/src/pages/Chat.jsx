@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { getCookie } from '../utils/getCookie'
 import axios from 'axios'
-// import './Chat.scss'
 import Nav from '../components/Nav'
+
+import sendSvg from '../assets/svg/send.svg'
+
 export default function Chat() {
 
   const [messages, setMessages] = useState([])
@@ -35,6 +37,10 @@ export default function Chat() {
 
   }
 
+
+  function send(){
+
+  }
 
   useEffect(() => {
     loadChats()
@@ -83,9 +89,12 @@ export default function Chat() {
 
       <section className="start py-10">
         <div style={{ maxWidth: "1200px" }} className="mx-auto">
-          <div className="row flex ">
-            <div className="left w-4/12 border-r-gray-600  border-r-2 ">
-              <h4 className="title font-bold mb-6 "> Chat </h4>
+          <div className="row flex gap-12 ">
+            <div className="left w-4/12 border-r-gray-400 border-r-2  px-4  ">
+              <header className='flex justify-between mb-6'>
+                <h3 className="title font-bold text-3xl "> Chat </h3>
+                <button className='text-sky-900 font-bold' > Requests </button>
+              </header>
               <div className="chat-filter flex gap-2">
                 <p className='px-2 py-2 text-gray-600 bg-gray-300 hover:bg-gray-300 rounded-md cursor-pointer ' > All </p>
                 <p className='px-2 py-2 text-gray-600  rounded-md  hover:bg-gray-300 cursor-pointer ' > Users </p>
@@ -99,8 +108,13 @@ export default function Chat() {
               </div>
 
             </div>
-            <div className="right w-8/12">
-              
+            <div className="right w-5/12">
+              <form action="" className='flex relative ' >
+                <textarea type="text" cols={1} rows={1} className='resize-none w-full overflow-y-clip  border border-slate-200  outline-none rounded-md  py-2 px-8'   placeholder='Message'  />
+                <div className="absolute  right-2 top-4  rounded-md w-7 h-7 px-1 py-1  img-wrap bg-sky-600  hover:bg-sky-800 cursor-pointer" onClick={() => send() }>
+                  <img className='w-full  ' src={sendSvg} alt="" />
+                </div>
+              </form>
             </div>
           </div>
         </div>

@@ -17,6 +17,7 @@ const get= require('./routes/get')
 // controllers
 const follow = require('./controllers/follow/follow')
 const unfollow = require('./controllers/follow/unfollow')
+const search = require('./controllers/search')
 
 
 app.use(express.json())
@@ -32,6 +33,7 @@ app.use('/api/get/',get)
 
 app.post('/api/follow',auth,follow)
 app.post('/api/unfollow',auth,unfollow)
+app.post('/api/search',search)
 
 
 
