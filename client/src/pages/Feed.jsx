@@ -37,10 +37,11 @@ export default function Index() {
       <Nav />
 
       <div style={{ maxWidth: "1200px" }} className="flex mx-auto gap-12 mt-6">
-        <div className="w-9/12">
+        <div className="w-7/12">
         <CreatePost />
           {posts.map((item, index) => <PostBox key={index} data={item} />)}
         </div>
+        <div className="w-2/12"></div>
         <div className="w-3/12"> 
         <Notification />
         <SuggestedProfiles /> 

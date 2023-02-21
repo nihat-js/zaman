@@ -9,7 +9,7 @@ async function main(req, res) {
     return res.status(405).send()
   }
   
-  let arr = await UserChat.find({ user_id , folder_name  }).sort({ updatedAt : 1 , unseen_messages_count : 1 }) .populate({
+  let arr = await UserChat.find({ user_id , folder_name  }).sort({ updatedAt : -1 , unseen_messages_count : -1 }) .populate({
     path : "chat_id",
     populate : {
       path :"users_id",
