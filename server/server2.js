@@ -13,7 +13,7 @@ const entry = require('./routes/entry')
 const chat = require('./routes/chat')
 const settings = require('./routes/settings')
 const get= require('./routes/get')
-
+const post = require("./routes/post")
 // controllers
 const follow = require('./controllers/follow/follow')
 const unfollow = require('./controllers/follow/unfollow')
@@ -30,6 +30,7 @@ app.use('/api/message/',auth,message)
 app.use('/api/chat/',auth,chat)
 app.use('/api/settings',auth,settings)
 app.use('/api/get/',get)
+app.use("/api/post/",auth,post)
 
 app.post('/api/follow',auth,follow)
 app.post('/api/unfollow',auth,unfollow)
