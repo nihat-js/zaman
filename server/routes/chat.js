@@ -1,12 +1,18 @@
 const router = require("express").Router();
 
-const create = require("../controllers/chat/create");
-const load = require('../controllers/chat/load')
 
 
-router.post('/create',create)
-router.post('/load',load)
+const changeChatFolder = require("../controllers/chat/changeChatFolder")
+const loadChats = require("../controllers/chat/loadChats")
+const sendMessage = require("../controllers/chat/sendMessage")
+const startOrFindChat = require("../controllers/chat/startOrFindChat")
 
 
+
+
+router.post("/change-chat-folder",changeChatFolder)
+router.post("/load-chats",loadChats)
+router.post("/send-message",sendMessage)
+router.post("/start-or-find-chat",startOrFindChat)
 
 module.exports = router

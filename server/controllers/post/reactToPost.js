@@ -1,5 +1,5 @@
-const Post = require('../models/Post')
-const PostReaction = require('../models/PostReaction')
+const Post = require('../../models/Post')
+const PostReaction = require('../../models/PostReaction')
 const allReactions = ['like', 'love', 'haha', 'wow', 'sad', 'angry',]
 
 async function reactToPost (req,res){

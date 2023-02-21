@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { getCookie } from '../utils/getCookie'
 import { useEffect, useState } from 'react'
@@ -16,17 +16,31 @@ export default function Index() {
 
   
   const params = useParams()
+  const navigate = useNavigate()
   const target_username = params.username
   const [isLoading,setIsLoading] = useState(true)
   const [posts, setPosts] = useState([])
   const [postStyle, setPostStyle] = useState('grid')
   const [target,setTarget] = useState({})
-  
+
+
+
+
+  async function handleMessage(req,res){
+    try {
+      let response = await axios.post("http://localhost:5000/api/chat/start-or-find-chat",{target_username , token : getCookie('token')})
+      console.log(response)
+      navigate("/chat/" + response.data.chat_id)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   async function getTargetProfile(){
     try{  
       let response = await axios.post("http://localhost:5000/api/get/target-profile",{token : getCookie('token') , target_username : target_username })
       setTarget(response.data)
-      console.log(response)
+      // console.log(response)
     }catch(err){
       console.log(err)
     }
@@ -68,7 +82,7 @@ export default function Index() {
             <div className="actions flex gap-2">
               <FollowButton isFollowing={target.isFollowing}  target_username={target_username} />
 
-              <button className='px-2 py-3 bg-danube-600 font-bold text-white rounded-md'> Message </button>
+              <button className='px-2 py-3 bg-danube-600 font-bold text-white rounded-md' onClick={handleMessage} > Message </button>
             </div>
           </div>
         </div>

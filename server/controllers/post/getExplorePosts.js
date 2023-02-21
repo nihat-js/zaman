@@ -1,6 +1,6 @@
-const Post = require('../models/Post')
-const PostReaction = require('../models/PostReaction')
-const User = require('../models/User')
+const Post = require('../../models/Post')
+const PostReaction = require('../../models/PostReaction')
+const User = require('../../models/User')
 
 
 async function getExplorePosts(req, res) {

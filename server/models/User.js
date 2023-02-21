@@ -6,6 +6,7 @@ const schema = new mongoose.Schema({
   password : {type : String, required: true},
   active_devices : [],
   avatar : {type : String , default : ''},
+  cover : {type : String , default : ""} ,
   active_device : {},
   followers_count : {type : Number, default : 0},
   followings_count : {type : Number, default : 0 },

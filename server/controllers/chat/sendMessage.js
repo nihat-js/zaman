@@ -1,32 +1,32 @@
 const Chat = require("../../models/Chat")
+const UserChat = require("../../models/UserChat")
+
 const Message = require("../../models/Message")
-async function index(req,res){
+async function main (req,res){
   const {text,user_id , chat_id} = req.body  
   if (!text|| !chat_id){
     return res.status(406).send()
   }
 
-  const chat = await Chat.findById(chat_id)
-  if (!chat){
-    return res.status(402).send()
+  const UserChat = await Chat.findById(chat_id , user_id)
+  if (!UserChat){
+    return res.status(406).send()
   }
-  if ( !chat.users.includes(user_id) ){
-    return res.status(403).send()
-  }
+
 
   const message = new Message({
     text,
     sender_id : user_id,
     chat_id,
   })
-  const savedMessage = await message.save()
-  chat.last_message = last_message
-  const savedChat = await chat.save() 
 
-  if (!savedMessage || !last_message ){
-    return res.status(500).send()
+  const savedMessage = await message.save()
+  if (!savedMessage){
+    return  res.status(432).send()
   }
 
   return res.status(200)
 
 }
+
+module.exports = main

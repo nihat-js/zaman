@@ -1,5 +1,5 @@
-const Post = require('../models/Post')
-const User = require('../models/User')
+const Post = require('../../models/Post')
+const User = require('../../models/User')
 
 async function getUserPosts(req,res){
   const {target_username} = req.body

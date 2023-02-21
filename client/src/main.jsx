@@ -21,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/chat' element={<Chat />} />
+        <Route path='/chat/:chat_id' element={<Chat />} />
         <Route path='/profile/:username' element={<Profile />} />
         <Route path='/feed' element={<Feed />} />
         <Route path='/settings/' element={<Settings />} />

@@ -1,5 +1,5 @@
 
-const Post = require('../models/Post')
+const Post = require('../../models/Post')
 
 async function post (req,res){
   const {text , sources , user_id} = req.body
