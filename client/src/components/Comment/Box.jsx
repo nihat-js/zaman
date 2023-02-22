@@ -4,9 +4,11 @@ import heartSvg from "../../assets/svg/heart.svg"
 import heartOffSvg from "../../assets/svg/heart-off.svg"
 
 export default function CommentBox(props) {
-  const { text, author_id } = props.data
-  const {avatar,username } = author_id
-
+  let { text, author_id ,sources } = props.data
+  let {avatar,username ,  } = author_id
+  let host = "http://localhost:5000/"
+  let src  = sources?.length > 0  ? host + "images/" + sources[0] : ""
+  console.log("src",src)
   async function reactToComment() {
 
   }
@@ -14,7 +16,7 @@ export default function CommentBox(props) {
   return (
     <div className="comment flex gap-2">
       <div className="left">
-        <Avatar className="w-6" src="" />
+        <Avatar username={username}  className="w-6" src="" />
       </div>
       <div className="right w-full  ">
         <header className="flex gap-2">
@@ -24,6 +26,7 @@ export default function CommentBox(props) {
         <div className="body w-full flex justify-between">
           <div className="left">
             <p className="text"> {text}  </p>
+            <img className='rounded-md' src={src} style={{maxWidth:"150px"}} alt="" />
           </div>
           <div className="right">
             <img className="w-6" src={heartSvg} alt="" />

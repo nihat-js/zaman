@@ -4,15 +4,21 @@ const User = require('../../models/User')
 
 
 async function getExplorePosts(req, res) {
-  console.log('zee end')
-  const { user_id } = req.body
-  let posts = await Post.find().populate('author', ['username', 'pp'])
-  let arr = JSON.parse(JSON.stringify(posts))
-  
+
+  const {user_id} = req.body
+
+
+
+  let posts = await Post.find().sort({createdAt : -1 }).populate({
+    path :"author_id",
+    select : "username avatar"
+
+  }).lean()
+
    for (let i = 0; i < arr.length; i++) {
-     let a = await  PostReaction.findOne({post_id  : arr[i]._id })
-     if (a) {
-      arr[i].reaction = a.name
+     let reaction = await  PostReaction.findOne({post_id  : arr[i]._id })
+     if (reaction) {
+      arr[i].reaction = arr.name
      }
    }
 

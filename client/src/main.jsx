@@ -6,7 +6,7 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import Chat from './pages/Chat'
 import Profile from './pages/Profile'
-import Feed from './pages/Feed'
+import Home from './pages/Home'
 import Settings from './pages/Settings'
 import Logout from './pages/Logout'
 import './assets/css/tailwind.css'
@@ -23,7 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/chat' element={<Chat />} />
         <Route path='/chat/:chat_id' element={<Chat />} />
         <Route path='/profile/:username' element={<Profile />} />
-        <Route path='/feed' element={<Feed />} />
+        <Route path='/' element={<Home />} />
         <Route path='/settings/' element={<Settings />} />
         <Route path='/logout' element = {<Logout/>} />
       </Routes>

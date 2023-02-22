@@ -37,7 +37,7 @@ export default function PostBox(props) {
   const [areCommentsLoading, setAreCommentsLoading] = useState(false)
 
   const host = "http://localhost:5000/"
-
+  let isReacted = false
 
   if (!username) {
     username = user.username
@@ -69,9 +69,13 @@ export default function PostBox(props) {
   }
 
   async function reactToPost(name) {
-    let response = await axios.post('http://localhost:5000/react-to-post',
-      { token: getCookie('token'), post_id: _id, name, })
-    console.log(response.data)
+    name = "primary"
+    try{
+      let response = await axios.post(host + "api/post/react",{ token: getCookie('token'), name: name, post_id: _id })
+      console.log(response.data)
+    }catch(err){
+      console.log(err)
+    }
   }
 
   async function unreactToPost(name) {
@@ -99,7 +103,7 @@ export default function PostBox(props) {
         </div>
       </header>
       <div className="gallery relative mb-8">
-        {sources?.[0] && <img src={"http://localhost:5000/images/" + sources[0]} />}
+        {sources?.[0] && <img onDoubleClick={reactToPost}  src={"http://localhost:5000/images/" + sources[0]} />}
         <div className="indicator"></div>
       </div>
       <div className="actions flex gap-2 items-center mb-5 ">
@@ -132,62 +136,6 @@ export default function PostBox(props) {
     </div>
 
 
-    // <div className=" bg-gray-50 mb-6 py-3 px-5" >
-    //   <div className="post-header flex gap-4 ">
-    //     <div className="left">
-    //       <Link to={`/profile/${author_id.username}`}>
-    //         <img className="w-8  border-2 rounded-full" src={avatar ? "http://localhost:5000/avatars/" + avatar : "http:/localhost:5000/avatars/default.svg"} alt="" />
-    //       </Link>
-    //     </div>
-    //     <div className="right">
-    //       <header className=" flex gap-2 items-center">
-    //         <h2 className="username font-bold cursor-pointer text-sm "> <Link to={"/profile/" + author_id.username}>  @{author_id.username}   </Link> </h2>
-    //         <p className="date text-gray-700 text-sm " > {timeForUser}  </p>
-    //       </header>
-    //       <div className="body  mt-2 ">
-    //         {text}
-    //       </div>
-    //       <div className='reactions flex gap-1 mt-2'>
-    //         {reactions.map((item, index) => {
-    //           if (item.name == 'like') {
-    //             return <img key={index} className="w-4" src={likeColorfulSvg} />
-    //           } else if (item.name == 'love') {
-    //             return <img key={index} className="w-4" src={loveSvg} />
-    //           } else if (item.name == 'haha') {
-    //             return <img key={index} className="w-4" src={hahaSvg} />
-    //           }
-    //         })}
-    //         <span>
-    //           {totalReactionsCount > 0 && totalReactionsCount}
-    //         </span>
-    //       </div>
-    //       <div className="actions flex gap-2 mt-2 mb-5">
-    //         <div className="flex gap-1  py-2 px-2 hover:bg-gray-300 cursor-pointer" onClick={() => reactToPost('like')} >
-    //           <img className="w-5 rounded-full " src={reaction == "like" ? likeFilledSvg : likeSvg} alt="" />
-    //           <span onClick={() => reaction ? unReactToPost() : reactToPost()}  > Like </span>
-    //         </div>
-    //         <div className="flex gap-1  py-2 px-2 hover:bg-gray-300 cursor-pointer"  >
-    //           <img className="w-5 rounded-full " src={commentSvg} alt="" />
-    //           <span> {comments_count} </span>
-    //           <span> Comment </span>
-    //         </div>
-    //         <div className="flex gap-2   py-2 px-2 hover:bg-gray-300 cursor-pointe">
-    //           <img className="w-5" src={saveSvg} alt="" />
-    //           <span> Save </span>
-    //         </div>
-
-    //         <div className="flex gap-1  py-2 px-2 hover:bg-gray-300 cursor-pointer"  >
-    //           <img className="w-5 rounded-full " src={shareSvg} alt="" />
-    //           <span> Share </span>
-    //         </div>
-
-    //       </div>
-
-    //       <AddComment id={_id} />
-    //       <div className="comments"></div>
-    //     </div>
-
-    //   </div>
-    // </div >
+ 
   )
 }

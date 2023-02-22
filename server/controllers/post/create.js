@@ -33,7 +33,7 @@ async function post(req, res) {
     author_id: user_id,
     comments_count: 0,
     topics: "",
-    reactions: 0,
+    reactions: [],
   })
 
   let savedPost = post.save()
