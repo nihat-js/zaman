@@ -2,6 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { getCookie } from '../utils/getCookie'
 import { useEffect, useState } from 'react'
+import Avatar from '../components/Avatar'
+
 import FollowButton from '../components/FollowButton'
 
 import cakeSvg from '../assets/svg/cake.svg'
@@ -46,10 +48,21 @@ export default function Index() {
     }
   }
 
+  async function getPosts(){
+    try{
+      let response  = await axios.post("http://localhost:5000/api/post/user-posts",{token : getCookie('token')})
+      console.log(response)
+      setPosts(response.data)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
 
 
   useEffect(() => {
     getTargetProfile()
+    getPosts()
   }, [])
 
 
@@ -66,7 +79,7 @@ export default function Index() {
             <div style={{ minWidth : "800px", height:"200px"}} className="cover bg-slate-200 rounded-lg">
             </div>
             <div className="img-wrap mx-auto">
-              <img className='w-20 rounded-full -mt-10' src={target.avatar == "" ? "http://localhost:5000/avatars/default.svg" : "http://localhost:5000/avatars/" + target.avatar} alt="" />
+              <Avatar className="w-16 mt-10"  avatar={target.avatar} username={target.username} />              
             </div>
             <h3 className="username font-bold text-2xl"> {target.username} </h3>
             <div className="stats">
@@ -81,12 +94,11 @@ export default function Index() {
             </div>
             <div className="actions flex gap-2">
               <FollowButton isFollowing={target.isFollowing}  target_username={target_username} />
-
               <button className='px-2 py-3 bg-danube-600 font-bold text-white rounded-md' onClick={handleMessage} > Message </button>
             </div>
           </div>
         </div>
-        <section className="posts py-20">
+        <section className="test py-20">
           <div style={{ maxWidth: "1000px" }} className="container mx-auto">
             <hr />
             <div className="filter flex justify-center mt-6 gap-2  ">
@@ -99,6 +111,12 @@ export default function Index() {
                 <span className='text-sm'> Row style </span>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="posts py-10">
+          <div style={{maxWidth : "600px"}}  className="mx-auto" >
+            { posts.map((item,index) => <PostBox item={item} key={index} />  )  }
           </div>
         </section>
 

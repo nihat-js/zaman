@@ -14,11 +14,12 @@ export default function CreatePost() {
   const [text, setText] = useState('');
   const inputFile = useRef()
   const [arr, setArr] = useState([])
-  const [isSubmitting,setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
 
 
   async function handleImageButton() {
+    // console.log("started")
     if (arr.length < 5) {
       inputFile.current.click()
     } else {
@@ -26,21 +27,29 @@ export default function CreatePost() {
     }
   }
   async function handleImageUpload(e) {
-    setArr([...arr, inputFile.current.files[0]])
+    if (inputFile.current.files.length > 0) {
+      setArr([...arr, inputFile.current.files[0]])
+
+    }
   }
   async function handlePostButton(e) {
     e.preventDefault()
+    if (arr.length == 0 && !text) {
+      return false
+    }
+    // console.log(arr)
     setIsSubmitting(true)
     try {
       let formData = new FormData()
-      arr.forEach( (item,index)=> {
-        formData.append("image"+ index , item )
+      arr.forEach((item, index) => {
+        formData.append("image" + index, item)
       })
       formData.append("text", text)
       formData.append("token", getCookie('token'))
       let response = await axios.post('http://localhost:5000/api/post/create', formData)
       console.log(response.data)
       setText('')
+      setArr([])
     } catch (err) {
       console.log(err)
     }
@@ -69,15 +78,15 @@ export default function CreatePost() {
             </header>
 
             <div className="actions mt-2 flex ">
-              <button onClick={ () => { !isSubmitting ?  handleImageButton : "" }} className=" flex gap-2  py-2 px-2 hover:bg-gray-300 cursor-pointer">
+              <button onClick={() => { !isSubmitting ? handleImageButton() : "" }} className=" flex gap-2  py-2 px-2 hover:bg-gray-300 cursor-pointer">
                 <img src={cameraSvg} className={`w-6 `} alt="" />
                 <span className="font-semibold text-purple-600"> Add image </span>
               </button>
               <div >
-                <button onClick={handlePostButton}
+                <button onClick={(e) => handlePostButton(e)}
                   className={`flex gap-2 items-center px-5 py-2.5 relative rounded group overflow-hidden font-medium bg-purple-50 text-purple-600 ${isSubmitting ? "cursor-not-allowed" : ""}  `}>
                   <span className="absolute top-0 left-0 flex w-full h-0 mb-0 transition-all duration-200 ease-out transform translate-y-0 bg-purple-600 group-hover:h-full opacity-90"></span>
-                  <img className={`w-4 animate-spin ${isSubmitting ? "" : "hidden" }  `}  src={loadingSvg} alt="" />
+                  <img className={`w-4 animate-spin ${isSubmitting ? "" : "hidden"}  `} src={loadingSvg} alt="" />
                   <span className="relative group-hover:text-white"> Post it </span>
                 </button>
               </div>

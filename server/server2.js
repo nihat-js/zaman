@@ -14,6 +14,15 @@ const chat = require('./routes/chat')
 const settings = require('./routes/settings')
 const get= require('./routes/get')
 const post = require("./routes/post")
+const comment = require("./routes/comment")
+
+
+
+
+
+
+
+
 // controllers
 const follow = require('./controllers/follow/follow')
 const unfollow = require('./controllers/follow/unfollow')
@@ -31,6 +40,7 @@ app.use('/api/chat/',auth,chat)
 app.use('/api/settings',auth,settings)
 app.use('/api/get/',get)
 app.use("/api/post/",auth,post)
+app.use("/api/comment/",auth,comment)
 
 app.post('/api/follow',auth,follow)
 app.post('/api/unfollow',auth,unfollow)
