@@ -16,7 +16,7 @@ export default function Avatar(props) {
 
 
   return (
-    <Link to={"http://localhost:5000/profile/" + username} >
+    <Link to={"http://localhost:5173/profile/" + username} >
       <img style={style} src={src} className={` w-8 cursor-pointer rounded-full ${className}  `} />
     </Link>
   )

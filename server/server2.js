@@ -15,7 +15,7 @@ const settings = require('./routes/settings')
 const get= require('./routes/get')
 const post = require("./routes/post")
 const comment = require("./routes/comment")
-
+const admin = require("./routes/admin")
 
 
 
@@ -41,6 +41,7 @@ app.use('/api/settings',auth,settings)
 app.use('/api/get/',get)
 app.use("/api/post/",auth,post)
 app.use("/api/comment/",auth,comment)
+app.use("/api/admin",admin)
 
 app.post('/api/follow',auth,follow)
 app.post('/api/unfollow',auth,unfollow)
