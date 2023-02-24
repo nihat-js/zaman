@@ -5,6 +5,7 @@ const schema = new mongoose.Schema({
   whom_id : {type : mongoose.Schema.Types.ObjectId, ref : 'users'  },
   action_name : {type : String, required: true },
   action_id : {type : mongoose.Schema.Types.ObjectId,   },
+  text : {type : String , }
 },{timestamps:true})
 
 

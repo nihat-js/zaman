@@ -16,7 +16,7 @@ const schema = new mongoose.Schema({
   interests : []  ,
   unseen_notifications_count : {type : Number , default : 0},
   cake_day : { type : Date , default : Date.now() } ,
-  ban : {   }  // reason message who_id 
+  violation : {   }  // reason message who_id 
 })
 
 
