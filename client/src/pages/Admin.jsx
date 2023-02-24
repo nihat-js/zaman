@@ -15,6 +15,7 @@ import dashBoardSvg from "../assets/svg/dashboard.svg"
 import postsSvg from "../assets/svg/posts.svg"
 import reportsSvg from "../assets/svg/reports.svg"
 import threeLineHorizontalSvg from "../assets/svg/three-line-horizontal.svg"
+import Avatar from '../components/Avatar'
 
 
 
@@ -82,13 +83,13 @@ export default function Index() {
       </div>
 
       <div className={`${showNames ? "w-10/12" : "w-11/12"} px-16  `}>
-        <header className="mt-10 flex mb-8 justify-between " >
+        <header className="mt-10 flex mb-8 justify-between items-center " >
           <div className="left flex gap-4">
             <img className="w-8 cursor-pointer" src={threeLineHorizontalSvg} onClick={() => setshowNames(!showNames)} alt="" />
             <h4 className="text-3xl font-bold text-indigo-800">  {greeting()}  </h4>
           </div>
           <div className="right">
-            <div className='bg-indigo-300 w-8 h-8 '></div>
+            <Avatar me={true} style={{width : "50px"}}  />
           </div>
         </header>
         {
