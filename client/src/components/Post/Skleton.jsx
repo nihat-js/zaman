@@ -36,7 +36,7 @@ export default function PostBox(props) {
       <div className="actions flex gap-2 items-center mb-5 ">
         <div className="likes flex gap-2  pr-5 items-center ">
           <img className="w-8 p-1  hover:bg-blue-300 rounded-full" src={heartSvg} alt="" />
-          <span className="count bg-slate-200 animate-pulse duration-300 rounded-lg "> 0  hearts </span>
+          <span className="count bg-slate-200 animate-pulse duration-300 rounded-lg text-transparent "> 0  hearts </span>
         </div>
         <button onClick={() => { commentsStatus == "closed" ? loadComments() : commentsStatus == "open" ? setCommentsStatus("closed") : "" }}
           className="flex gap-1 px-5  items-center hover:bg-slate-200">

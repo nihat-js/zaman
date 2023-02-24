@@ -84,23 +84,23 @@ export default function Index() {
 
           <div className="links">
             <ul className='flex gap-3 '>
+              <Link to='/'>
+                <li className={linkClassName} >
 
-              <li className={linkClassName} >
-                <Link to='/feed'>
                   <img className='w-6' src={homeSvg} alt="" />
-                </Link>
-              </li>
-              <li className={linkClassName} >
-                <Link to='/chat'>
+                </li>
+              </Link>
+              <Link to='/chat'>
+                <li className={linkClassName} >
                   <img className='w-6' src={chatSvg} alt="" />
-                </Link>
-              </li>
+                </li>
+              </Link>
 
-              <li className={linkClassName} >
-                <Link to='/notifications'>
+              <Link to='/notifications'>
+                <li className={linkClassName} >
                   <img className='w-6' src={notificationSvg} alt="" />
-                </Link>
-              </li>
+                </li>
+              </Link>
 
               <li className={linkClassName}>
                 <img className='w-6 h-6' src={moonSvg} alt="" />
