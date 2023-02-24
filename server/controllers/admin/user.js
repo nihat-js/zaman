@@ -8,10 +8,10 @@ async function ban(req, res) {
     return res.status(406).send() // Missing parametrs
   }
   let user = await User.findById(target_id);
-  user.violation.score = user.violation.score ? user.violation.score + 1 : score
-  user.violation.unban_time = user.unban_time ? new Date(user.unban_time + duration) : new Date(Date.now() + duration)
-  user.violation.reason = reason
-  user.violation.message = message
+  user.violations.score = user.violations.score ? user.violations.score + 1 : score
+  user.violations.unban_time = user.unban_time ? new Date(user.unban_time + duration) : new Date(Date.now() + duration)
+  user.violations.reason = reason
+  user.violations.message = message
 
 
   let log = new Log({
@@ -68,17 +68,18 @@ async function sendNotification(req, res) {
 }
 
 async function search(req, res) {
-
   let { id, username, email } = req.body
+  let result
   if (id) {
-    let result = await User.findById(id).lean()
+    result = await User.findById(id).lean()
   } else if (email) {
-    let result = await User.findOne({ email: email }).lean()
+    result = await User.findOne({ email: email }).lean()
   } else if (username) {
-    let result = await User.find({ username: { $regex: username } }).limit(5).lean()
+    result = await User.find({ username: { $regex: username } }).limit(5).lean()
 
   }
-  result ? res.status(200).json(result) : res.status(401).send()
+  res.status(200).json(result)
+  //   res.status(401).send()
 }
 
 module.exports = { ban, unban, sendNotification, search }

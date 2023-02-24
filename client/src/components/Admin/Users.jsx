@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import Avatar from '../Avatar'
 
 import lockOnSvg from "../../assets/svg/lock-on.svg"
 import lockOffSvg from "../../assets/svg/lock-off.svg"
 import trashSvg from "../../assets/svg/trash.svg"
+import flagSvg from "../../assets/svg/flag.svg"
 
 import UserBanPopup from './UserBanPopup'
 
@@ -15,8 +16,10 @@ export default function Users() {
   const [searchValue, setSearchValue] = useState("")
   const [showPopup, setShowPopup] = useState(false)
   const [users, setUsers] = useState([])
+  const [searchResults, setSearchResults] = useState([])
+  const [showSearchResults, setShowSearchResults] = useState(false)
   const host = "http://localhost:5000/"
-
+  const searchResultsRef = useRef()
   async function loadUsers() {
     try {
       let result = await axios.post(host + "api/admin/graphql", { model: "user", sortObj: { cake_day: 1 } })
@@ -26,20 +29,45 @@ export default function Users() {
     }
   }
 
-  async function loadSeach(){
+  async function handleSearch(value, isClicked) {
+    if (value.length < 2){
+      return  false
+    }
+    
+    console.log('clik',isClicked)
+    if (searchType != "Username" && !isClicked) return false
+    let obj = {}
+    searchType == "Username" ? obj = { username: value } :
+    searchType == "Email" ? obj = { email: value } :
+    searchType == "Id" ? obj = { id: value } : null
     try {
-      l
+      console.log('ob', obj)
+      let result = await axios.post("http://localhost:5000/" + "api/admin/user/search", obj)
+      if (result.data.length > 0) {
+        setSearchResults(result.data)
+      }
+      console.log(result.data)
+    } catch (err) {
+      console.log(err)
     }
   }
 
-   const [selectedUser,setSelectedUser] = useState({})
+  const [selectedUser, setSelectedUser] = useState({})
 
   useEffect(() => {
     loadUsers()
-  })
+  }, [])
 
-  function handleSearch() {
+  useEffect(() => {
+    window.addEventListener('click', handleClickOutside)
+    return () => {
+      window.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
 
+
+  function handleClickOutside(e) {
+    !searchResultsRef.current.contains(e.target) && showSearchResults ? setShowSearchResults(false) : ""
   }
 
 
@@ -47,19 +75,31 @@ export default function Users() {
 
   return (
     <div className='page'>
-      {showPopup && <UserBanPopup  user={selectedUser} setShowPopup={setShowPopup} />}
+      {showPopup && <UserBanPopup user={selectedUser} setShowPopup={setShowPopup} />}
 
       <div className="find-user mb-16">
 
         <div class="py-4">
           <p className="text font-semibold text-2xl text-gray-400 mb-8 ">
-            Use search button when you search with different type than username
+            Live search is only available with username due to lackage of server performance
           </p>
           <div style={{ gridTemplateColumns: "1fr 5fr 1fr", maxWidth: "1000px" }} className="grid gap-8">
             <Dropdown searchTypes={searchTypes} searchType={searchType} setSearchType={setSearchType} />
-            <input onchange={(e) => handleSearch(e.target.value)}
-              type="text" placeholder="Full Name" class="border-2 rounded px-3 py-1 w-full focus:border-indigo-400 outline-none" />
-            <button onchange={(e) => handleSearch(e.target.value)}
+
+            <div className="relative ">
+              <input onFocus={() => setShowSearchResults(true) } 
+              onChange={(e) => handleSearch(e.target.value)} type="search" placeholder=" Lowercase letters "
+                class="border-2 rounded px-3 py-1 w-full focus:border-indigo-400 outline-none" />
+              <div ref={searchResultsRef}
+                className='absolute bg-white search-results w-full  ' >
+                {showSearchResults && searchResults.map((i, j) => <div className='py-4 px-3 hover:bg-slate-100 flex gap-3 '>
+                  <Avatar avatar={i.avatar} username={i.username} />
+                  <p className="username font-semibold "> {i.username} </p>
+                </div>)}
+              </div>
+            </div>
+
+            <button onClick={(e) => handleSearch(e.target.value, true)}
               class="border-2 border-indigo-600 rounded px-6 py-2 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-colors duration-300">
               Search
               <i class="fas fa-chevron-right ml-2 text-sm"></i>
@@ -83,7 +123,7 @@ export default function Users() {
 
 
         <div className="my-table">
-          <header style={{ gridTemplateColumns: "1fr 3fr 3fr 2fr 2fr 2fr" }} className="grid mb-2  gap-6">
+          <header style={{ gridTemplateColumns: "1fr 4fr 4fr 4fr 4fr 4fr" }} className="grid mb-2  gap-6">
             <p> </p>
             <p className="text-indigo-500 font-semibold">Avatar</p>
             <p className="text-indigo-500 font-semibold">Username</p>
@@ -95,17 +135,19 @@ export default function Users() {
             {users.map((i, j) => {
               return (
                 <div key={j}
-                  style={{ gridTemplateColumns: "1fr 3fr  3fr 2fr 2fr 2fr", }}
+                  style={{ gridTemplateColumns: "1fr 4fr  4fr 4fr 4fr 4fr", }}
                   className="grid gap-6  mb-3 hover:bg-slate-100 py-2 rounded-md px-2">
-                  <input type="checkbox" name="" id="" />
+                  <input type="checkbox" name="" id="" className='w-5/12' />
                   <Avatar style={{ width: "48px" }} avatar={i.avatar} username={i.username} />
                   <p className="username" style={{ wordBreak: 'break-word' }} > {i.username}   </p>
                   <p className="username " style={{ wordBreak: 'break-word' }}> {i.email}   </p>
                   <p className="followings_count"> {i.privacy == 0 ? "Public" : "Private"} </p>
-                  <p className="actions flex gap-2">
-                    <img className='w-8 cursor-pointer hover:bg-slate-200 rounded-full' src={trashSvg} alt="" />
-                    <img onClick={() => { setShowPopup(true) ; setSelectedUser(i)   } } 
-                    className='w-8 cursor-pointer hover:bg-slate-200 rounded-full ' src={lockOnSvg} alt="" />
+                  <p className="actions flex gap-4 ">
+                    <img src={flagSvg}
+                      className="w-6 cursor-pointer hover:-translate-y-2 duration-150 " />
+                    <img onClick={() => { setShowPopup(true); setSelectedUser(i) }}
+                      className='w-6 cursor-pointer hover:-translate-y-2 duration-150 ' src={lockOnSvg} alt="" />
+                    <img className='w-6 cursor-pointer hover:-translate-y-2 duration-150 ' src={trashSvg} alt="" />
                   </p>
                 </div>
               )

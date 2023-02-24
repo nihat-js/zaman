@@ -2,6 +2,8 @@ import React from 'react'
 
 export default function Posts() {
   return (
-    <div>Posts</div>
+    <div c>
+      <img src="default" alt="" />
+    </div>
   )
 }
