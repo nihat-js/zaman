@@ -9,6 +9,8 @@ import Profile from './pages/Profile'
 import Home from './pages/Home'
 import Settings from './pages/Settings'
 import Logout from './pages/Logout'
+import Admin from "./pages/Admin"
+
 import './assets/css/tailwind.css'
 
 import MainProvider from './contexts/Main'
@@ -27,6 +29,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/settings/' element={<Settings />} />
         <Route path='/logout' element = {<Logout/>} />
       </Routes>
+      <Routes>
+        <Route path='/admin/dashboard' element={<Admin />} />
+      </Routes>
+
     </BrowserRouter>
   </MainProvider>
 
