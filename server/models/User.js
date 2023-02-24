@@ -15,7 +15,8 @@ const schema = new mongoose.Schema({
   privacy : {type : Number, default : 0}, // 0 public 1 private
   interests : []  ,
   unseen_notifications_count : {type : Number , default : 0},
-  cake_day : { type : Date , default : Date.now() }
+  cake_day : { type : Date , default : Date.now() } ,
+  ban : {   }  // reason message who_id 
 })
 
 
