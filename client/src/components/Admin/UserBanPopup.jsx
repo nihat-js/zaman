@@ -1,9 +1,9 @@
 import closeSvg from "../../assets/svg/close-black.svg"
 
-import { useEffect , useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function Popup(props) {
-  let { setShowPopup , user } = props
+  let { setShowPopup, user } = props
   useEffect(() => {
     window.addEventListener('click', (e) => {
       if (e.target.classList.contains('ban-popup')) {
@@ -35,7 +35,7 @@ export default function Popup(props) {
           </div>
           <div className="input flex gap-8 items-center mb-4">
             <span className='w-2/12 font-semibold ' >  Reason</span>
-            <select name="" id="">
+            <select  className="bg-gray-50 border border-gray-300 text-gray-900 py-2 px-3 rounded-sm"  name="" id="">
               <option value="0"> 0 - Scam  </option>
               <option value="1"> 1 - Hate Speech </option>
               <option value="2"> 2 - Scam  </option>
@@ -44,7 +44,7 @@ export default function Popup(props) {
           </div>
           <div className=" flex gap-8 items-center mb-4">
             <span className='w-2/12 font-semibold ' > Duration   </span>
-          <select name="" id="">
+            <select className="bg-gray-50 border border-gray-300 text-gray-900 py-2 px-3 rounded-sm" name="" id="">
               <option value="0"> 6 Hours  </option>
               <option value="1"> 1 Day </option>
               <option value="2"> 2  Days </option>
@@ -53,8 +53,14 @@ export default function Popup(props) {
               <option value=""> 2 Weeks  </option>
               <option value=""> 4 Weeks </option>
               <option value=""> Permanent  </option>
-
             </select>
+
+          </div>
+          <div className=" flex gap-8 items-center mb-4">
+            <span className='w-2/12 font-semibold ' > Ban Score   </span>
+
+            <input type="number" className='bg-slate-100 px-2 py-2 w-9/12  rounded-md text-gray-400 outline-none' defaultValue={1} max={12} min={0} />
+
           </div>
           <div className="input flex gap-8 items-center mb-4">
             <span className='w-2/12 font-semibold text-xl' >  Message</span>

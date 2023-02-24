@@ -25,6 +25,13 @@ export default function Users() {
       console.log(err)
     }
   }
+
+  async function loadSeach(){
+    try {
+      l
+    }
+  }
+
    const [selectedUser,setSelectedUser] = useState({})
 
   useEffect(() => {

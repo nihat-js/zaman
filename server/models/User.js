@@ -16,7 +16,9 @@ const schema = new mongoose.Schema({
   interests : []  ,
   unseen_notifications_count : {type : Number , default : 0},
   cake_day : { type : Date , default : Date.now() } ,
-  violation : {   }  // reason message who_id 
+  violations : {   }  , // reason message who_id 
+  is_admin : {type : Boolean, default : false}, 
+  role : {type : Number , default : 0} // 0-user 1-moderator 2-admin
 })
 
 

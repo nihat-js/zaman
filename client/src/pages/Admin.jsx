@@ -52,15 +52,18 @@ export default function Index() {
     }
   ]
   function greeting() {
+    let user =  JSON.parse ( localStorage.getItem('user') )
     let today = new Date()
     let curHr = today.getHours()
+    let phrase ;
     if (curHr < 12) {
-      return 'good morning'
+      phrase =  'Good morning'
     } else if (curHr < 18) {
-      return 'Good afternoon'
+      phrase =  'Good afternoon'
     } else {
-      return 'Good evening'
+      phrase =  'Good evening'
     }
+    return phrase +" " + user.username
   }
 
 
@@ -79,7 +82,7 @@ export default function Index() {
         <header className="mt-10 flex mb-8 justify-between " >
           <div className="left flex gap-4">
             <img className="w-8 cursor-pointer" src={threeLineHorizontalSvg} onClick={() => setshowNames(!showNames)} alt="" />
-            <h4 className="text-3xl font-bold text-indigo-800">  {greeting()} Nihat </h4>
+            <h4 className="text-3xl font-bold text-indigo-800">  {greeting()}  </h4>
           </div>
           <div className="right">
             <div className='bg-indigo-300 w-8 h-8 '></div>
