@@ -56,7 +56,10 @@ export default function Index() {
     let today = new Date()
     let curHr = today.getHours()
     let phrase ;
-    if (curHr < 12) {
+    if (curHr < 6){
+      phrase= "Good developing"
+    }
+    else if (curHr < 12) {
       phrase =  'Good morning'
     } else if (curHr < 18) {
       phrase =  'Good afternoon'

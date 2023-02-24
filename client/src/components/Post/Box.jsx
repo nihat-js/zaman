@@ -1,27 +1,27 @@
 import axios from "axios";
-import { getCookie } from "../utils/getCookie";
+import { getCookie } from "../../utils/getCookie";
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
 
-import AddComment from "./Comment/Add";
-import CommentBox from './Comment/Box'
-import Skleton from "./Comment/Skleton"
-import heartSvg from "../assets/svg/heart.svg"
-import heartOffSvg from "../assets/svg/heart-off.svg"
-import gallerySvg from "../assets/svg/gallery.svg"
+import AddComment from "../Comment/Add";
+import CommentBox from '../Comment/Box'
+import Skleton from "../Comment/Skleton"
+import heartSvg from "../../assets/svg/heart.svg"
+import heartOffSvg from "../../assets/svg/heart-off.svg"
+import gallerySvg from "../../assets/svg/gallery.svg"
 
-import likeSvg from "../assets/svg/like.svg"
-import likeFilledSvg from '../assets/svg/like-filled.svg'
-import likeColorfulSvg from '../assets/svg/like-colorful.svg'
-import loveSvg from '../assets/svg/love.svg'
-import hahaSvg from '../assets/svg/haha.svg'
-import commentSvg from '../assets/svg/comment.svg'
-import shareSvg from '../assets/svg/share.svg'
-import saveSvg from '../assets/svg/save.svg'
-import getUser from "../utils/getUser"
+import likeSvg from "../../assets/svg/like.svg"
+import likeFilledSvg from '../../assets/svg/like-filled.svg'
+import likeColorfulSvg from '../../assets/svg/like-colorful.svg'
+import loveSvg from '../../assets/svg/love.svg'
+import hahaSvg from '../../assets/svg/haha.svg'
+import commentSvg from '../../assets/svg/comment.svg'
+import shareSvg from '../../assets/svg/share.svg'
+import saveSvg from '../../assets/svg/save.svg'
+import getUser from "../../utils/getUser"
 
-import threeDotsSvg from '../assets/svg/three-dots.svg'
-import Avatar from "./Avatar";
+import threeDotsSvg from '../../assets/svg/three-dots.svg'
+import Avatar from "../Avatar";
 
 const user = getUser()
 
@@ -32,7 +32,7 @@ export default function PostBox(props) {
   let { avatar, username } = props.data.author_id
 
   const [comments, setComments] = useState([])
-  const [commentsStatus, setCommentsStatus] = useState("closed") // closed loading open
+  const [commentsStatus, setCommentsStatus] = useState("closed") // closed, loading,  open
   const [showComments, setShowComments] = useState(false)
   const [areCommentsLoading, setAreCommentsLoading] = useState(false)
 

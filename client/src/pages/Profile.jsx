@@ -11,7 +11,8 @@ import rowSvg from '../assets/svg/row.svg'
 import gridSvg from '../assets/svg/grid.svg'
 
 
-import PostBox from '../components/PostBox'
+import PostBox from "../components/Post/Box"
+import PostSkleton from "../components/Post/Skleton"
 import Nav from '../components/Nav'
 export default function Index() {
 

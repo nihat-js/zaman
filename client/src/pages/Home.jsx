@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 
 import { getCookie } from '../utils/getCookie'
 import Nav from '../components/Nav'
-import PostBox from '../components/PostBox'
+import PostBox from '../components/Post/Box'
+import PostSkleton from "../components/Post/Skleton"
 import CreatePost from "../components/CreatePost";
 import SuggestedProfiles from "../components/SuggestedProfiles";
 import Notification from '../components/Notification'
@@ -14,14 +15,17 @@ import LeftNav from "../components/LeftNav"
 export default function Index() {
 
 
-  const [posts, setPosts] = useState([])
-  const [place,setPlace] = useState("feed")
+  const [posts, setPosts] = useState("loa")
+  const [place, setPlace] = useState("feed") // explore // trend
+  
 
-  async function getHomePosts() {
+  async function loadPosts() {
+    setPosts("loading")
+    // console.log('zz')
     try {
-      let response = await axios.post('http://localhost:5000/api/get/home-posts', { token: getCookie('token') })
+      let response = await axios.post('http://localhost:5000/api/post/place', { name : "feed", token: getCookie('token') })
+      // console.log(response.data)
       setPosts(response.data)
-      console.log(response.data)
     } catch (err) {
       console.log(err)
     }
@@ -29,8 +33,9 @@ export default function Index() {
 
 
 
+
   useEffect(() => {
-    getHomePosts()
+    // loadPosts()
   }, [])
 
   return (
@@ -43,7 +48,10 @@ export default function Index() {
         </div>
         <div className="w-7/12">
           <CreatePost />
-          {posts.map((item, index) => <PostBox key={index} data={item} />)}
+          { 
+          typeof(posts) == "object"  ? posts.map((item, index) => <PostBox key={index} data={item} />)  :
+          <PostSkleton />
+          }
         </div>
         <div className="w-3/12">
           <Notification />
