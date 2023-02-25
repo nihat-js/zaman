@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 import getUser from "../../utils/getUser"
-const user = getUser()
-
+import { MainContext } from '../../contexts/Main'
+import { useContext } from 'react'
+import { host } from '../../config/config'
 export default function Avatar(props) {
-
+  const {user,updateUser} = useContext(MainContext)
   const { className, avatar, username, style, me } = props
-  const host = "http://localhost:5000/"
   let src,to
   if (me) {
     src = user.avatar ? host + "/avatars/" + user.avatar : host + "/avatars/default.svg"

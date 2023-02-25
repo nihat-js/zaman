@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { useContext } from 'react'
+import {MainContext} from "../contexts/Main"
+import {host} from "../config/config"
 
 import zamanImage from '../assets/svg/zaman.png'
-
-
-import getUser from '../utils/getUser'
-import getTheme from '../utils/getTheme'
 import logoutSvg from '../assets/svg/logout.svg'
 import homeSvg from '../assets/svg/home.svg'
 import chatSvg from '../assets/svg/chat.svg'
@@ -22,6 +21,7 @@ export default function Index() {
   const [searchResults, setSearchResults] = useState([])
   const [hasFocus, setHasFocus] = useState(false)
 
+  const  { user }  = useContext(MainContext)
 
   async function search() {
     if (!value || value.length < 2) {
@@ -29,7 +29,7 @@ export default function Index() {
       return false
     }
     try {
-      let result = await axios.post('http://localhost:5000/api/search', { value: value })
+      let result = await axios.post(host +"api/search", { value: value })
       setSearchResults(result.data)
       // console.log(result.data)
     } catch (err) {
@@ -40,7 +40,6 @@ export default function Index() {
 
 
   const linkClassName = "px-4 py-2 rounded-lg hover:bg-gray-300 cursor-pointer "
-  const user = getUser()
 
 
   return (

@@ -21,7 +21,7 @@ export default function Index() {
 
   function isLoggedIn() {
     if (getCookie('token')) {
-      navigate('/feed')
+      navigate('/')
     }
   }
 

@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 
 async function auth(req, res, next) {
-// console.log('verifying');
+console.log('verifying');
   let { token } = req.body
   if (!token) {
     return res.status(406).send()

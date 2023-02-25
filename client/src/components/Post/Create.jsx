@@ -8,9 +8,9 @@ import getUser from '../../utils/getUser'
 import cameraSvg from '../../assets/svg/camera.svg'
 import closeSvg from '../../assets/svg/close.svg'
 import loadingSvg from "../../assets/svg/loading.svg"
-const user = getUser()
-const { username, avatar } = user
 export default function CreatePost() {
+  const user = getUser()
+  const { username, avatar } = user
 
   const [text, setText] = useState('');
   const inputFile = useRef()

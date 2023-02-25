@@ -12,7 +12,7 @@ import PostBox from "../components/Post/Box"
 import PostSkleton from "../components/Post/Skleton"
 import Nav from '../components/Nav'
 import getUser from "../utils/getUser"
-
+import {host} from "../config/config"
 
 export default function Index() {
   const params = useParams()
@@ -21,7 +21,6 @@ export default function Index() {
   const target_username = params.username
   const [target, setTarget] = useState("Loading")
   const [posts, setPosts] = useState([])
-  const host = "http://localhost:5000/"
   let me;
 
 

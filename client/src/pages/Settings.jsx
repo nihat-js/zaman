@@ -5,35 +5,53 @@ import Username from "../components/User/Username"
 import LeftNav from "../components/Settings/LeftNav"
 import logo from "../assets/svg/logo.png"
 import { host } from "../config/config"
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { getCookie } from "../utils/getCookie"
+import { MainContext } from '../contexts/Main'
+
+
 export default function Index() {
 
-
-  let [user, setUser] = useState("loading")
+  let { user, updateUser } = useContext(MainContext)
+  let [data, setData] = useState("loading")
   let [form, setForm] = useState({})
-  let [file, setFile] = useState()
 
 
-  async function setAvatar(e) {
-    let obj = {}
-    obj.token = getCookie('token') 
-    if (typeof (e) == "string") {
-      obj.file_name = e
-    } else if (typeof (e) == "object") {
-      obj.file = e.target.files[0]
+  async function uploadAvatar(e){
+    if (!e.target.files[0] ) return false
+    try{
+      let formData = new FormData()
+      formData.append('file', e.target.files[0])
+      formData.append('token', getCookie('token') )
+      let result = await axios.post(host + "/api/user/avatar/upload")
+      // updateUser({avatar : result.data  })
+    }catch(err){
+      console.log(err)
     }
-    console.log()
+  }
+
+
+ 
+
+
+  async function setAvatar(file_name) {
     try {
-      let result = await axios.post(host + "/api/user/avatar/set",  obj )
+      let result = await axios.post(host + "api/user/avatar/set", { token: getCookie('token'), file_name })
+      if (result) {
+        updateUser({ avatar: file_name })
+      }
       console.log(result)
     } catch (err) {
       console.log(err)
     }
   }
 
-  const tabs = [{ name: "Public settings", }, { name: "Account Security" },]
+
+  async function handleInput()
+
+
+ 
   const [currentTabName, setCurrentTabName] = useState('')
 
 
@@ -56,26 +74,13 @@ export default function Index() {
       <Nav />
       <div style={{ maxWidth: "1200px" }} className='flex gap-12 mx-auto '>
         <div className='w-4/12'>
-          <nav className="left-nav w-full   bg-indigo-800    py-10 rounded-r-2xl ">
-            <div className="img-wrap mb-10 px-5">
-              {/* <img src={logo} alt="" /> */}
-            </div>
-            {tabs.map((item, index) => {
-              return (
-                <div onClick={() => setCurrentTabName(item.name)}
-                  className={`flex gap-8 group text-white w-full relative hover:bg-slate-50  py-4 px-5   `}>
-                  {/* <img src={item.} alt="" className='w-8' /> */}
-                  <span className="  font-semibold group-hover:text-indigo-800" >  {item.name} </span>
-                </div>
-              )
-            })}
-          </nav>
+          <LeftNav />
         </div>
 
 
         <div className='w-8/12 mt-8 '>
           <form action="" encType='multipart/form-data' >
-            <input onChange={(e) => setAvatar(e)} id="file" type="file" name="file" className='hidden' />
+            <input onChange={(e) => uploadAvatar(e)} id="file" type="file" name="file" className='hidden' />
           </form>
           <header className='flex gap-12 '>
             <Avatar style={{ width: "100px" }} me={true} />
@@ -88,40 +93,21 @@ export default function Index() {
             </div>
             <div>
               <div className="img-wrap flex gap-3 mb-4">
-                <img className='w-12 rounded-md cursor-pointer  ' src={host + "/avatars/sample-1.svg"} alt="" />
-                <img className='w-12 rounded-md cursor-pointer  ' src={host + "/avatars/sample-2.svg"} alt="" />
-                <img className='w-12 rounded-md cursor-pointer  ' src={host + "/avatars/sample-3.svg"} alt="" />
-                <img className='w-12 rounded-md cursor-pointer  ' src={host + "/avatars/sample-4.svg"} alt="" />
+                {
+                  ["sample-1.svg", "sample-2.svg", "sample-3.svg", "sample-4.svg"].map((i, j) => {
+                    return <img key={j} onClick={() => setAvatar(i)}
+                      className='w-12 rounded-md cursor-pointer hover:border-indigo-400 border-2 hover:brightness-90 ' src={host + "avatars/" + i} />
+                  })
+                }
               </div>
               <p className="text"> Or use sample images </p>
             </div>
           </header>
 
-          <div style={{ maxWidth: "500px" }} className="username-group flex  mt-10 gap-4 items-center">
-            <label htmlFor='username' className="username w-3/12  font-semibold text-xl text-gray-500 "> Username </label>
-            <input value={typeof (user) == "object" ? user.username : "ee"}
-              className='w-9/12 outline-none px-2 py-3  border border-indigo-300 focus:border-indigo-500 rounded-sm' type="text" id="username" />
-          </div>
+          <UsernameInput />
 
-          <div style={{ maxWidth: "500px" }} className="email-group flex  mt-8 gap-4 items-center">
-            <label htmlFor='email' className="email w-3/12  font-semibold text-xl text-gray-500 "> Email </label>
-            <input value={typeof (user) == "object" ? user.email : ""}
-              className='w-9/12 outline-none px-2 py-3  border border-indigo-300 rounded-sm focus:border-indigo-500 ' type="text" id="email" />
-          </div>
 
-          <div style={{ maxWidth: "500px" }} className="number-group flex  mt-8 gap-4 items-center">
-            <label htmlFor='number' className="number w-3/12  font-semibold text-xl text-gray-500 "> Phone number </label>
-            <input value={typeof (user) == "object" ? user.phone_number : ""}
-              className='w-9/12 outline-none px-2 py-3  border border-indigo-300 rounded-sm focus:border-indigo-500 ' type="text" id="number" />
-          </div>
 
-          <div style={{ maxWidth: "500px" }} className="bio-group flex  mt-8 gap-4 items-center">
-            <label htmlFor='bio' className="bio w-3/12  font-semibold text-xl text-gray-500 "> Bio </label>
-            <textarea
-              className='w-9/12 outline-none px-2 py-3  border border-indigo-300 rounded-sm focus:border-indigo-500 resize-none '
-              type="text" id="bio"
-              value={typeof (user) == "object" ? user.bio : ""} />
-          </div>
 
           <div style={{ maxWidth: "500px" }} className="gender-group flex  mt-8 gap-4 items-center">
             <p className='w-3/12' > Gender </p>
@@ -152,6 +138,55 @@ export default function Index() {
 }
 
 
+function UsernameInput(props) {
+  const { data, handleInput } = props.data
+  return (
+    <div style={{ maxWidth: "500px" }} className="username-group flex  mt-10 gap-4 items-center">
+      <label htmlFor='username' className="username w-3/12  font-semibold text-xl text-gray-500 "> Username </label>
+      <input name="username"
+        value={typeof (user) == "object" ? user.username : "ee"} onChange={(e) => handleInput(e)}
+        className='w-9/12 outline-none px-2 py-3  border border-indigo-300 focus:border-indigo-500 rounded-sm' type="text" id="username" />
+    </div>
+  )
+}
+
+function EmailInput(props) {
+  const { data, handleInput } = props.data
+  return (
+    <div style={{ maxWidth: "500px" }} className=" flex  mt-10 gap-4 items-center">
+      <label htmlFor='email' className="email w-3/12  font-semibold text-xl text-gray-500 "> Email </label>
+      <input name="email"
+        value={typeof (user) == "object" ? data.email : "ee"} onChange={(e) => handleInput(e)}
+        className='w-9/12 outline-none px-2 py-3  border border-indigo-300 focus:border-indigo-500 rounded-sm' type="text" id="username" />
+    </div>
+  )
+}
+
+function BioInput(props) {
+  return (
+    <div style={{ maxWidth: "500px" }} className="bio-group flex  mt-8 gap-4 items-center">
+      <label htmlFor='bio' className="bio w-3/12  font-semibold text-xl text-gray-500 "> Bio </label>
+      <textarea
+        className='w-9/12 outline-none px-2 py-3  border border-indigo-300 rounded-sm focus:border-indigo-500 resize-none '
+        type="text" id="bio"
+        value={typeof (user) == "object" ? user.bio : ""} />
+    </div>
+
+  )
+}
+
+
+function PhoneInput(props) {
+  const { data, handleInput } = props.data
+  return (
+    <div style={{ maxWidth: "500px" }} className="number-group flex  mt-8 gap-4 items-center">
+      <label htmlFor='number' className="number w-3/12  font-semibold text-xl text-gray-500 "> Phone number </label>
+      <input value={typeof (user) == "object" ? user.phone_number : ""}
+        className='w-9/12 outline-none px-2 py-3  border border-indigo-300 rounded-sm focus:border-indigo-500 ' type="text" id="number" />
+    </div>
+
+  )
+}
 
 
 
