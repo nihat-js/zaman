@@ -3,10 +3,10 @@ const Follow = require('../../models/Follow')
 const bcrypt = require('bcrypt')
 const path = require('path')
 const allowedExtension = ['png', 'jpg', 'jpeg'];
-const sampleNames = [  "sample-1.svg",   "sample-2.svg", "sample-3.svg","sample-4.svg" ]
+const sampleNames = ["sample-1.svg", "sample-2.svg", "sample-3.svg", "sample-4.svg"]
 
 
-exports.suggestedProfiles =  async function suggestedProfiles(req, res) {
+exports.suggestedProfiles = async function suggestedProfiles(req, res) {
   const { user_id } = req.body
   let users = await User.find({ _id: { $ne: user_id } }).select("_id username avatar privacy ").lean()
 
@@ -53,7 +53,7 @@ exports.editBio = async function (req, res) {
 }
 
 
-exports.changePassword = async function (req, res)  {
+exports.changePassword = async function (req, res) {
 
   const { user_id, old_password, new_password } = req.body
 
@@ -150,4 +150,73 @@ async function changePrivacy(req, res) {
   }
 
   return res.json({ message: "User privacy changed", status: true })
+}
+
+
+exports.accountEdit = async function (req, res) {
+  let { user_id, username, email, phone_number, bio, gender } = req.body
+
+  let obj = {}
+
+  if (username) {
+    username = username.trim().toLowerCase()
+    let isExists = await User.findOne({ username: username })
+    isExists ? res.status(406).json({ message: "Username already exists", }) : obj.username = username
+  }
+  if (email) {
+    let isExists = await User.findOne({ email: email })
+    isExists ? res.status(406).json({ message: "Email already exists", }) : obj.email = email
+  }
+  if (phone_number) {
+    obj.phone_number = phone_number
+  }
+  if (bio && bio.length < 12) {
+    obj.bio = bio
+  }
+  if (gender && ['male', 'female'].includes(gender)) {
+    obj.gender = gender
+  }
+
+}
+
+exports.account = async function (req, res) {
+  console.log('po')
+  let { user_id } = req.body
+  let user = await User.findById(user_id).select("username email phone_number bio gender").lean()
+  return res.status(200).json(user)
+
+
+}
+
+exports.avatarSet = async function (req, res) {
+  let allowedSampleNames = ['sample-1.svg', 'sample-2.svg', 'sample-3.svg', 'sample-4.svg']
+  let allowedExtensions = ['png', 'jpg', 'jpeg',]
+  let { image } = req.files
+  let { sample_name  , user_id } = req.body
+
+  if (image) {
+    let ext = image.name.split(".").pop()
+    let isAllowed = allowedExtensions.includes(ext)
+    if (!isAllowed) return res.status(466).send()
+    let fileName = new Date().getTime() + "." + ext;
+    try {
+      await req.files.image.mv("storage/images/" + fileName,)
+      let result = await User.findByIdAndUpdate(req.body.user_id, { avatar: fileName })
+      console.log("deal with")
+    } catch (err) {
+      console.log(err)
+    }
+
+
+  } else if (sample_name) {
+
+    let isAllowed = allowedSampleNames.includes(sample_name)
+    if (!isAllowed) return res.status(467).send()
+  
+    let result = User.findByIdAndUpdate(user_id , { avatar: sample_name })
+    if (!result) return res.status(501)
+    res.status(201).send()
+  }
+
+
 }

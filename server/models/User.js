@@ -5,6 +5,9 @@ const schema = new mongoose.Schema({
   email : {type : String , required : true, unique: true,},
   password : {type : String, required: true},
   active_devices : [],
+  phone_number : {type : String, required : true, },
+  bio : { type :String ,    },
+  gender: {type : Number , required: true}, // 0 female 1 male
   avatar : {type : String , default : ''},
   cover : {type : String , default : ""} ,
   active_device : {},

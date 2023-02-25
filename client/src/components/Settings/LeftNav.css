@@ -1,0 +1,29 @@
+.left-nav  div:hover::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border-bottom-right-radius: 50%;
+  box-shadow: 30px 30px 0  10px  rgb(248 250 252);
+  pointer-events: none;
+  z-index: 3;
+  transform: translate(0 , -100%);
+}
+
+.left-nav  div:hover::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border-top-right-radius: 50%;
+  box-shadow: 30px -30px 0  10px  rgb(248 250 252);
+  pointer-events: none;
+  z-index: 4;
+  transform: translate(0 , 100%);
+}

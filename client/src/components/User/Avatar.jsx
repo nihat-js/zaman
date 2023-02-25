@@ -18,7 +18,7 @@ export default function Avatar(props) {
 
   return (
     <Link to={to} >
-      <img style={style} src={src} className={` w-8 cursor-pointer rounded-full ${className} hover:outline-indigo-600 outline-4   `} />
+      <img style={style} src={src} className={` w-8 cursor-pointer rounded-full hover:outline-2    ${className} hover:outline-indigo-600 outline outline-0  `} />
     </Link>
   )
 }

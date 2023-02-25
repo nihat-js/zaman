@@ -37,15 +37,16 @@ app.use('/api/message/',auth,message)
 app.use('/api/chat/',auth,chat)
 app.use("/api/post/",auth,post)
 app.use("/api/comment/",auth,comment)
-app.use("/api/admin/",admin)
+app.use("/api/admin",admin)
 
-app.use("/api/user",auth,user)
+app.use("/api/user/",auth,user)
 
 app.post('/api/follow',auth,follow)
 app.post('/api/unfollow',auth,unfollow)
 app.post('/api/search',search)
 
 
+app.post('/ok',(req,res) => res.send('ok') )
 
 
 const server = app.listen(process.env.PORT || 3000, () => { console.log(`Server is running on port ${server.address().port}`)})
