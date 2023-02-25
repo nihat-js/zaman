@@ -9,7 +9,7 @@ import emailSvg from '../assets/svg/email.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import { getCookie } from '../utils/getCookie'
 
-import InputGroup from '../components/InputGroup'
+import InputGroup from '../components/Entry/InputGroup'
 
 export default function Index() {
 

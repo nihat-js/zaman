@@ -7,10 +7,10 @@ import { getCookie } from '../utils/getCookie'
 import Nav from '../components/Nav'
 import PostBox from '../components/Post/Box'
 import PostSkleton from "../components/Post/Skleton"
-import CreatePost from "../components/CreatePost";
-import SuggestedProfiles from "../components/SuggestedProfiles";
-import Notification from '../components/Notification'
-import LeftNav from "../components/LeftNav"
+import CreatePost from "../components/Post/Create";
+import SuggestedProfiles from "../components/Home/SuggestedProfiles";
+import Notification from '../components/Home/Notification'
+import LeftNav from "../components/Home/LeftNav"
 
 export default function Index() {
 

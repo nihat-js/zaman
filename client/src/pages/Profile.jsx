@@ -2,9 +2,9 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { getCookie } from '../utils/getCookie'
 import { useEffect, useState } from 'react'
-import Avatar from '../components/Avatar'
-import Username from "../components/Username"
-import FollowButton from '../components/FollowButton'
+import Avatar from '../components/User/Avatar'
+import Username from "../components/User/Username"
+import FollowButton from '../components/User/FollowButton'
 import cakeSvg from '../assets/svg/cake.svg'
 import rowSvg from '../assets/svg/row.svg'
 import gridSvg from '../assets/svg/grid.svg'

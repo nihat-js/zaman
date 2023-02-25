@@ -15,7 +15,7 @@ import dashBoardSvg from "../assets/svg/dashboard.svg"
 import postsSvg from "../assets/svg/posts.svg"
 import reportsSvg from "../assets/svg/reports.svg"
 import threeLineHorizontalSvg from "../assets/svg/three-line-horizontal.svg"
-import Avatar from '../components/Avatar'
+import Avatar from '../components/User/Avatar'
 
 
 

@@ -1,4 +1,4 @@
-import Avatar from '../Avatar'
+import Avatar from '../User/Avatar'
 import heartSvg from "../../assets/svg/heart.svg"
 import heartOffSvg from "../../assets/svg/heart-off.svg"
 

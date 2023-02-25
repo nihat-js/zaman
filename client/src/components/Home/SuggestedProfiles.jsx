@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Skeleton from 'react-loading-skeleton'
 
-import { getCookie } from '../utils/getCookie'
-import loadingSvg from '../assets/svg/loading.svg'
+import { getCookie } from '../../utils/getCookie'
+import loadingSvg from '../../assets/svg/loading.svg'
 
 export default function SuggestedProfiles() {
 

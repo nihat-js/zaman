@@ -1,7 +1,7 @@
 import Nav from '../components/Nav'
 
-import Avatar from "../components/Avatar"
-import Username from "../components/Username"
+import Avatar from '../components/User/Avatar'
+import Username from "../components/User/Username"
 // import SettingsTab from "../components/Settings/Tab"
 
 

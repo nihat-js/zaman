@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from "axios"
 import {getCookie} from '../../utils/getCookie'
-import loadingSvg from '../assets/svg/loading.svg'
+import loadingSvg from '../../assets/svg/loading.svg'
 export default function FollowButton(props) {
 
   const {target_username} = props

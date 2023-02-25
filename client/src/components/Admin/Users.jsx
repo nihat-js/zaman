@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
-import Avatar from '../Avatar'
+import Avatar from '../User/Avatar'
 
 import lockOnSvg from "../../assets/svg/lock-on.svg"
 import lockOffSvg from "../../assets/svg/lock-off.svg"

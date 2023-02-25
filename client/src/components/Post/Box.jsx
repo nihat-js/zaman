@@ -3,7 +3,7 @@ import { getCookie } from "../../utils/getCookie";
 import { useEffect, useRef, useState } from "react";
 import { Link } from 'react-router-dom'
 
-import AddComment from "../Comment/Add";
+import AddComment from "../Comment/Box";
 import CommentBox from '../Comment/Box'
 import Skleton from "../Comment/Skleton"
 import heartSvg from "../../assets/svg/heart.svg"
@@ -22,7 +22,7 @@ import getUser from "../../utils/getUser"
 
 import threeDotsSvg from '../../assets/svg/three-dots.svg'
 import flagSvg from "../../assets/svg/flag.svg"
-import Avatar from "../Avatar";
+import Avatar from "../User/Avatar";
 
 const user = getUser()
 

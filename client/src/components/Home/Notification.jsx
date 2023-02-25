@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import notificationSvg from '../assets/svg/notification.svg'
-import arrowDownSvg from '../assets/svg/arrow-down.svg'
-import arrowUpSvg from '../assets/svg/arrow-up.svg'
+import notificationSvg from '../../assets/svg/notification.svg'
+import arrowDownSvg from '../../assets/svg/arrow-down.svg'
+import arrowUpSvg from '../../assets/svg/arrow-up.svg'
 
 export default function Notification() {
 

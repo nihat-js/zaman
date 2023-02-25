@@ -7,7 +7,7 @@ import refreshSvg from "../../assets/svg/refresh.svg"
 import { useEffect, useState } from "react"
 import StatsSkleton from './StatsSkleton'
 import StatsBox from './StatsBox'
-import Avatar from "../Avatar"
+import Avatar from "../User/Avatar"
 export default function DashBoard(props) {
   const { setCurrentTabName, showNames, setshowNames } = props
 
