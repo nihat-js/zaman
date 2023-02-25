@@ -11,12 +11,10 @@ const auth = require('./middlewares/auth')
 const message = require('./routes/message')
 const entry = require('./routes/entry')
 const chat = require('./routes/chat')
-const settings = require('./routes/settings')
-const get= require('./routes/get')
 const post = require("./routes/post")
 const comment = require("./routes/comment")
 const admin = require("./routes/admin")
-
+const user = require("./routes/user")
 
 
 
@@ -37,15 +35,16 @@ app.use(express.static('storage'))
 app.use('/api/entry/',entry)
 app.use('/api/message/',auth,message)
 app.use('/api/chat/',auth,chat)
-app.use('/api/settings',auth,settings)
-app.use('/api/get/',get)
 app.use("/api/post/",auth,post)
 app.use("/api/comment/",auth,comment)
 app.use("/api/admin/",admin)
 
+app.use("/api/user",auth,user)
+
 app.post('/api/follow',auth,follow)
 app.post('/api/unfollow',auth,unfollow)
 app.post('/api/search',search)
+
 
 
 

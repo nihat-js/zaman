@@ -1,32 +1,31 @@
 import Nav from '../components/Nav'
 
-import Avatar from '../components/Settings/Avatar'
-import Main from '../components/Settings/Main'
-import Password from '../components/Settings/Password'
-import Privacy from '../components/Settings/Privacy'
-import Story from '../components/Settings/Story'
+import Avatar from "../components/Avatar"
+import Username from "../components/Username"
+// import SettingsTab from "../components/Settings/Tab"
+
 
 import { useEffect, useState } from 'react'
 
 
 export default function Index() {
 
-  const tabNames = ['Set Profile Picture', 'Main', 'Change Password', 'Privacy', 'Story']
-  const tabComponents = [<Avatar/>, <Main />, <Password />, <Privacy />, <Story />]
+  // const tabNames = ['Set Profile Picture', 'Main', 'Change Password', 'Privacy', 'Story']
+  // const tabComponents = [<Avatar/>, <Main />, <Password />, <Privacy />, <Story />]
 
 
-  useEffect(() => {
-    setActiveTab(tabNames[0])
-  }, [])
+  // useEffect(() => {
+  //   setActiveTab(tabNames[0])
+  // }, [])
 
-  const [activeTab, setActiveTab] = useState('')
+  // const [activeTab, setActiveTab] = useState('')
 
 
 
   return (
-    <div className="setttings-page min-h-screen w-full bg-slate-100">
+    <div className="setttings-page min-h-screen w-full bg-slate-50">
       <Nav />
-      <section className="start py-10">
+      {/* <section className="start py-10">
         <div className="container mx-auto ">
           <div className="row flex  gap-12">
             <div className="left-column w-3/12 border-r-gray-700 ">
@@ -40,10 +39,18 @@ export default function Index() {
                 return tabComponents[ tabNames.indexOf(activeTab)]
               }
               )()}
+              <Avatar me={true} />
+                  
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      <SettingsTab />
+
+
+
+      
     </div>
   )
 }

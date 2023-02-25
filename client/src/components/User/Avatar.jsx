@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import getUser from "../utils/getUser"
+import getUser from "../../utils/getUser"
 const user = getUser()
 
 export default function Avatar(props) {

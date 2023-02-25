@@ -1,4 +1,4 @@
-const User = require('../../models/User')
+const User = require('../models/User')
 async function index (req,res){
   const {user_id} = req.body
 

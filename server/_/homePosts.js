@@ -1,6 +1,6 @@
-const Post = require('../../models/Post')
-const Follows = require('../../models/Follow')
-const PostReaction = require('../../models/PostReaction')
+const Post = require('../models/Post')
+const Follows = require('../models/Follow')
+const PostReaction = require('../models/PostReaction')
 async function index(req, res) {
 
   const { user_id } = req.body

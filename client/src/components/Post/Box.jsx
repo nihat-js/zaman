@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getCookie } from "../../utils/getCookie";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from 'react-router-dom'
 
 import AddComment from "../Comment/Add";
@@ -21,6 +21,7 @@ import saveSvg from '../../assets/svg/save.svg'
 import getUser from "../../utils/getUser"
 
 import threeDotsSvg from '../../assets/svg/three-dots.svg'
+import flagSvg from "../../assets/svg/flag.svg"
 import Avatar from "../Avatar";
 
 const user = getUser()
@@ -31,11 +32,13 @@ export default function PostBox(props) {
   const { _id, createdAt, text, reactions, author_id, comments_count, sources } = props.data
   let { avatar, username } = props.data.author_id
 
+  
   const [comments, setComments] = useState([])
   const [commentsStatus, setCommentsStatus] = useState("closed") // closed, loading,  open
   const [showComments, setShowComments] = useState(false)
   const [areCommentsLoading, setAreCommentsLoading] = useState(false)
-
+  const [showOptions, setShowOptions] = useState(false)
+  const showOptionsRef = useRef()
   const host = "http://localhost:5000/"
   let isReacted = false
 
@@ -46,6 +49,7 @@ export default function PostBox(props) {
     avatar = avatar ? "http://localhost:5000/avatars/" + user.avatar : "http://localhost:5000/avatars/default.svg"
   }
 
+
   let totalReactionsCount = 0;
   // let timeForUser = calculateTimeForUser(createdAt)
   reactions.map(item => {
@@ -54,6 +58,13 @@ export default function PostBox(props) {
 
   let userLink = "/profile" + username
 
+
+  useEffect(() => {
+    document.addEventListener('mousedown', (e) => {
+      !showOptionsRef.current.contains(e.target) && showOptions ? setShowOptions(false) : ""
+
+    })
+  },[])
 
 
   async function loadComments() {
@@ -70,10 +81,10 @@ export default function PostBox(props) {
 
   async function reactToPost(name) {
     name = "primary"
-    try{
-      let response = await axios.post(host + "api/post/react",{ token: getCookie('token'), name: name, post_id: _id })
+    try {
+      let response = await axios.post(host + "api/post/react", { token: getCookie('token'), name: name, post_id: _id })
       console.log(response.data)
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
   }
@@ -85,9 +96,12 @@ export default function PostBox(props) {
   }
 
 
+
+
+
   return (
 
-    <div className="bg-gray-50 mb-6 py-5 px-5 rounded-md">
+    <div className="bg-gray-50 mb-6 py-5 px-5 rounded-md"  >
       <header className="flex justify-between px-2 mb-5 items-center" >
         <div className="left flex gap-3">
           <Link to={userLink} >
@@ -98,12 +112,24 @@ export default function PostBox(props) {
           </Link>
 
         </div>
-        <div className="right">
-          <img className="w-8 p-1 rounded-full cursor-pointer hover:bg-slate-200" src={threeDotsSvg} alt="" />
+        <div className="right relative">
+          <img onClick={() => setShowOptions(true)}
+            className="three w-8 p-1 rounded-full cursor-pointer hover:bg-slate-200" src={threeDotsSvg} alt="" />
+          <div ref={showOptionsRef}
+            className={`absolute bg-white   rounded-md  shadow-md   ${showOptions ? "" : "hidden"} `}>
+            <button className="px-2 py-3  rounded hover:bg-slate-100  ">  Unfollow</button>
+            <button className="px-2 py-3  rounded hover:bg-slate-100  ">  Visit Profile </button>
+            <button className="px-2 py-3  rounded hover:bg-slate-100 flex gap-2  ">
+              <img src={flagSvg} className="w-6" />
+              <span> Report  </span>
+            </button>
+            <button className="text-red-800 px-2 py-3  rounded hover:bg-slate-100 flex gap-2 "> Delete post </button>
+
+          </div>
         </div>
       </header>
       <div className="gallery relative mb-8">
-        {sources?.[0] && <img onDoubleClick={reactToPost}  src={"http://localhost:5000/images/" + sources[0]} />}
+        {sources?.[0] && <img onDoubleClick={reactToPost} src={"http://localhost:5000/images/" + sources[0]} />}
         <div className="indicator"></div>
       </div>
       <div className="actions flex gap-2 items-center mb-5 ">
@@ -136,6 +162,6 @@ export default function PostBox(props) {
     </div>
 
 
- 
+
   )
 }

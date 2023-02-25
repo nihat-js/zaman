@@ -24,6 +24,8 @@ export default function Index({ children }) {
     setTheme(currentTheme)
 
   }, [])
+
+
   const [theme, setTheme] = useState("")
 
 

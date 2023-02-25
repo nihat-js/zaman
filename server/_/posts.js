@@ -1,5 +1,5 @@
-const User = require("../../models/User")
-const Follow = require('../../models/Follow')
+const User = require("../models/User")
+const Follow = require('../models/Follow')
 async function index (req,res){
   const {user_id,target_username , skip , limit} = req.body
 

@@ -2,8 +2,8 @@ import { useRef, useState } from "react";
 import gallerySvg from '../assets/svg/gallery.svg'
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { getCookie } from "../utils/getCookie";
-import getUser from '../utils/getUser'
+import { getCookie } from "../../utils/getCookie";
+import getUser from '../../utils/getUser'
 import cameraSvg from '../assets/svg/camera.svg'
 import closeSvg from '../assets/svg/close.svg'
 import loadingSvg from "../assets/svg/loading.svg"

@@ -1,8 +1,8 @@
-import exploreSvg from "../assets/svg/explore.svg"
-import popularSvg from "../assets/svg/popular.svg"
-import feedSvg from "../assets/svg/feed.svg"
+import exploreSvg from "../../assets/svg/explore.svg"
+import popularSvg from "../../assets/svg/popular.svg"
+import feedSvg from "../../assets/svg/feed.svg"
 import { useState } from "react"
-export default function LeftNav(props) {
+export default function Tab(props) {
 
   const {place,setPlace} = props
 

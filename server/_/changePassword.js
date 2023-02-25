@@ -1,5 +1,5 @@
 const bcrypt  = require('bcrypt')
-const User = require('../../models/User')
+const User = require('../models/User')
 async function index(req,res){
   const {user_id,old_password,new_password} = req.body
 
@@ -21,5 +21,6 @@ async function index(req,res){
 
   const token = jwt.sign({user_id:user_id},process.env.SECRET)
 
+  
   
 }
