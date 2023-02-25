@@ -13,9 +13,25 @@ export default function Index() {
 
   let [user, setUser] = useState("loading")
   let [form, setForm] = useState({})
+  let [file, setFile] = useState()
 
 
-
+  async function setAvatar(e) {
+    let obj = {}
+    obj.token = getCookie('token') 
+    if (typeof (e) == "string") {
+      obj.file_name = e
+    } else if (typeof (e) == "object") {
+      obj.file = e.target.files[0]
+    }
+    console.log()
+    try {
+      let result = await axios.post(host + "/api/user/avatar/set",  obj )
+      console.log(result)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const tabs = [{ name: "Public settings", }, { name: "Account Security" },]
   const [currentTabName, setCurrentTabName] = useState('')
@@ -38,7 +54,6 @@ export default function Index() {
   return (
     <div className="setttings-page min-h-screen w-full bg-slate-50">
       <Nav />
-
       <div style={{ maxWidth: "1200px" }} className='flex gap-12 mx-auto '>
         <div className='w-4/12'>
           <nav className="left-nav w-full   bg-indigo-800    py-10 rounded-r-2xl ">
@@ -57,13 +72,19 @@ export default function Index() {
           </nav>
         </div>
 
+
         <div className='w-8/12 mt-8 '>
+          <form action="" encType='multipart/form-data' >
+            <input onChange={(e) => setAvatar(e)} id="file" type="file" name="file" className='hidden' />
+          </form>
           <header className='flex gap-12 '>
             <Avatar style={{ width: "100px" }} me={true} />
             <div>
               <Username me={true} style={{ color: "#192021" }} />
-              <button className='text-indigo-800 mt-8 border-indigo-800 border  px-2 py-1 
-            rounded-md hover:bg-indigo-800 hover:text-white '> Change Avatar </button>
+              <label htmlFor="file">
+                <p className='text-indigo-800 mt-8 border-indigo-800 border  px-2 py-1 
+                  rounded-md hover:bg-indigo-800 hover:text-white '> Change Avatar </p>
+              </label>
             </div>
             <div>
               <div className="img-wrap flex gap-3 mb-4">

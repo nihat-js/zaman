@@ -180,7 +180,6 @@ exports.accountEdit = async function (req, res) {
 }
 
 exports.account = async function (req, res) {
-  console.log('po')
   let { user_id } = req.body
   let user = await User.findById(user_id).select("username email phone_number bio gender").lean()
   return res.status(200).json(user)
@@ -189,6 +188,7 @@ exports.account = async function (req, res) {
 }
 
 exports.avatarSet = async function (req, res) {
+  console.log('printer')
   let allowedSampleNames = ['sample-1.svg', 'sample-2.svg', 'sample-3.svg', 'sample-4.svg']
   let allowedExtensions = ['png', 'jpg', 'jpeg',]
   let { image } = req.files
@@ -201,7 +201,7 @@ exports.avatarSet = async function (req, res) {
     let fileName = new Date().getTime() + "." + ext;
     try {
       await req.files.image.mv("storage/images/" + fileName,)
-      let result = await User.findByIdAndUpdate(req.body.user_id, { avatar: fileName })
+      let result = await User.findByIdAndUpdate(user_id, { avatar: fileName })
       console.log("deal with")
     } catch (err) {
       console.log(err)
