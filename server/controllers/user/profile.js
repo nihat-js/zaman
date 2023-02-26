@@ -1,4 +1,5 @@
-
+const User = require("../../models/User")
+const Follow = require("../../models/Follow")
   async function profile(req, res) {
   const { user_id, target_username } = req.body
   // console.log("target" , target_username)
@@ -14,6 +15,8 @@
   let isFollowing = await Follow.findOne({ who_id: user_id, whom_id: target_id })
   if (isFollowing) {
     target.isFollowing = true
+  }else{
+    target.isFollowing = false
   }
 
   return res.status(200).json(target)

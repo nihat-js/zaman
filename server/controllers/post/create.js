@@ -6,6 +6,7 @@ async function post(req, res) {
   let sources = []
   // console.log(req.files)
   // console.log('starting')
+  
   for (let i = 0; i < 5; i++) {
     console.log("loop", i)
     if (req.files["image" + i]) {

@@ -3,8 +3,7 @@ const User = require('../models/User');
 
 
 
-async function auth(req, res, next) {
-// console.log('verifying');
+async function adminAuth(req, res, next) {
   let { token } = req.body
   if (!token) {
     return res.status(406).send()
@@ -16,12 +15,12 @@ async function auth(req, res, next) {
     return res.status(401).send()
   }
   
-  if (user.active_device?.session == decoded.session) {
+  if (user.active_device?.session == decoded.session && user.role > 0 ) {
     req.body.user_id = decoded.user_id
-    // console.log("Authentication successfull")
+    console.log("Admin adminAuth")
     next()
   }
 }
 
 
-module.exports = auth
+module.exports = adminAuth

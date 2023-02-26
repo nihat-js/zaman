@@ -31,21 +31,28 @@ async function main(req, res) {
     } else {
       const target = await User.findOne({ username: target_username })
       if (!target) return res.status(404).send()
-      posts = await Post.find({ author_id: target._id }).limit(limit).skip(0).populate({
+      posts = await Post.find({ author_id: target._id }).limit(10).skip(0).populate({
         path: "author_id",
         select: "username avatar"
       }).lean()
     }
+    console.log(posts)
   }
-  
-  for (let i = 0; i < arr.length; i++) {
-    let reaction = await PostReaction.findOne({ post_id: arr[i]._id })
+
+  if(!posts ){
+    return res.status(200).json()
+  }
+
+  let arr = JSON.parse(JSON.stringify(posts))
+  for (let i = 0; i <arr.length; i++) {
+    let reaction = await PostReaction.findOne({ post_id: arr[i]._id , user_id })
+
     if (reaction) {
-      arr[i].reaction = arr.name
+      arr[i].reaction = reaction.name
     }
   }
-  
-  return res.status(200).json(posts)
+  console.log(arr)
+  return res.status(200).json(arr)
 }
 
 module.exports = main

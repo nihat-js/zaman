@@ -37,7 +37,7 @@ export default function Index() {
   async function loadPosts() {
     setPosts("loading")
     try {
-      let response = await axios.post(host + 'api/post/place', { name: "profile", token: getCookie('token') })
+      let response = await axios.post(host + 'api/post/place', { name: "user", token: getCookie('token') , target_username : target_username })
       console.log(response.data)
       setPosts(response.data)
     } catch (err) {
@@ -56,11 +56,11 @@ export default function Index() {
     }
   }
 
-  async function loadProfile() {
+  async function loadUser() {
     try {
-      let response = await axios.post(host + "api/get/target-profile", { token: getCookie('token'), target_username: target_username })
+      let response = await axios.post(host + "api/user/profile", { token: getCookie('token'), target_username: target_username })
       setTarget(response.data)
-      console.log(response)
+      console.log("loadUser",response)
     } catch (err) {
       console.log(err)
     }
@@ -69,8 +69,8 @@ export default function Index() {
 
 
   useEffect(() => {
-    loadProfile()
-    loadPosts()
+    loadUser()
+    // loadPosts()
   }, [])
 
 

@@ -3,7 +3,7 @@ import closeSvg from "../../assets/svg/close-black.svg"
 import { useEffect, useState } from "react"
 
 export default function Popup(props) {
-  let { setShowPopup, user } = props
+  let { close, user } = props
   useEffect(() => {
     window.addEventListener('click', (e) => {
       if (e.target.classList.contains('ban-popup')) {
@@ -23,7 +23,7 @@ export default function Popup(props) {
           <header className='flex justify-between mb-4'>
             <p></p>
             <p className='text-3xl font-bold '> Ban user </p>
-            <img onClick={() => setShowPopup(false)} className='w-6  hover:-rotate-90 duration-300 cursor-pointer' src={closeSvg} alt="" />
+            <img onClick={() => close() } className='w-6  hover:-rotate-90 duration-300 cursor-pointer' src={closeSvg} alt="" />
           </header>
           <div className="input flex gap-8 items-center mb-4  ">
             <span className='w-2/12 font-semibold ' > User Id </span>

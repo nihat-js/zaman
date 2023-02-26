@@ -7,7 +7,8 @@ import lockOffSvg from "../../assets/svg/lock-off.svg"
 import trashSvg from "../../assets/svg/trash.svg"
 import flagSvg from "../../assets/svg/flag.svg"
 
-import UserBanPopup from './UserBanPopup'
+import UserNotificationModal from './UserNotificationModal'
+import UserBanModal from './UserBanModal'
 
 export default function Users() {
 
@@ -30,16 +31,16 @@ export default function Users() {
   }
 
   async function handleSearch(value, isClicked) {
-    if (value.length < 2){
-      return  false
+    if (value.length < 2) {
+      return false
     }
-    
-    console.log('clik',isClicked)
+
+    console.log('clik', isClicked)
     if (searchType != "Username" && !isClicked) return false
     let obj = {}
     searchType == "Username" ? obj = { username: value } :
-    searchType == "Email" ? obj = { email: value } :
-    searchType == "Id" ? obj = { id: value } : null
+      searchType == "Email" ? obj = { email: value } :
+        searchType == "Id" ? obj = { id: value } : null
     try {
       console.log('ob', obj)
       let result = await axios.post("http://localhost:5000/" + "api/admin/user/search", obj)
@@ -53,30 +54,41 @@ export default function Users() {
   }
 
   const [selectedUser, setSelectedUser] = useState({})
-
+  const [showModal, setShowModal] = useState()
   useEffect(() => {
     loadUsers()
   }, [])
 
-  useEffect(() => {
-    window.addEventListener('click', handleClickOutside)
-    return () => {
-      window.removeEventListener('click', handleClickOutside)
-    }
-  }, [])
+  // useEffect(() => {
+  //   window.addEventListener('click', handleClickOutside)
+  //   return () => {
+  //     window.removeEventListener('click', handleClickOutside)
+  //   }
+  // }, [])
 
 
-  function handleClickOutside(e) {
-    !searchResultsRef.current.contains(e.target) && showSearchResults ? setShowSearchResults(false) : ""
-  }
+  // function handleClickOutside(e) {
+  //   !searchResultsRef.current.contains(e.target) && showSearchResults ? setShowSearchResults(false) : ""
+  // }
+
 
 
 
 
   return (
     <div className='page'>
+      {
+        (() => {
+          if (showModal == "ban") {
+            console.log('unut')
+            return <UserBanModal user={selectedUser} close={() => setShowModal("")} />
+          } else if (showModal == "notification") {
+            return <UserNotificationModal user={selectedUser} close={() => setShowModal("")} />
+          }
+        })()
+      }
       {showPopup && <UserBanPopup user={selectedUser} setShowPopup={setShowPopup} />}
-
+      {showPopup && <UserBanPopup user={selectedUser} setShowPopup={setShowPopup} />}
       <div className="find-user mb-16">
 
         <div class="py-4">
@@ -87,8 +99,8 @@ export default function Users() {
             <Dropdown searchTypes={searchTypes} searchType={searchType} setSearchType={setSearchType} />
 
             <div className="relative ">
-              <input onFocus={() => setShowSearchResults(true) } 
-              onChange={(e) => handleSearch(e.target.value)} type="search" placeholder=" Lowercase letters "
+              <input onFocus={() => setShowSearchResults(true)}
+                onChange={(e) => handleSearch(e.target.value)} type="search" placeholder=" Lowercase letters "
                 class="border-2 rounded px-3 py-1 w-full focus:border-indigo-400 outline-none" />
               <div ref={searchResultsRef}
                 className='absolute bg-white search-results w-full  ' >
@@ -144,10 +156,16 @@ export default function Users() {
                   <p className="followings_count"> {i.privacy == 0 ? "Public" : "Private"} </p>
                   <p className="actions flex gap-4 ">
                     <img src={flagSvg}
+                     onClick={() => { setShowModal('notification'); setSelectedUser(i) }}
                       className="w-6 cursor-pointer hover:-translate-y-2 duration-150 " />
-                    <img onClick={() => { setShowPopup(true); setSelectedUser(i) }}
+                    <img
+                      onClick={() => { setShowModal('ban'); setSelectedUser(i) }}
                       className='w-6 cursor-pointer hover:-translate-y-2 duration-150 ' src={lockOnSvg} alt="" />
-                    <img className='w-6 cursor-pointer hover:-translate-y-2 duration-150 ' src={trashSvg} alt="" />
+                    <img
+                      className='w-6 cursor-pointer hover:-translate-y-2 duration-150 ' 
+
+                      src={trashSvg} 
+                      alt="" />
                   </p>
                 </div>
               )

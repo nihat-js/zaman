@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload')
 const path = require('path')
 //middlewares
 const auth = require('./middlewares/auth')
+const adminAuth = require("./middlewares/adminAuth")
 //routes
 const message = require('./routes/message')
 const entry = require('./routes/entry')
