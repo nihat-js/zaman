@@ -26,7 +26,7 @@ export default function Index() {
   }
 
   useEffect(() => {
-    // isLoggedIn()
+    isLoggedIn()
   }, [])
 
   async function login() {
@@ -39,7 +39,7 @@ export default function Index() {
       let response = await axios.post(URL, { "username": username, "password": password })
       document.cookie = "token=" + response.data.token
       localStorage.setItem("user",JSON.stringify(response.data.user))
-      navigate('/feed')
+      navigate('/')
     } catch(error)
      {
       setError(error.response.data.message)

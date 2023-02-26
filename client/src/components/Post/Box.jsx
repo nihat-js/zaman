@@ -18,7 +18,8 @@ import Avatar from "../User/Avatar";
 import primarySvg from "../../assets/svg/primary.svg"
 import secondarySvg from "../../assets/svg/secondary.svg"
 import sadSvg from "../../assets/svg/sad.png"
-
+import arrowLeftSvg from "../../assets/svg/arrow-left.svg"
+import arrowRightSvg from "../../assets/svg/arrow-right.svg"
 import { MainContext } from "../../contexts/Main";
 import Username from "../User/Username"
 import ReportModal from './ReportModal'
@@ -41,7 +42,7 @@ export default function PostBox(props) {
   const [showOptions, setShowOptions] = useState(false)
   const showOptionsRef = useRef()
   const [showReportModal, setShowReportModal] = useState(false)
-
+  const [sourceIndex, setSourceIndex] = useState(0)
 
   // useEffect(() => {
   //   document.addEventListener('mousedown', (e) => {
@@ -107,7 +108,9 @@ export default function PostBox(props) {
         setShowOptions(false)
       }
     })
-    },[])
+  }, [])
+
+  console.log(sources)
 
   return (
 
@@ -131,7 +134,7 @@ export default function PostBox(props) {
             <button className="px-2 py-3  rounded hover:bg-slate-100  ">  Visit Profile </button>
             <button
               className="px-2 py-3  rounded hover:bg-slate-100 flex gap-2  "
-              onClick={() => { setShowOptions(false) ; setShowReportModal(true) } }
+              onClick={() => { setShowOptions(false); setShowReportModal(true) }}
             >
               <img src={flagSvg} className="w-6" />
               <span> Report  </span>
@@ -145,10 +148,34 @@ export default function PostBox(props) {
         </div>
       </header>
       <div className="gallery relative mb-4">
-        {sources?.[0] && <img onDoubleClick={reactToPost} src={"http://localhost:5000/images/" + sources[0]} />}
-        <div className="indicator"></div>
+        {5 > 3 ? <img onDoubleClick={reactToPost} src={"http://localhost:5000/images/" + sources[sourceIndex]} /> : ""}
+        {sources.length > 1 &&
+          <img onClick={() => sourceIndex + 1 == sources.length ? setSourceIndex(0) : setSourceIndex(sourceIndex + 1)}
+            className="w-10 absolute top-1/2 right-2 bg-slate-50 rounded-full p-2 cursor-pointer hover:bg-slate-200  opacity-50 " src={arrowRightSvg} />
+        }
+        {sources.length > 1 &&
+          <img onClick={() => sourceIndex == 0 ? setSourceIndex(sources.length - 1) : setSourceIndex(sourceIndex - 1)}
+            className="w-10 absolute top-1/2 left-3  bg-slate-50 rounded-full p-2 cursor-pointer hover:bg-slate-200 opacity-50  " src={arrowLeftSvg} />
+        }
+
       </div>
-      <div className="text font-semibold mb-4 text-xl" > {text} </div>
+      {
+        typeof sources == 'object' && sources.length > 1 &&
+        <div className="flex justify-center gap-2">
+          {
+            sources.map((i, j) => {
+              return (
+                <p className={`w-4 h-4 bg-indigo-400  rounded-full  cursor-pointer hover:bg-indigo-600 ${j == sourceIndex ? 'bg-indigo-800  ' : ""} `}
+                  onClick={() => setSourceIndex(j)} > </p>
+              )
+            })
+          }
+        </div>
+      }
+      <div className="text font-semibold mb-4 text-xl" >
+        {text}
+      </div>
+
       <div className="text-gray-600" > {calculateTimeForUser(createdAt)} </div>
       <div className="actions flex gap-2 items-center mb-5 ">
 
