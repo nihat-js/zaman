@@ -7,6 +7,12 @@ async function main(req,res){
     return res.status(406).send() 
   }
 
+  if ( sort == "recent"){
+
+  }else if (sort == "relevant"){
+    
+  }
+
   let comments = await Comment.find({post_id}).sort().populate({
     path : "author_id",
     select : "username avatar"

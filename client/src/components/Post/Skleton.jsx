@@ -1,13 +1,10 @@
+import primarySvg from "../../assets/svg/primary.svg"
+import secondarySvg from "../../assets/svg/secondary.svg"
 
 import heartSvg from "../../assets/svg/heart.svg"
 import heartOffSvg from "../../assets/svg/heart-off.svg"
 import gallerySvg from "../../assets/svg/gallery.svg"
 
-import likeSvg from "../../assets/svg/like.svg"
-import likeFilledSvg from '../../assets/svg/like-filled.svg'
-import likeColorfulSvg from '../../assets/svg/like-colorful.svg'
-import loveSvg from '../../assets/svg/love.svg'
-import hahaSvg from '../../assets/svg/haha.svg'
 import commentSvg from '../../assets/svg/comment.svg'
 import shareSvg from '../../assets/svg/share.svg'
 import saveSvg from '../../assets/svg/save.svg'
@@ -35,13 +32,14 @@ export default function PostBox(props) {
       </div>
       <div className="actions flex gap-2 items-center mb-5 ">
         <div className="likes flex gap-2  pr-5 items-center ">
-          <img className="w-8 p-1  hover:bg-blue-300 rounded-full" src={heartSvg} alt="" />
+          <img className="w-8 p-1  hover:bg-blue-300 rounded-full" src={primarySvg} alt="" />
           <span className="count bg-slate-200 animate-pulse duration-300 rounded-lg text-transparent "> 0  hearts </span>
+          <img className="w-8 p-1  hover:bg-blue-300 rounded-full" src={secondarySvg} alt="" />
         </div>
         <button onClick={() => { commentsStatus == "closed" ? loadComments() : commentsStatus == "open" ? setCommentsStatus("closed") : "" }}
-          className="flex gap-1 px-5  items-center hover:bg-slate-200">
+          className="flex gap-1 px-5  items-center bg-slate-200">
           <img className="w-8 p-1" src={commentSvg} alt="" />
-          <span className="">   5  </span>
+          <span className="bg-slate-200 text-transparent  ">   5521  </span>
         </button>
         <button>
           <img className="w-8 p-1" src={shareSvg} alt="" />

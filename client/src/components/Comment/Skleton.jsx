@@ -1,6 +1,6 @@
 import Avatar from '../User/Avatar'
-import heartSvg from "../../assets/svg/heart.svg"
-import heartOffSvg from "../../assets/svg/heart-off.svg"
+import primarySvg from "../../assets/svg/primary.svg"
+import secondarySvg from "../../assets/svg/secondary.svg"
 
 export default function CommentBox(props) {
 
@@ -20,8 +20,8 @@ export default function CommentBox(props) {
             <p className="bg-slate-200 text-transparent animate-pulse rounded-sm  "> onelinetextassume  </p>
           </div>
           <div className="right">
-            <img className="w-6" src={heartSvg} alt="" />
-            <img className="w-6" src={heartOffSvg} alt="" />
+            <img className="w-6" src={primarySvg} alt="" />
+            <img className="w-6" src={secondarySvg} alt="" />
           </div>
         </div>
       </div>
