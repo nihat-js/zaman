@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { getCookie } from '../utils/getCookie'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Avatar from '../components/User/Avatar'
 import Username from "../components/User/Username"
 import FollowButton from '../components/User/FollowButton'
@@ -11,25 +11,30 @@ import gridSvg from '../assets/svg/grid.svg'
 import PostBox from "../components/Post/Box"
 import PostSkleton from "../components/Post/Skleton"
 import Nav from '../components/Nav'
-import getUser from "../utils/getUser"
-import {host} from "../config/config"
-
+import { MainContext } from '../contexts/Main'
+import { host } from "../config/config"
+import { Link } from 'react-router-dom'
 export default function Index() {
   const params = useParams()
   const navigate = useNavigate()
-  const user = getUser()
+
+  const { user } = useContext(MainContext)
   const target_username = params.username
   const [target, setTarget] = useState("Loading")
   const [posts, setPosts] = useState([])
+  const [isChanged, setIsChanged] = useState(params)
   let me;
 
 
+
   useEffect(() => {
+    loadUser()
+    loadPosts()
     if (target_username == user.username) {
       me = true
     }
-  }, [])
-
+    console.log(me)
+  }, [params])
 
 
 
@@ -37,7 +42,7 @@ export default function Index() {
   async function loadPosts() {
     setPosts("loading")
     try {
-      let response = await axios.post(host + 'api/post/place', { name: "user", token: getCookie('token') , target_username : target_username })
+      let response = await axios.post(host + 'api/post/place', { name: "user", token: getCookie('token'), target_username: target_username })
       console.log(response.data)
       setPosts(response.data)
     } catch (err) {
@@ -58,20 +63,18 @@ export default function Index() {
 
   async function loadUser() {
     try {
+      console.log(target_username)
       let response = await axios.post(host + "api/user/profile", { token: getCookie('token'), target_username: target_username })
       setTarget(response.data)
-      console.log("loadUser",response)
+      console.log("loadUser", response)
     } catch (err) {
       console.log(err)
     }
   }
 
 
+  console.log("25",target.isFollowing)
 
-  useEffect(() => {
-    loadUser()
-    // loadPosts()
-  }, [])
 
 
 
@@ -85,16 +88,27 @@ export default function Index() {
         <div style={{ maxWidth: "800px" }} className="mx-auto flex gap-12  "  >
           <Avatar style={{ width: '80px' }} me={me} avatar={target.avatar} username={target.username} />
           <div className='right'>
-            <header className='flex gap-8 '>
-              <Username className="username font-bold text-indigo-800 text-3xl"  > {target.username}  </Username>
-              <FollowButton />
-              <button className='px-2 py-2 bg-danube-600 font-bold text-white rounded-md' onClick={handleMessage} > Message </button>
+            <header className='flex gap-8 mb-6 '>
+              <Username className="username font-bold text-indigo-800 text-3xl"  username={target.username} >   </Username>
+               { me  ? <div className='mb-4'>
+                  <Link to="/settings">
+                    <button className='bg-indigo-600 text-white px-2 py-2 hover:bg-indigo-800'> Edit account </button>
+                  </Link>
+                </div> :
+                <div className='flex gap-3 '>
+                  <FollowButton  isFollowing={target.isFollowing} target_username={target.username} />
+                  <button className='px-2 py-2 bg-danube-600 font-bold text-white rounded-md' onClick={handleMessage} > Message </button>
+                </div>  
+
+              }
             </header>
             <div className="stats">
-              <span className='followers' > Followers {target.followers_count} </span>
-              <span className='following'> Following  {target.followings_count} </span>
-              <span className='posts' >  Posts count  {target.posts_count} </span>
+              <span className='followers px-2 py-1 bg-slate-300 mr-2 rounded-md cursor-pointer hover:bg-slate-400 ' > Followers {target.followers_count} </span>
+              <span className='following  px-2 py-1 bg-slate-300 mr-2 rounded-md cursor-pointer hover:bg-slate-400 '> Following  {target.followings_count} </span>
+              <span className='posts  px-2 py-1 bg-slate-300 mr-2 rounded-md cursor-pointer hover:bg-slate-400  ' >  Posts count  {target.posts_count} </span>
             </div>
+            <div className="bio mt-4 text-xl font-semibold"> {target?.bio} </div>
+
           </div>
         </div>
       </section>

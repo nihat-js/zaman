@@ -1,4 +1,5 @@
 const Post = require('../../models/Post')
+const User = require("../../models/User")
 const allowedExtensions = ['jpg', 'jpeg', 'gif', 'png']
 
 async function post(req, res) {
@@ -41,6 +42,10 @@ async function post(req, res) {
   if (!savedPost) {
     return res.status(400).send()
   }
+
+  let user =  await User.findById(user_id)
+  user.posts_count  = user.posts_count ? user.posts_count + 1 : 1 ;
+  let savedUser = await user.save()
 
   return res.status(200).json({ post_id: savedPost._id })
 

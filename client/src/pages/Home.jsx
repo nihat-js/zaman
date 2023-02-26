@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from 'axios'
 import { Link } from "react-router-dom";
-
+import './Home.scss'
 
 import { getCookie } from '../utils/getCookie'
 import Nav from '../components/Nav'
@@ -38,14 +38,14 @@ export default function Index() {
 
 
   return (
-    <div className="feed-page min-h-screen bg-slate-100">
+    <div className="feed-page min-h-screen bg-slate-100 relative  ">
       <Nav />
 
-      <div style={{ maxWidth: "1200px" }} className="flex mx-auto gap-10 mt-6">
-        <div className="w-2/12 mt-6">
+      <div style={{ maxWidth: "1200px" }} className="flex mx-auto gap-10 mt-6  pt-1">
+        <div className="lg:w-2/12 mt-6   md:w/6/12 ">
           <LeftNav place={place} setPlace={setPlace} />
         </div>
-        <div className="w-7/12">
+        <div className="lg:w-7/12    wrap-place "  style={{height:"800px" , overflowY : "auto" , scrollbarWidth : "none" , WebkitOverflowScrolling : 'none'  }}>
           <CreatePost />
           <div className="mt-8"> </div>
           { 
@@ -53,7 +53,7 @@ export default function Index() {
           <PostSkleton />
           }
         </div>
-        <div className="w-3/12">
+        <div className="lg:w-3/12 sticky  top-0 md:order-2  ">
           <Notification />
           <SuggestedProfiles />
 

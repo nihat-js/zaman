@@ -1,12 +1,13 @@
 import React from 'react'
 import Avatar from '../User/Avatar'
-import heartSvg from "../../assets/svg/heart.svg"
-import heartOffSvg from "../../assets/svg/heart-off.svg"
+
+import primarySvg from "../../assets/svg/primary.svg"
+import secondarySvg from "../../assets/svg/secondary.svg"
+import { host } from '../../config/config'
 
 export default function CommentBox(props) {
   let { text, author_id ,sources } = props.data
   let {avatar,username ,  } = author_id
-  let host = "http://localhost:5000/"
   let src  = sources?.length > 0  ? host + "images/" + sources[0] : ""
   console.log("src",src)
   async function reactToComment() {
@@ -29,8 +30,8 @@ export default function CommentBox(props) {
             <img className='rounded-md' src={src} style={{maxWidth:"150px"}} alt="" />
           </div>
           <div className="right">
-            <img className="w-6" src={heartSvg} alt="" />
-            <img className="w-6" src={heartOffSvg} alt="" />
+            <img className="w-6" src={primarySvg} alt="" />
+            <img className="w-6" src={secondarySvg} alt="" />
           </div>
         </div>
       </div>

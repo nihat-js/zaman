@@ -3,7 +3,7 @@ import { getCookie } from "../../utils/getCookie";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from 'react-router-dom'
 import { host } from "../../config/config";
-import AddComment from "../Comment/Box";
+import AddComment from "../Comment/Add";
 import CommentBox from '../Comment/Box'
 import Skleton from "../Comment/Skleton"
 import heartSvg from "../../assets/svg/heart.svg"
@@ -57,11 +57,11 @@ export default function PostBox(props) {
     try {
       let result = await axios.post(host + "api/comment/load", { token: getCookie('token'), post_id: _id })
       setComments(result.data)
-      console.log(result)
+      console.log("comments" , result.data)
+      setCommentsStatus("open")
     } catch (err) {
       console.log(err)
     }
-    setCommentsStatus("open")
   }
 
   async function deletePost(req, res) {
@@ -110,7 +110,6 @@ export default function PostBox(props) {
     })
   }, [])
 
-  console.log(sources)
 
   return (
 
@@ -121,7 +120,7 @@ export default function PostBox(props) {
       <header className="flex justify-between px-2 mb-5 items-center" >
         <div className="left flex gap-3">
           <Avatar avatar={avatar} username={username} />
-          <Username className="font-semibold text-xl hover:text-gray-500 " />
+          <Username  username={username} className="font-semibold text-xl hover:text-gray-500 " />
 
         </div>
         <div className="right relative">
@@ -148,14 +147,14 @@ export default function PostBox(props) {
         </div>
       </header>
       <div className="gallery relative mb-4">
-        {5 > 3 ? <img onDoubleClick={reactToPost} src={"http://localhost:5000/images/" + sources[sourceIndex]} /> : ""}
+        {5 > 3 ? <img  style={{width : "100%"}} onDoubleClick={ () => reactToPost('up') } src={"http://localhost:5000/images/" + sources[sourceIndex]} /> : ""}
         {sources.length > 1 &&
           <img onClick={() => sourceIndex + 1 == sources.length ? setSourceIndex(0) : setSourceIndex(sourceIndex + 1)}
-            className="w-10 absolute top-1/2 right-2 bg-slate-50 rounded-full p-2 cursor-pointer hover:bg-slate-200  opacity-50 " src={arrowRightSvg} />
+            className="w-8 absolute top-1/2 right-4 bg-slate-50 rounded-full p-2 cursor-pointer hover:bg-slate-200  opacity-50 hover:opacity-90 " src={arrowRightSvg} />
         }
         {sources.length > 1 &&
           <img onClick={() => sourceIndex == 0 ? setSourceIndex(sources.length - 1) : setSourceIndex(sourceIndex - 1)}
-            className="w-10 absolute top-1/2 left-3  bg-slate-50 rounded-full p-2 cursor-pointer hover:bg-slate-200 opacity-50  " src={arrowLeftSvg} />
+            className="w-8 absolute top-1/2 left-4  bg-slate-50 rounded-full p-2 cursor-pointer hover:bg-slate-200 opacity-50 hover:opacity-90  " src={arrowLeftSvg} />
         }
 
       </div>
@@ -181,14 +180,14 @@ export default function PostBox(props) {
 
         <div className="likes flex gap-2  pr-5 items-center ">
           <img className={`w-10 p-1  hover:bg-indigo-600 rounded-full
-            ${isReacted == "primary" ? "bg-indigo-400" : ""}`}
-            onClick={() => reactToPost('primary')}
+            ${isReacted == "primary" ? "bg-indigo-500" : ""}`}
+            onClick={() => reactToPost('up')}
             src={primarySvg} alt="" />
           <span className="count font-semibold text-xl"> {reactions_count || 0}   </span>
           <img className={`w-10  p-1 hover:bg-slate-300 rounded-full 
-             ${isReacted == "secondary" ? "bg-indigo-400" : ""}
+             ${isReacted == "down" ? "bg-indigo-400" : ""}
           `}
-            onClick={() => reactToPost('secondary')}
+            onClick={() => reactToPost('down')}
             src={secondarySvg} alt="" />
         </div>
 
@@ -207,9 +206,9 @@ export default function PostBox(props) {
       </div>
 
       <div className="comments">
-        {commentsStatus != "closed" && <AddComment post_id={_id} />}
+        {commentsStatus != "closed" && <AddComment post_id={_id} refresh={loadComments} />}
         {commentsStatus == "loading" && [...new Array(3)].map((item, index) => <Skleton key={index} />)}
-        {commentsStatus == "open" && comments.length > 0 && comments.map((item, index) => <CommentBox key={index} data={item} />)}
+        {commentsStatus == "open" && comments.length > 0 ? comments.map((item, index) => <CommentBox key={index} data={item} />) : "" }
         {commentsStatus == "open" && comments.length == 0 && <div> <p className="text text-gray-500" > Oops, An awesome chance to make  a first comment </p> </div>}
       </div>
 

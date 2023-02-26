@@ -52,6 +52,11 @@ export default function Notification() {
             )
           })
         }
+        {
+          typeof (data) == 'object' && show && data.length == 0 && <div>
+              <p className="text mt-2 tetx-gray-600 text-sm tracking-wide"> Wow, you play games with rules </p>
+          </div>
+        }
       </div>
     </div>
   )

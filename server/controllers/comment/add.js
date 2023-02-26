@@ -1,4 +1,5 @@
 const Comment = require('../../models/Comment')
+const Post = require('../../models/Post')
 const allowedExtensions = ['jpg', 'jpeg', 'gif', 'png']
 
 async function addComment(req, res) {
@@ -34,6 +35,7 @@ async function addComment(req, res) {
   })
 
   let savedComment = await comment.save()
+  let post = await Post.findByIdAndUpdate(post_id, { $inc : {comments_count : 1 } })
   if (!savedComment) {
     return res.status(501).send()
   }

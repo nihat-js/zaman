@@ -36,7 +36,7 @@ async function main(req, res) {
         select: "username avatar"
       }).lean()
     }
-    console.log(posts)
+    // console.log(posts)
   }
 
   if(!posts ){

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import axios from 'axios'
 import { getCookie } from '../../utils/getCookie'
-import Avatar from '../Avatar'
+import Avatar from '../User/Avatar'
 import gallerySvg from "../../assets/svg/gallery.svg"
 import gifSvg from "../../assets/svg/gif.svg"
 
@@ -10,7 +10,7 @@ import gifSvg from "../../assets/svg/gif.svg"
 
 
 export default function AddComment(props) {
-  const { post_id } = props
+  const { post_id , refresh } = props
 
   const [image, setImage] = useState()
   const [text, setText] = useState('')
@@ -38,6 +38,7 @@ export default function AddComment(props) {
       setImage(null)
       setText('')
       console.log(response)
+      refresh()
     } catch (err) {
       console.log(err)
     }

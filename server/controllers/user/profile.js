@@ -9,7 +9,7 @@ const Follow = require("../../models/Follow")
   if (!target) { return res.status(404).send() }
   let target_id = target._id
   if (target_id == user_id) {
-    return res.status(200).send()
+    return res.status(200).json(target)
   }
 
   let isFollowing = await Follow.findOne({ who_id: user_id, whom_id: target_id })

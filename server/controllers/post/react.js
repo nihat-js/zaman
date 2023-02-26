@@ -1,6 +1,6 @@
 const Post = require('../../models/Post')
 const PostReaction = require('../../models/PostReaction')
-const allReactions = ['primary', "secondary" ,'like', 'love', 'haha', 'wow', 'sad', 'angry',]
+const allReactions = ['up', 'down',] // for future ' primary', "secondary" ,'like', 'love', 'haha', 'wow', 'sad', 'angry'
 
 async function reactToPost(req, res) {
   const { post_id, user_id, name } = req.body
@@ -10,9 +10,11 @@ async function reactToPost(req, res) {
   }
 
   const isReacted = await PostReaction.findOne({ post_id, user_id })
+
   if (isReacted) {
     return res.status(439).send()  //message  : Already reacted to this post
   }
+
 
 
   const postReaction = new PostReaction({
@@ -30,19 +32,16 @@ async function reactToPost(req, res) {
   if (!post) {
     return res.status(501).send();  // message : 'Something went wrong
   }
-  let findIndex = post.reactions.findIndex(reaction => reaction.name === name)
-  findIndex > -1 ? post.reactions[findIndex].count++ :    post.reactions.push({name ,count : 1 }) 
+  // let findIndex = post.reactions.findIndex(reaction => reaction.name === name)
+  // findIndex > -1 ? post.reactions[findIndex].count++ :    post.reactions.push({name ,count : 1 }) 
 
-  post.reactions.count ?  "" : post.reactions.count =0  
-  
-  if (name == "primary"){
-    post.reactions.count +=1
-  }else if (name == "secondary"){
-    post.reactions.count -= 1
+  post.reactions_count ? "" : post.reactions_count = 0
+  if (name == "up") {
+    post.reactions_count  = post.reactions_count + 1
+  } else if (name == "down") {
+    post.reactions_count -= 1
   }
-  // console.log("debug",post.reactions[findIndex])
-
-  post.markModified('reactions')
+  
   const savedPost = await post.save()
   if (!savedPost) {
     return res.status(500).send()

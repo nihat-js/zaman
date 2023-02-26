@@ -11,6 +11,7 @@ import chatSvg from '../assets/svg/chat.svg'
 import moonSvg from '../assets/svg/moon.svg'
 import notificationSvg from '../assets/svg/notification.svg'
 
+import './Nav.scss'
 
 import { useState } from 'react'
 
@@ -43,13 +44,14 @@ export default function Index() {
 
 
   return (
-    <nav className='shadow-md py-3 bg-white    w-full' >
-      <div style={{ maxWidth: "1200px" }} className="container mx-auto  ">
-        <div className="row flex justify-between items-center gap-16 ">
+    <nav className='main shadow-md py-3 bg-white    w-full  ' >
+      <div style={{ maxWidth: "1200px"  }} className="container mx-auto  ">
+        <div className="row flex justify-between items-center gap-16   ">
 
-          <div className="middle flex-1 relative ">
+          <div className=" flex-1 relative w-full ">
+            
             <div className="relative ">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none ">
                 <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
               </div>
               <input
@@ -57,6 +59,7 @@ export default function Index() {
                 onFocus={() => setHasFocus(true)}
                 onKeyUp={search}
                 onChange={(e) => setValue(e.target.value)}
+
                 type="search" id="default-search"
                 className="block w-full outline-none p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-fgray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search with username " required value={value} />
 
@@ -81,7 +84,7 @@ export default function Index() {
           </div>
 
 
-          <div className="links">
+          <div className="links     ">
             <ul className='flex gap-3 '>
               <Link to='/'>
                 <li className={linkClassName} >
@@ -95,11 +98,11 @@ export default function Index() {
                 </li>
               </Link>
 
-              <Link to='/notifications'>
+              {/* <Link to='/notifications'>
                 <li className={linkClassName} >
                   <img className='w-6' src={notificationSvg} alt="" />
                 </li>
-              </Link>
+              </Link> */}
 
               <li className={linkClassName}>
                 <img className='w-6 h-6' src={moonSvg} alt="" />
