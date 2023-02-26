@@ -8,6 +8,7 @@ const avatarSet = require("../controllers/user/avatarSet")
 const avatarUpload = require("../controllers/user/avatarUpload")
 const accountEdit = require("../controllers/user/accountEdit")
 const changePassword = require('../controllers/user/changePassword')
+const notification = require("../controllers/user/notification")
 
 route.post('/suggested',suggested)
 route.post('/profile',profile)
@@ -16,6 +17,7 @@ route.post('/account/edit',  accountEdit )
 route.post("/avatar/set",avatarSet  )
 route.post("/avatar/upload",avatarUpload)
 route.post("/account/change-password",changePassword)
+route.post('/notification',notification )
 
 
 

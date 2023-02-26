@@ -8,7 +8,7 @@ router.post("/stats", stats);
 router.post("/graphql",graphql)
 
 router.post("/user/unban", unban)
-router.post("/user/send-notification",sendNotification)
+router.post("/user/notification/send",sendNotification)
 router.post('/user/search', search)
 
 

@@ -48,14 +48,16 @@ async function unban(req, res) {
 
 
 async function sendNotification(req, res) {
-  let { user_id, target_id, text, action_name } = req.body
+  let { user_id, target_id, type , message } = req.body
 
-  if (!target_id) return res.status(406).send()
+  if (!target_id || !type ) return res.status(406).send()
+
 
   let notification = new Notification({
-    user_id: target_id,
-    action_name: action_name,
-    text: text
+    who_id : user_id,
+    whom_id: target_id,
+    type: type,
+    message: message
   })
 
   let savedNotification = await notification.save()
