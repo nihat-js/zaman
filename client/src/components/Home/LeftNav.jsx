@@ -22,7 +22,7 @@ export default function Tab(props) {
       </div>
 
       <div onClick={  () => setPlace("explore") }
-      className="flex gap-3 hover:bg-slate-200 rounded-md cursor-pointer py-2 px-2">
+      className={`flex gap-3 hover:bg-slate-200 rounded-md cursor-pointer py-2 px-2  ${place == "explore" ? "bg-purple-200" : ""} `}>
         <img className="w-6" src={exploreSvg} alt="" />
         <div className="">
           <p className="text-xl font-semibold"> Explore </p>
@@ -31,7 +31,7 @@ export default function Tab(props) {
       </div>
 
       <div onClick={  () => setPlace("popular") }
-      className="flex gap-3 hover:bg-slate-200 rounded-md cursor-pointer py-2 px-2">
+      className={`flex gap-3 hover:bg-slate-200 rounded-md cursor-pointer py-2 px-2  ${place == "trend" ? "bg-purple-200" : ""} `}>
         <img className="w-6" src={popularSvg} alt="" />
         <div className="">
           <p className="text-xl font-semibold"> Popular </p>

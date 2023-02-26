@@ -1,4 +1,5 @@
 const User = require("../../models/User")
+const Follow = require("../../models/Follow")
 async function suggested(req, res) {
   const { user_id } = req.body
   let users = await User.find({ _id: { $ne: user_id } }).select("_id username avatar privacy ").lean()

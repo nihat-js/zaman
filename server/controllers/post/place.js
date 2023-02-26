@@ -14,15 +14,15 @@ async function main(req, res) {
     }).lean()
   }
   else if (name == "trend") {
-     posts = await Post.find().sort({ comments_count }).populate({
+     posts = await Post.find().sort({ comments_count : -1 }).populate({
       path: "author_id",
       select: "username avatar"
-    })
+    }).lean()
   } else if (name == "explore") {
-     posts = await Post.find().sort({ saved_count }).populate({
+     posts = await Post.find().sort({ saved_count : -1 }).populate({
       path: "author_id",
       select: "username avatar"
-    })
+    }).lean()
   }
 
   else if (name == "user") {
@@ -34,18 +34,18 @@ async function main(req, res) {
       posts = await Post.find({ author_id: target._id }).limit(limit).skip(0).populate({
         path: "author_id",
         select: "username avatar"
-      })
+      }).lean()
     }
   }
+  
+  for (let i = 0; i < arr.length; i++) {
+    let reaction = await PostReaction.findOne({ post_id: arr[i]._id })
+    if (reaction) {
+      arr[i].reaction = arr.name
+    }
+  }
+  
   return res.status(200).json(posts)
-
-  // for (let i = 0; i < arr.length; i++) {
-  //   let reaction = await PostReaction.findOne({ post_id: arr[i]._id })
-  //   if (reaction) {
-  //     arr[i].reaction = arr.name
-  //   }
-  // }
-
 }
 
 module.exports = main

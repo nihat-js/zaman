@@ -7,7 +7,7 @@ const schema = new mongoose.Schema({
   active_devices : [],
   phone_number : {type : String, required : true, },
   bio : { type :String ,    },
-  gender: {type : Number  }, // 0 female 1 male
+  gender: {type : Number  }, // 0 none 1 female 2male
   avatar : {type : String , default : ''},
   cover : {type : String , default : ""} ,
   active_device : {},

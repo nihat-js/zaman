@@ -15,7 +15,7 @@ import LeftNav from "../components/Home/LeftNav"
 export default function Index() {
 
 
-  const [posts, setPosts] = useState("loa")
+  const [posts, setPosts] = useState("load")
   const [place, setPlace] = useState("feed") // explore // trend
   
 
@@ -23,20 +23,19 @@ export default function Index() {
     setPosts("loading")
     // console.log('zz')
     try {
-      let response = await axios.post('http://localhost:5000/api/post/place', { name : "feed", token: getCookie('token') })
-      // console.log(response.data)
+      let response = await axios.post('http://localhost:5000/api/post/place', { name : place, token: getCookie('token') })
+      console.log(response.data)
       setPosts(response.data)
     } catch (err) {
       console.log(err)
     }
   }
 
+  useEffect(()=>{
+    loadPosts()
+  },[place])
 
 
-
-  useEffect(() => {
-    // loadPosts()
-  }, [])
 
   return (
     <div className="feed-page min-h-screen bg-slate-100">
@@ -44,10 +43,11 @@ export default function Index() {
 
       <div style={{ maxWidth: "1200px" }} className="flex mx-auto gap-10 mt-6">
         <div className="w-2/12 mt-6">
-          <LeftNav place="feed" setPlace={setPlace} />
+          <LeftNav place={place} setPlace={setPlace} />
         </div>
         <div className="w-7/12">
           <CreatePost />
+          <div className="mt-8"> </div>
           { 
           typeof(posts) == "object"  ? posts.map((item, index) => <PostBox key={index} data={item} />)  :
           <PostSkleton />

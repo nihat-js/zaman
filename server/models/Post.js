@@ -7,7 +7,8 @@ const Post = mongoose.model("posts", new mongoose.Schema({
   comments_count :  { type : Number, default : 0},
   saved_count : {type : Number , default : 0} ,
   topics : [],
-  reactions :  []
+  reactions :  [] ,
+  reactions_count : { type : Number, default : 0},
 
 
 

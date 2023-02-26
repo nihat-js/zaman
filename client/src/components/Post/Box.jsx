@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookie } from "../../utils/getCookie";
 import { useEffect, useRef, useState } from "react";
 import { Link } from 'react-router-dom'
-
+import { host } from "../../config/config";
 import AddComment from "../Comment/Box";
 import CommentBox from '../Comment/Box'
 import Skleton from "../Comment/Skleton"
@@ -39,15 +39,8 @@ export default function PostBox(props) {
   const [areCommentsLoading, setAreCommentsLoading] = useState(false)
   const [showOptions, setShowOptions] = useState(false)
   const showOptionsRef = useRef()
-  const host = "http://localhost:5000/"
   let isReacted = false
 
-  if (!username) {
-    username = user.username
-    avatar = user.avatar ? "http://localhost:5000/avatars/" + user.avatar : "http://localhost:5000/avatars/default.svg"
-  } else {
-    avatar = avatar ? "http://localhost:5000/avatars/" + user.avatar : "http://localhost:5000/avatars/default.svg"
-  }
 
 
   let totalReactionsCount = 0;
@@ -104,9 +97,7 @@ export default function PostBox(props) {
     <div className="bg-gray-50 mb-6 py-5 px-5 rounded-md"  >
       <header className="flex justify-between px-2 mb-5 items-center" >
         <div className="left flex gap-3">
-          <Link to={userLink} >
-            <img className="w-8 rounded-full border-slate-100 " src={avatar} alt="" />
-          </Link>
+            <Avatar avatar={avatar} username={username} />
           <Link to={userLink} >
             <p className="font-semibold text-xl hover:text-gray-500 ">  {username}  </p>
           </Link>
@@ -114,9 +105,9 @@ export default function PostBox(props) {
         </div>
         <div className="right relative">
           <img onClick={() => setShowOptions(true)}
-            className="three w-8 p-1 rounded-full cursor-pointer hover:bg-slate-200" src={threeDotsSvg} alt="" />
+            className="three w-8 p-1 rounded-full cursor-pointer hover:bg-slate-200 " src={threeDotsSvg} alt="" />
           <div ref={showOptionsRef}
-            className={`absolute bg-white   rounded-md  shadow-md   ${showOptions ? "" : "hidden"} `}>
+            className={`absolute bg-white   rounded-md  shadow-md z-10   ${showOptions ? "" : "hidden"} `}>
             <button className="px-2 py-3  rounded hover:bg-slate-100  ">  Unfollow</button>
             <button className="px-2 py-3  rounded hover:bg-slate-100  ">  Visit Profile </button>
             <button className="px-2 py-3  rounded hover:bg-slate-100 flex gap-2  ">

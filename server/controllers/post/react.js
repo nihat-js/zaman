@@ -1,9 +1,10 @@
 const Post = require('../../models/Post')
 const PostReaction = require('../../models/PostReaction')
-const allReactions = ['primary', 'like', 'love', 'haha', 'wow', 'sad', 'angry',]
+const allReactions = ['primary', "secondary" ,'like', 'love', 'haha', 'wow', 'sad', 'angry',]
 
 async function reactToPost(req, res) {
   const { post_id, user_id, name } = req.body
+
   if (!post_id || !name || !user_id || !allReactions.includes(name)) {
     return res.status(459).send()
   }
@@ -31,6 +32,14 @@ async function reactToPost(req, res) {
   }
   let findIndex = post.reactions.findIndex(reaction => reaction.name === name)
   findIndex > -1 ? post.reactions[findIndex].count++ :    post.reactions.push({name ,count : 1 }) 
+
+  post.reactions.count ?  "" : post.reactions.count =0  
+  
+  if (name == "primary"){
+    post.reactions.count +=1
+  }else if (name == "secondary"){
+    post.reactions.count -= 1
+  }
   // console.log("debug",post.reactions[findIndex])
 
   post.markModified('reactions')

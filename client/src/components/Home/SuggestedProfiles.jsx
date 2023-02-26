@@ -15,7 +15,7 @@ export default function SuggestedProfiles() {
   async function get() {
     setIsLoading(true)
     try {
-      let response = await axios.post('http://localhost:5000/api/get/suggested-profiles', { token: getCookie('token') })
+      let response = await axios.post('http://localhost:5000/api/user/suggested', { token: getCookie('token') })
       // console.log(response.data)
       setUsers(response.data)
       setIsLoading(false)
