@@ -9,9 +9,8 @@ export default function FollowButton(props) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isFollowing_, setIsFollowing] = useState(isFollowing)
 
-    console.log("fb",isFollowing_, target_username)
+    // console.log("fb",isFollowing_, target_username)
 
-  // console.log(isFollowing_ , target_username)
   async function follow() {
     setIsSubmitting(true)
     try {

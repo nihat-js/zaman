@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 
 import lockSvg from '../assets/svg/lock.svg'
 import userSvg from '../assets/svg/user.svg'
@@ -8,9 +8,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { getCookie } from '../utils/getCookie'
 
 import InputGroup from '../components/Entry/InputGroup'
+import { MainContext } from '../contexts/Main'
 
 export default function Index() {
-
+  const {user,updateUser} = useContext(MainContext)
   const navigate = useNavigate();
   const URL = "http://localhost:5000/api/entry/login"
   const [username, setUsername] = useState("")
@@ -38,6 +39,8 @@ export default function Index() {
     try{
       let response = await axios.post(URL, { "username": username, "password": password })
       document.cookie = "token=" + response.data.token
+      console.log(response.data.user)
+      // updateUser(response.data.user)
       localStorage.setItem("user",JSON.stringify(response.data.user))
       navigate('/')
     } catch(error)
@@ -63,7 +66,7 @@ export default function Index() {
             <InputGroup text="Password" image={lockSvg} type="password" value={password} setValue={setPassword} />
             <div className="forgot-password">
               <span className="text-sm cursor-pointer font-semibold px-3 py-2  hover:bg-danube-600 text-danube-600 rounded-md hover:text-white " >
-                <Link to='/forgot-password'> Forgot Password     </Link>
+                <Link to=''> Forgot Password     </Link>
               </span>
             </div>
             <div className="errors mt-3">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getCookie } from '../utils/getCookie'
 import getUser from '../utils/getUser'
 import axios from 'axios'
@@ -8,10 +8,11 @@ import sendSvg from '../assets/svg/send.svg'
 import lefArrow from '../assets/svg/arrow-left.svg'
 import sadSvg from '../assets/svg/sad.svg'
 import threeDotsSvg from '../assets/svg/three-dots.svg'
-const user = getUser()
+import { MainContext } from '../contexts/Main'
+import {host} from "../config/config"
 
 export default function Chat() {
-
+  const user = useContext(MainContext)
 
   const [currentfolderName, setCurrentFolderName] = useState("primary")
   const [chats, setChats] = useState([])

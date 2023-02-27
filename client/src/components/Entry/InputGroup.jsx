@@ -6,7 +6,7 @@ export default function InputGroup(props) {
 
   return (
     <div className={` mb-12 relative   `}>
-      <div className={`flex gap-2 absolute  duration-200 ${!hasFocus && value != "" ? "top-0" : " -top-4"} `} >
+      <div className={`flex gap-2 absolute  duration-200 ${!hasFocus && value == "" ? "-top-2" : " -top-4"} `} >
         <img src={image} alt="" className='w-4' />
         <span className='text-gray-400 text-sm'> {text} </span>
       </div>

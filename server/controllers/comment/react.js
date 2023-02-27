@@ -6,7 +6,7 @@ async function reactToComment(req, res) {
   const { comment_id, user_id, name } = req.body
   const isReacted = await CommentReaction.findOne({ comment_id, user_id })
 
-  // console.log('d',isReacted , name )
+  console.log('d',isReacted , name )
   if (!isReacted && allReactions.includes(name)) {
     console.log("Debugging 1")
     let commentReaction = new CommentReaction({ user_id, comment_id, name })
@@ -16,7 +16,7 @@ async function reactToComment(req, res) {
     return res.status(200).send()
   }
 
-  else if (isReacted && name == "") { // delete reaction
+  else if (isReacted && name == "none") { // delete reaction
     let val = isReacted.name == 'up' ? -1 : isReacted.name == "down" ? 1 : 0
     let comment = await Comment.findByIdAndUpdate(comment_id, { $inc: { score: val } })
     let savedIsReacted = await isReacted.remove()

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from 'axios'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './Home.scss'
 
 import { getCookie } from '../utils/getCookie'
@@ -17,7 +17,14 @@ export default function Index() {
 
   const [posts, setPosts] = useState("load")
   const [place, setPlace] = useState("feed") // explore // trend
+  const navigate  = useNavigate()
   
+  useEffect(()=>{
+    if (!localStorage.getItem('user')){
+      navigate('/login')
+    }
+  },[])
+
 
   async function loadPosts() {
     setPosts("loading")

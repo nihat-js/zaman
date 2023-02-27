@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -8,8 +8,9 @@ import getUser from '../../utils/getUser'
 import cameraSvg from '../../assets/svg/camera.svg'
 import closeSvg from '../../assets/svg/close.svg'
 import loadingSvg from "../../assets/svg/loading.svg"
+import { MainContext } from "../../contexts/Main";
 export default function CreatePost() {
-  const user = getUser()
+  const user = useContext(MainContext)
   const { username, avatar } = user
 
   const [text, setText] = useState('');

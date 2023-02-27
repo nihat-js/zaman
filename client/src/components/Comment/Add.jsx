@@ -4,6 +4,7 @@ import { getCookie } from '../../utils/getCookie'
 import Avatar from '../User/Avatar'
 import gallerySvg from "../../assets/svg/gallery.svg"
 import gifSvg from "../../assets/svg/gif.svg"
+import gif1 from '../../assets/svg/gif-1.gif'
 
 
 
@@ -64,8 +65,9 @@ export default function AddComment(props) {
         </div>
         <div className="actions flex justify-between items-center">
           <div className='left flex gap-1'>
-            <img onClick={handleImageClick} src={gallerySvg} className="w-8 cursor-pointer  hover:bg-slate-200 p-1  rounded-md" />
-            <img  src={gifSvg} className="w-6 cursor-pointer" />
+            <img onClick={handleImageClick} src={gallerySvg} className="w-8 cursor-pointer mr-4  hover:bg-slate-200 p-1  rounded-md" />
+            <img  src={gifSvg} className="w-6 cursor-pointer " /> 
+            <img src={gif1} className="w-8 rounded-full " alt="" />
           </div>
           <div className="right">
             <button onClick={handlePostButton}> Post </button>

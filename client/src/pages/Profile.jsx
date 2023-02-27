@@ -26,14 +26,14 @@ export default function Index() {
   let me;
 
 
+  if (target_username == user.username) {
+    me = true
+  }
 
   useEffect(() => {
     loadUser()
     loadPosts()
-    if (target_username == user.username) {
-      me = true
-    }
-    console.log(me)
+
   }, [params])
 
 
@@ -63,7 +63,6 @@ export default function Index() {
 
   async function loadUser() {
     try {
-      console.log(target_username)
       let response = await axios.post(host + "api/user/profile", { token: getCookie('token'), target_username: target_username })
       setTarget(response.data)
       console.log("loadUser", response)
@@ -73,7 +72,6 @@ export default function Index() {
   }
 
 
-  console.log("25",target.isFollowing)
 
 
 
@@ -89,16 +87,16 @@ export default function Index() {
           <Avatar style={{ width: '80px' }} me={me} avatar={target.avatar} username={target.username} />
           <div className='right'>
             <header className='flex gap-8 mb-6 '>
-              <Username className="username font-bold text-indigo-800 text-3xl"  username={target.username} >   </Username>
-               { me  ? <div className='mb-4'>
-                  <Link to="/settings">
-                    <button className='bg-indigo-600 text-white px-2 py-2 hover:bg-indigo-800'> Edit account </button>
-                  </Link>
-                </div> :
+              <Username className="username font-bold text-indigo-800 text-3xl" username={target.username} >   </Username>
+              {me ? <div className='mb-4'>
+                <Link to="/settings">
+                  <button className='bg-indigo-600 text-white px-2 py-2 hover:bg-indigo-800'> Edit account </button>
+                </Link>
+              </div> :
                 <div className='flex gap-3 '>
-                  <FollowButton  isFollowing={target.isFollowing} target_username={target.username} />
+                  <FollowButton isFollowing={target.isFollowing} target_username={target.username} />
                   <button className='px-2 py-2 bg-danube-600 font-bold text-white rounded-md' onClick={handleMessage} > Message </button>
-                </div>  
+                </div>
 
               }
             </header>

@@ -7,6 +7,7 @@ export default function Index() {
 
   function clearCookie(){
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00"
+    localStorage.clear()
     navigate('/login')
   }
 
