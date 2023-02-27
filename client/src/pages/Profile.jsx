@@ -14,6 +14,8 @@ import Nav from '../components/Nav'
 import { MainContext } from '../contexts/Main'
 import { host } from "../config/config"
 import { Link } from 'react-router-dom'
+import loadingSvg from '../assets/svg/loading.svg'
+
 export default function Index() {
   const params = useParams()
   const navigate = useNavigate()
@@ -23,6 +25,7 @@ export default function Index() {
   const [target, setTarget] = useState("Loading")
   const [posts, setPosts] = useState([])
   const [isChanged, setIsChanged] = useState(params)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   let me;
 
 
@@ -71,6 +74,47 @@ export default function Index() {
     }
   }
 
+  const unfollowButton = <button
+    onClick={() => isSubmitting ? "" : unfollow()}
+    className={` flex gap-1 items-center px-2 py-1 text-violet-800 border border-violet-600  rounded-lg hover:bg-violet-800 hover:text-white  text-sm ${isSubmitting ? "cursor-not-allowed" : ""}   `}>
+    <span> Following </span>
+    {isSubmitting && <img className='w-4 animate-spin' src={loadingSvg} />}
+  </button>
+
+  const followButton = <button
+    onClick={() => follow()}
+    className={`px-2 py-1 text-white bg-violet-400 rounded-lg hover:bg-violet-800 text-sm  flex gap-1 items-center ${isSubmitting ? "cursor-not-allowed" : ""}  `}>
+    <span> Follow</span>
+    {isSubmitting && <img className='w-4 animate-spin' src={loadingSvg} />}
+  </button>
+
+  async function follow() {
+    setIsSubmitting(true)
+    try {
+      let result = await axios.post("http://localhost:5000/api/follow", { token: getCookie('token'), target_username: target_username })
+      setTarget({...target,isFollowing : true , followers_count : target.followers_count +1 })
+    } catch (error) {
+      console.log(error)
+    }
+    setIsSubmitting(false)
+
+  }
+  async function unfollow() {
+    let response = confirm(`Are you sure you want to unfollow  " ${target.username}" ? `)
+    if (!response) {
+      return false
+    }
+    setIsSubmitting(true)
+    try {
+      let result = await axios.post("http://localhost:5000/api/unfollow", { token: getCookie('token'), target_username: target.username })
+      // console.log("res", result)
+      setTarget({...target,isFollowing : false , followers_count : target.followers_count -1  })
+    } catch (error) {
+      console.log(error)
+    }
+    setIsSubmitting(false)
+  }
+
 
 
 
@@ -94,7 +138,11 @@ export default function Index() {
                 </Link>
               </div> :
                 <div className='flex gap-3 '>
-                  <FollowButton isFollowing={target.isFollowing} target_username={target.username} />
+                  {
+                    target.isFollowing ? unfollowButton : followButton
+                  }
+
+                  {/* <FollowButton isFollowing={target.isFollowing} target_username={target.username} /> */}
                   <button className='px-2 py-2 bg-danube-600 font-bold text-white rounded-md' onClick={handleMessage} > Message </button>
                 </div>
 

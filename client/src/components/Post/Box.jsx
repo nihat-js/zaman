@@ -95,7 +95,11 @@ export default function PostBox(props) {
       } else if (first == "down" && last == "") {
         val = 1
       } else if (first == "up" && last == "") {
-        val += 1
+        val = -1
+      }else if (first == "" && last == "up" ){
+        val = 1
+      }else if (first == "" && last =="down"){
+        val = -1
       }
       setReeactionsCount(reactionsCount + val)
       setIsReacted(last)
@@ -105,11 +109,7 @@ export default function PostBox(props) {
     }
   }
 
-  async function unreactToPost(name) {
-    let response = await axios.post('http://localhost:5000/unreact-to-post',
-      { token: getCookie('token'), post_id: _id, name, })
-    console.log(response.data)
-  }
+ 
 
 
   if (isPostDeleted) {
@@ -203,7 +203,7 @@ export default function PostBox(props) {
             onClick={() => reactToPost('up')}
             src={primarySvg} alt="" />
           <span className="count font-semibold text-xl"> {reactionsCount || 0}   </span>
-          <img className={`w-10  p-1 hover:bg-slate-200 rounded-full    ${isReacted == "down" ? "bg-slate-300" : ""}          `}
+          <img className={`w-10  p-2 hover:bg-slate-200 rounded-full    ${isReacted == "down" ? "bg-slate-300" : ""}          `}
             onClick={() => reactToPost('down')}
             src={secondarySvg} alt="" />
         </div>
