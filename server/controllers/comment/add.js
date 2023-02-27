@@ -1,9 +1,9 @@
 const Comment = require('../../models/Comment')
 const Post = require('../../models/Post')
 const allowedExtensions = ['jpg', 'jpeg', 'gif', 'png']
-
+const gifNames=['gif-1.gif','gif-2.gif']
 async function addComment(req, res) {
-  const { user_id, post_id, text } = req.body
+  const { user_id, post_id, text , gif_name } = req.body
   let sources = []
   if (!post_id) {
     return res.status(456).send()
@@ -21,6 +21,8 @@ async function addComment(req, res) {
         console.log(err)
       }
     }
+  }else if (gif_name && gifNames.includes(gif_name) ) {
+    sources[0] = gifNames[0]
   }
   if (sources.length == 0 && !text ){
     return res.status(407).send()

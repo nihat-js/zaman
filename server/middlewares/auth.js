@@ -4,7 +4,6 @@ const User = require('../models/User');
 
 
 async function auth(req, res, next) {
-// console.log('verifying');
   let { token } = req.body
   if (!token) {
     return res.status(406).send()
@@ -16,11 +15,12 @@ async function auth(req, res, next) {
     return res.status(401).send()
   }
   
-  if (user.active_device?.session == decoded.session) {
+  // console.log('verifying',token,);
+  // if (user.active_device?.session == decoded.session) {
     req.body.user_id = decoded.user_id
     // console.log("Authentication successfull")
     next()
-  }
+  // }
 }
 
 

@@ -27,7 +27,7 @@ export default function Index() {
   }
 
   useEffect(() => {
-    isLoggedIn()
+    // isLoggedIn()
   }, [])
 
   async function login() {

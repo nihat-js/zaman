@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { getCookie } from '../utils/getCookie'
 import getUser from '../utils/getUser'
 import axios from 'axios'
@@ -9,11 +9,12 @@ import lefArrow from '../assets/svg/arrow-left.svg'
 import sadSvg from '../assets/svg/sad.svg'
 import threeDotsSvg from '../assets/svg/three-dots.svg'
 import { MainContext } from '../contexts/Main'
-import {host} from "../config/config"
+import { host } from "../config/config"
+import Avatar from '../components/User/Avatar'
 
 export default function Chat() {
   const user = useContext(MainContext)
-
+  const textRef = useRef()
   const [currentfolderName, setCurrentFolderName] = useState("primary")
   const [chats, setChats] = useState([])
   const [areChatsLoading, setAreChatsLoading] = useState(true)
@@ -21,14 +22,13 @@ export default function Chat() {
 
   const [messages, setMessages] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [selectedChat, setSelectedChat] = useState(null)
   const [text, setText] = useState('')
 
 
   async function loadChats() {
     setAreChatsLoading(true)
     try {
-      let response = await axios.post('http://localhost:5000/api/chat/load-chats', { token: getCookie('token'), folder_name: currentfolderName })
+      let response = await axios.post(host + 'api/chat/load-chats', { token: getCookie('token'), folder_name: currentfolderName })
       console.log("loaded Chats", response)
       setChats(response.data)
       setAreChatsLoading(false)
@@ -40,14 +40,15 @@ export default function Chat() {
 
   async function sendMessage(e) {
     e.preventDefault()
-    let response = await axios.post('http://localhost:5000/send-message', { token: getCookie('token'), chat_id: selectedChat, text: text })
+    let response = await axios.post(host + "api/chat/message/load", { token: getCookie('token'), chat_id: selectedChat, text: text })
     console.log('message sent', response.data.data)
     setText('')
     loadMessages()
   }
 
   async function loadMessages() {
-    let response = await axios.post('http://localhost:5000/load-messages', { chat_id: selectedChat, token: getCookie('token') })
+    console.log('current chat', currentChat)
+    let response = await axios.post(host + "api/chat/message/load", { chat_id: currentChat, token: getCookie('token') })
     console.log("loaded Messages", response.data)
     setMessages(response.data.data)
 
@@ -57,11 +58,14 @@ export default function Chat() {
 
   useEffect(() => {
     loadChats()
-  }, [])
+  }, [currentfolderName])
 
   useEffect(() => {
-    loadChats()
-  }, [currentfolderName])
+    if (currentChat != "") {
+      loadMessages()
+    }
+  })
+
 
   return (
     <div className='chat-page'>
@@ -99,7 +103,7 @@ export default function Chat() {
               <div className="messages mt-4">
                 {areChatsLoading ? [...new Array(5)].map((item, index) => <SkletonBox key={index} />) :
                   chats.length == 0 ?
-                    <div className='flex flex-col items-center' >
+                    <div className='flex flex-col ' >
 
                       <img className='w-20' src={sadSvg} alt="" />
                       <div className="alert alert-info shadow-lg bg-sky-700 text-white px-4 py-2 flex gap-2 rounded-md ">
@@ -110,10 +114,12 @@ export default function Chat() {
                     : chats.map((item, index) => <Box currentChat={currentChat} setCurrentChat={setCurrentChat} key={index} item={item} />)}
               </div>
             </div>
-            <div className="right w-5/12">
-              <form action="" className='flex relative ' >
-                <textarea type="text" cols={1} rows={1} className='resize-none w-full overflow-y-clip  border border-slate-200  outline-none rounded-md  py-2 px-8' placeholder='Message' />
-                <div className="absolute  right-2 top-4  rounded-md w-7 h-7 px-1 py-1  img-wrap bg-sky-600  hover:bg-sky-800 cursor-pointer" onClick={() => send()}>
+            <div className="right w-5/12 flex flex-col-reverse " style={{maxHeight : "800px"}}>
+              <form action="" className='flex items-center gap-2 ' >
+                <textarea type="text" cols={1} rows={1} ref={textRef}
+                  className='resize-none w-full overflow-y-clip  border border-slate-200  outline-none rounded-md  py-2 px-8' placeholder='Message' />
+                <div className=
+                  "rounded-md w-8 h-8 px-1 py-1  img-wrap bg-sky-600  hover:bg-sky-800 cursor-pointer" onClick={() => send()}>
                   <img className='w-full  ' src={sendSvg} alt="" />
                 </div>
               </form>
@@ -142,26 +148,25 @@ function SkletonBox() {
 
 
 function Box(props) {
-  const { chat_id, unseen_messages_count, currentChat, setCurrentChat } = props.item
+  const { chat_id, unseen_messages_count, } = props.item
+  const { setCurrentChat, currentChat } = props
   const { users_id, last_message } = chat_id
 
   const [showOptios, setShowOptions] = useState(false)
 
 
+  console.log("box", currentChat, chat_id)
 
-  let chatAvatarSource
-  let chatTitle
 
-  if (users_id.length == 2) {
-    let target = users_id.find(x => x.username != user.username)
-    chatAvatarSource = target.avatar ? "http://localhost:5000/avatars/" + target.avatar : "http://localhost:5000/avatars/default.svg"
-    chatTitle = target.username
-  }
-
+  let chatTitle = chat_id.target.username
+  let chatAvatar = chat_id.target.avatar
   return (
-    <div className='message flex  justify-between items-center py-2 hover:bg-slate-200 rounded-md cursor-pointer' onClick={(e) => {    e.target.tagName.toLowerCase() == "img" ? "" :   setCurrentChat(chat_id._id) }}  >
+    <div className={`message flex  justify-between items-center py-2 hover:bg-slate-200 rounded-md cursor-pointer
+      ${currentChat == chat_id._id ? "bg-slate-300" : ""}
+    ` }
+      onClick={(e) => { e.target.tagName.toLowerCase() == "img" ? "" : setCurrentChat(chat_id._id) }}  >
       <div className="left flex gap-3 items-center ">
-        <div className='w-12 h-12 bg-slate-200 rounded-full ' > <img className='rounded-full' src={chatAvatarSource} alt="" /> </div>
+        <Avatar username={chatAvatar} />
         <div>
           <p className="username text-sm mb-1 rounded-md "> {chatTitle} </p>
           <p className="last-message text-sm text-gray-600 rounded-md ">  {last_message} </p>
@@ -171,9 +176,18 @@ function Box(props) {
         <img className='w-6' onClick={() => setShowOptions(!showOptios)} src={threeDotsSvg} alt="" />
         <div className={`chat-options   absolute  bg-white  shadow-md rounded-md z-20 ${showOptios ? "" : "hidden"} `} style={{ width: "150px" }}>
           <p className=' py-2 px-1 text-center hover:bg-slate-200 font-bold rounded-tl-md rounded-tr-md text-blue-800 ' > Mute </p>
-          <p className=' py-2 px-1  text-center  hover:bg-slate-200  text-blue-800 font-bold ' > Move to Secondary </p>
+          {
+            // currentfolderName  == "request" ?
+            // <p className=' py-2 px-1  text-center  hover:bg-slate-200  text-blue-800 font-bold ' > Move to Primary </p> :
+            // currentfolderName == "primary" ?
+            // <p className=' py-2 px-1  text-center  hover:bg-slate-200  text-blue-800 font-bold ' > Move to Secondary </p> :
+            // currentfolderName == "secondary" ?
+            // <p className=' py-2 px-1  text-center  hover:bg-slate-200  text-blue-800 font-bold ' > Move to Primary </p> :
+            // ""
+            // console.log(currentfolderName)
+          }
           <p className=' py-2 px-1  text-red-800   hover:bg-slate-200   font-bold  text-center    ' > Delete </p>
-          <p className=' py-2  px-1  text-center mt-1  hover:bg-slate-200    text-blue-800 ' onClick={() =>  setShowOptions(false) } > Cancel</p>
+          <p className=' py-2  px-1  text-center mt-1  hover:bg-slate-200    text-blue-800 ' onClick={() => setShowOptions(false)} > Cancel</p>
 
         </div>
       </div>

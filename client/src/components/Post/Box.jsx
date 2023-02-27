@@ -101,6 +101,7 @@ export default function PostBox(props) {
       }else if (first == "" && last =="down"){
         val = -1
       }
+      console.log('val',val)
       setReeactionsCount(reactionsCount + val)
       setIsReacted(last)
       console.log(response.data)
@@ -183,7 +184,7 @@ export default function PostBox(props) {
           {
             sources.map((i, j) => {
               return (
-                <p className={`w-2 h-2 bg-indigo-400  rounded-full  cursor-pointer hover:bg-indigo-600 ${j == sourceIndex ? 'bg-indigo-800  ' : ""} `}
+                <p  key={j} className={`w-2 h-2 bg-indigo-400  rounded-full  cursor-pointer hover:bg-indigo-600 ${j == sourceIndex ? 'bg-indigo-800  ' : ""} `}
                   onClick={() => setSourceIndex(j)} > </p>
               )
             })

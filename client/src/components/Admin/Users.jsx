@@ -6,10 +6,10 @@ import lockOnSvg from "../../assets/svg/lock-on.svg"
 import lockOffSvg from "../../assets/svg/lock-off.svg"
 import trashSvg from "../../assets/svg/trash.svg"
 import flagSvg from "../../assets/svg/flag.svg"
-
+import { getCookie } from '../../utils/getCookie'
 import UserNotificationModal from './UserNotificationModal'
 import UserBanModal from './UserBanModal'
-
+import { host } from '../../config/config'
 export default function Users() {
 
   const [searchType, setSearchType] = useState("Username")
@@ -19,11 +19,10 @@ export default function Users() {
   const [users, setUsers] = useState([])
   const [searchResults, setSearchResults] = useState([])
   const [showSearchResults, setShowSearchResults] = useState(false)
-  const host = "http://localhost:5000/"
   const searchResultsRef = useRef()
   async function loadUsers() {
     try {
-      let result = await axios.post(host + "api/admin/graphql", { model: "user", sortObj: { cake_day: 1 } })
+      let result = await axios.post(host + "api/admin/graphql", {  token : getCookie('token')  ,  model: "user", sortObj: { cake_day: 1 } })
       setUsers(result.data)
     } catch (err) {
       console.log(err)
@@ -43,7 +42,7 @@ export default function Users() {
         searchType == "Id" ? obj = { id: value } : null
     try {
       console.log('ob', obj)
-      let result = await axios.post("http://localhost:5000/" + "api/admin/user/search", obj)
+      let result = await axios.post("http://localhost:5000/" + "api/admin/user/search", {...obj , token :getCookie('token') })
       if (result.data.length > 0) {
         setSearchResults(result.data)
       }

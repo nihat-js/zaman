@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const schema=  new mongoose.Schema({
-  users_id : [{ type : mongoose.Schema.Types.ObjectId, ref : 'users' }],
+  users_id : [{ type : mongoose.Schema.Types.ObjectId, ref : 'users'  , required : true }],
   // type : { type : String , default : 'private' },
   theme : {type  : String , default : "" },
   last_message : {type  : String, default : "" },

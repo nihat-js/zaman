@@ -22,7 +22,7 @@ export default function UserNotificationModal(props) {
   async function handleSubmit() {
     try{
       let res = await axios.post(host + "api/admin/user/notification/send", 
-      { cookie : getCookie('token') ,target_id : user._id , type : typeRef.current.value , message : messageRef.current.value  })
+      { token : getCookie('token') ,target_id : user._id , type : typeRef.current.value , message : messageRef.current.value  })
       console.log(res)
       close()
     }catch(err) {

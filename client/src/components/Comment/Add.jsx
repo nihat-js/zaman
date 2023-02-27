@@ -25,7 +25,10 @@ export default function AddComment(props) {
     console.log('qa')
   }
 
-  async function handlePostButton() {
+  async function handlePostButton(gif_name) {
+    if (!text ){
+      return false
+    }
     try {
       let formData = new FormData()
       if (image) {
@@ -34,6 +37,7 @@ export default function AddComment(props) {
       console.log("started")
       formData.append('text', text)
       formData.append("post_id", post_id)
+      formData.append("gif_name",gif_name)
       formData.append("token", getCookie('token'))
       let response = await axios.post('http://localhost:5000/api/comment/add', formData )
       setImage(null)
@@ -67,10 +71,10 @@ export default function AddComment(props) {
           <div className='left flex gap-1'>
             <img onClick={handleImageClick} src={gallerySvg} className="w-8 cursor-pointer mr-4  hover:bg-slate-200 p-1  rounded-md" />
             <img  src={gifSvg} className="w-6 cursor-pointer " /> 
-            <img src={gif1} className="w-8 rounded-full " alt="" />
+            <img  src={gif1} className="w-8 rounded-full cursor-pointer " alt="" />
           </div>
           <div className="right">
-            <button onClick={handlePostButton}> Post </button>
+            <button className='px-2 py-2 bg-indigo-700 text-white rounded-md hover:bg-indigo-600' onClick={handlePostButton}> Post </button>
 
           </div>
 

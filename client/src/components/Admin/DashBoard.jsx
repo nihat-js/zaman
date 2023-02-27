@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import StatsSkleton from './StatsSkleton'
 import StatsBox from './StatsBox'
 import Avatar from "../User/Avatar"
+import {getCookie} from "../../utils/getCookie"
 export default function DashBoard(props) {
   const { setCurrentTabName, showNames, setshowNames } = props
 
@@ -18,7 +19,7 @@ export default function DashBoard(props) {
   let [mostFollowedUsers, setMostFollowedUsers] = useState([])
   async function loadStats() {
     try {
-      let result = await axios.post(host + "api/admin/stats")
+      let result = await axios.post(host + "api/admin/stats", { token : getCookie('token')  })
       // console.log(result)
       setStats(result.data)
     } catch (err) {
@@ -34,7 +35,7 @@ export default function DashBoard(props) {
 
   async function loadMostFollowedUsers() {
     try {
-      let result = await axios.post(host + "api/admin/graphql", { model: "user", sortObj: { followings_count: 1 } })
+      let result = await axios.post(host + "api/admin/graphql", { token : getCookie('token') , model: "user", sortObj: { followings_count: 1 } })
       console.log('start');
       setMostFollowedUsers(result.data)
       console.log(result)
@@ -46,7 +47,7 @@ export default function DashBoard(props) {
 
   async function loadRecentUsers() {
     try {
-      let result = await axios.post(host + "api/admin/graphql", { model: "user", sortObj: { cake_day: 1 } })
+      let result = await axios.post(host + "api/admin/graphql", { model: "user", sortObj: { cake_day: 1 }  , token : getCookie('token')  })
       setRecentUsers(result.data)
       console.log("recents", result.data)
     } catch (err) {

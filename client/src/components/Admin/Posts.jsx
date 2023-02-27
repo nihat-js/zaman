@@ -4,13 +4,14 @@ import axios from 'axios'
 import Avatar from "../User/Avatar"
 import Username from "../User/Username"
 import threeSvg from "../../assets/svg/three-dots.svg"
+import { getCookie } from '../../utils/getCookie'
 export default function Posts() {
 
   let [data, setData] = useState([])
 
   async function loadData() {
     try {
-      let res = await axios.post(host + "api/admin/graphql", { model: "post" })
+      let res = await axios.post(host + "api/admin/graphql", { model: "post" , token : getCookie('token') })
       setData(res.data)
       console.log("reports", res.data)
     } catch (err) {

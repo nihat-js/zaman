@@ -9,7 +9,7 @@ const path = require('path')
 const auth = require('./middlewares/auth')
 const adminAuth = require("./middlewares/adminAuth")
 //routes
-const message = require('./routes/message')
+// const message = require('./routes/message')
 const entry = require('./routes/entry')
 const chat = require('./routes/chat')
 const post = require("./routes/post")
@@ -34,11 +34,11 @@ app.use(fileUpload())
 
 app.use(express.static('storage'))
 app.use('/api/entry/',entry)
-app.use('/api/message/',auth,message)
+// app.use('/api/message/',auth,message)
 app.use('/api/chat/',auth,chat)
 app.use("/api/post/",auth,post)
 app.use("/api/comment/",auth,comment)
-app.use("/api/admin",admin)
+app.use("/api/admin",adminAuth,admin)
 
 app.use("/api/user/",auth,user)
 
