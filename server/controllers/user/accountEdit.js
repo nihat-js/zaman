@@ -26,7 +26,7 @@ async function accountEdit(req, res) {
   if (phone_number) {
     obj.phone_number = phone_number
   }
-  if (bio && bio.length < 12) {
+  if (bio && bio.length < 120) {
     obj.bio = bio
   }
   if (gender && [0, 1, 2].includes(gender)) {

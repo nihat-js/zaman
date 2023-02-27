@@ -96,12 +96,12 @@ export default function PostBox(props) {
         val = 1
       } else if (first == "up" && last == "") {
         val = -1
-      }else if (first == "" && last == "up" ){
+      } else if (first == "" && last == "up") {
         val = 1
-      }else if (first == "" && last =="down"){
+      } else if (first == "" && last == "down") {
         val = -1
       }
-      console.log('val',val)
+      console.log('val', val)
       setReeactionsCount(reactionsCount + val)
       setIsReacted(last)
       console.log(response.data)
@@ -110,7 +110,7 @@ export default function PostBox(props) {
     }
   }
 
- 
+
 
 
   if (isPostDeleted) {
@@ -145,35 +145,35 @@ export default function PostBox(props) {
           <img onClick={() => setShowOptions(true)}
             className="three w-8 p-1 rounded-full cursor-pointer hover:bg-slate-200 " src={threeDotsSvg} alt="" />
           <div ref={showOptionsRef}
-            className={`post-options absolute bg-white   rounded-md  shadow-md z-10   ${showOptions ? "" : "hidden"} `}>
+            className={`post-options absolute bg-white   rounded-md  shadow-md z-10  right-2  ${showOptions ? "" : "hidden"} `}>
 
-            <button className="px-2 py-3  rounded hover:bg-slate-100  ">  Unfollow</button>
-            <Link to={"/profile/" + username  } >
+            {/* <button className="px-2 py-3  rounded hover:bg-slate-100  ">  Unfollow</button> */}
+            <Link to={"/profile/" + username} >
               <button className="px-2 py-3  rounded hover:bg-slate-100    ">  Visit Profile </button>
             </Link>
             <button
               className="px-2 py-3  rounded hover:bg-slate-100 flex gap-2  "
-              onClick={() => { setShowOptions(false); setShowReportModal(true) }}
-            >
+              onClick={() => { setShowOptions(false); setShowReportModal(true) }} >
               <img src={flagSvg} className="w-6" />
-              <span> Report  </span>
+              <span className="text-sm"> Report  </span>
             </button>
             {username == user.username &&
               <button className="text-red-800 px-2 py-3  rounded hover:bg-slate-100 flex gap-2 " onClick={() => deletePost()}  > Delete post </button>
             }
-            <button onClick={() => setShowOptions(false)} > Cancel </button>
+            <button className="px-2 py-3  rounded hover:bg-slate-100   "
+              onClick={() => setShowOptions(false)} > Cancel </button>
 
           </div>
         </div>
       </header>
       <div className="gallery relative mb-4">
-        {5 > 3 ? <img style={{ width: "100%" }} onDoubleClick={() => reactToPost('up')} src={"http://localhost:5000/images/" + sources[sourceIndex]} /> : ""}
+        {5 > 3 ? <img style={{ width: "100%" }} onDoubleClick={() => reactToPost('up')} src={host + "images/" + sources[sourceIndex]} /> : ""}
         {sources.length > 1 &&
           <img onClick={() => sourceIndex + 1 == sources.length ? setSourceIndex(0) : setSourceIndex(sourceIndex + 1)}
             className="w-8 absolute top-1/2 right-4 bg-slate-50 rounded-full p-2 cursor-pointer hover:bg-slate-200  opacity-50 hover:opacity-90 " src={arrowRightSvg} />
         }
         {sources.length > 1 &&
-          <img   onClick={() => sourceIndex == 0 ? setSourceIndex(sources.length - 1) : setSourceIndex(sourceIndex - 1)}
+          <img onClick={() => sourceIndex == 0 ? setSourceIndex(sources.length - 1) : setSourceIndex(sourceIndex - 1)}
             className="transition-all duration-300 w-8 absolute top-1/2 left-4  bg-slate-50 rounded-full p-2 cursor-pointer hover:bg-slate-200 opacity-50 hover:opacity-90  " src={arrowLeftSvg} />
         }
 
@@ -184,42 +184,44 @@ export default function PostBox(props) {
           {
             sources.map((i, j) => {
               return (
-                <p  key={j} className={`w-2 h-2 bg-indigo-400  rounded-full  cursor-pointer hover:bg-indigo-600 ${j == sourceIndex ? 'bg-indigo-800  ' : ""} `}
+                <p key={j} className={`w-2 h-2 bg-indigo-400  rounded-full  cursor-pointer hover:bg-indigo-600 ${j == sourceIndex ? 'bg-indigo-800  ' : ""} `}
                   onClick={() => setSourceIndex(j)} > </p>
               )
             })
           }
         </div>
       }
-      <div className="text font-semibold mb-4 text-xl" >
+      <div className="text font-semibold mb-1 mt-2 text-xl" >
         {text}
       </div>
 
-      <div className="text-gray-600" > {calculateTimeForUser(createdAt)} </div>
-      <div className="actions flex gap-2 items-center mb-5 ">
+      <div className="text-gray-400 text-sm hover:opacity-50 " > {calculateTimeForUser(createdAt)} </div>
+      <div className="actions flex gap-2 justify-between mb-5 mt-2 ">
 
-        <div className="likes flex gap-2  pr-5 items-center ">
-          <img className={`w-10 p-2  hover:bg-slate-200 rounded-full
+        <div className="left flex gap-2 ">
+          <div className="likes flex gap-2  pr-5 items-center ">
+            <img className={`w-9 p-2  hover:bg-slate-200 rounded-full
             ${isReacted == "up" ? "bg-slate-300" : ""}`}
-            onClick={() => reactToPost('up')}
-            src={primarySvg} alt="" />
-          <span className="count font-semibold text-xl"> {reactionsCount || 0}   </span>
-          <img className={`w-10  p-2 hover:bg-slate-200 rounded-full    ${isReacted == "down" ? "bg-slate-300" : ""}          `}
-            onClick={() => reactToPost('down')}
-            src={secondarySvg} alt="" />
-        </div>
+              onClick={() => reactToPost('up')}
+              src={primarySvg} alt="" />
+            <span className="count font-semibold text-xl"> {reactionsCount || 0}   </span>
+            <img className={`w-9  p-2 hover:bg-slate-200 rounded-full    ${isReacted == "down" ? "bg-slate-300" : ""}          `}
+              onClick={() => reactToPost('down')}
+              src={secondarySvg} alt="" />
+          </div>
 
-        <button onClick={() => { commentsStatus == "closed" ? loadComments() : commentsStatus == "open" ? setCommentsStatus("closed") : "" }}
-          className="flex gap-1 px-5  items-center hover:bg-slate-200">
-          <img className="w-8 p-1" src={commentSvg} alt="" />
-          <span>  {commentsCount > 0 && commentsCount}  </span>
-        </button>
-        <button>
-          <img className="w-8 p-1" src={shareSvg} alt="" />
-        </button>
-        <button className="flex gap-2  items-center group ">
-          <img className="w-8 p-1 group-hover:bg-green-300 rounded-full " src={saveSvg} alt="" />
-          <span className=" text-gray-600 group-hover:text-green-500 transition-all duration-200" > Save </span>
+          <button onClick={() => { commentsStatus == "closed" ? loadComments() : commentsStatus == "open" ? setCommentsStatus("closed") : "" }}
+            className="flex gap-1 px-5  items-center hover:bg-slate-200">
+            <img className="w-8 p-1" src={commentSvg} alt="" />
+            <span>  {commentsCount > 0 && commentsCount}  </span>
+          </button>
+        </div>
+        
+
+
+        <button className="flex gap-2  items-center group hover:bg-slate-300 px-2 ">
+          <img className="w-8 p-1  rounded-full " src={saveSvg} alt="" />
+          <span className=" text-gray-600  transition-all duration-200" > Save </span>
         </button>
       </div>
 

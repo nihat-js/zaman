@@ -11,6 +11,7 @@ import threeDotsSvg from '../assets/svg/three-dots.svg'
 import { MainContext } from '../contexts/Main'
 import { host } from "../config/config"
 import Avatar from '../components/User/Avatar'
+import muteSvg from "../components/../assets/svg/mute.svg"
 
 export default function Chat() {
   const user = useContext(MainContext)
@@ -50,9 +51,9 @@ export default function Chat() {
     let response = await axios.post(host + "api/chat/message/load", { chat_id: currentChat, token: getCookie('token') })
     console.log("loaded Messages", response.data)
     setMessages(response.data)
-    
+
   }
-  
+
 
 
   useEffect(() => {
@@ -160,20 +161,37 @@ function SkletonBox() {
 
 function Box(props) {
   const { chat_id, unseen_messages_count, } = props.item
-  const { setCurrentChat, currentChat, currentfolderName , setCurrentFolderName } = props
+  const foo = props.item.isMuted
+  const { setCurrentChat, currentChat, currentfolderName, setCurrentFolderName } = props
   const { users_id, last_message } = chat_id
 
   const [showOptios, setShowOptions] = useState(false)
+  const [isMuted, setIsMuted] = useState(foo)
 
-
-  async function move(folder_name){
-    try{ let response = await axios.post(host + "api/chat/move", {chat_id : currentChat , token : getCookie('token') , folder_name } )
+  async function move(folder_name) {
+    setShowOptions(false)
+    try {
+      let response = await axios.post(host + "api/chat/move", { chat_id: chat_id._id, token: getCookie('token'), folder_name })
       console.log("moving to", response.data)
       setCurrentFolderName(folder_name)
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
   }
+
+  async function mute() {
+    let val;
+    isMuted == 1 ? val = 0 : val = 1;
+    setShowOptions(false)
+    try {
+      let response = await axios.post(host + "api/chat/mute", { chat_id: chat_id._id, token: getCookie('token'), val, })
+      console.log("changing  ", response.data)
+      setIsMuted(val)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
 
 
   // console.log("box", currentChat, chat_id)
@@ -185,18 +203,25 @@ function Box(props) {
     <div className={`message flex  justify-between items-center py-2  rounded-md cursor-pointer
       ${currentChat == chat_id._id ? "bg-slate-300" : ""}
     ` }
-        >
-      <div className="left flex gap-3 items-center hover:bg-slate-200 flex-1 py-2 px-1   "  onClick={() =>  setCurrentChat(chat_id._id) }  >
-        <Avatar username={chatAvatar} />
-        <div>
-          <p className="username text-sm mb-1 rounded-md "> {chatTitle} </p>
-          <p className="last-message text-sm text-gray-600 rounded-md ">  {last_message} </p>
+    >
+      <div className="left flex justify-between gap-3 items-center hover:bg-slate-200 flex-1 py-2 px-1   " onClick={() => setCurrentChat(chat_id._id)}  >
+        <div className="left flex gap-2">
+          <Avatar username={chatAvatar} />
+          <div className='flex '>
+            <p className="username text-xl mb-1 rounded-md "> {chatTitle} </p>
+            <p className="last-message text-sm text-gray-600 rounded-md ">  {last_message} </p>
+          </div>
+        </div>
+        <div className="right">
+           {  isMuted == 1 ? <img className='w-6' src={muteSvg} alt="" /> : "" }
         </div>
       </div>
       <div className="right relative">
         <img className='w-8 hover:bg-slate-200 p-1 ' onClick={() => setShowOptions(!showOptios)} src={threeDotsSvg} alt="" />
         <div className={`chat-options   absolute  bg-white  shadow-md rounded-md z-20 ${showOptios ? "" : "hidden"} `} style={{ width: "150px" }}>
-          <p className=' py-2 px-1 text-center hover:bg-slate-200 font-bold rounded-tl-md rounded-tr-md text-blue-800 ' > Mute </p>
+          <p className={` py-2 px-1 text-center hover:bg-slate-200 font-bold rounded-tl-md rounded-tr-md text-blue-800 
+            
+          `} onClick={() => mute()} >  {isMuted == 1 ? "Unmute" : "Mute"}   </p>
 
           {
             currentfolderName == "request" ?

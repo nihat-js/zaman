@@ -18,7 +18,7 @@ const calculateTimeForUser = (stringDate) => {
     text = "Yesterday " + original.getHours() + ":" + original.getMinutes()
   }
   else if (current.getFullYear() == original.getFullYear()) {
-    text = original.getDate() + " " + getMonthName(original.getUTCMonth()) + " " + original.getUTCHours() + ":" + original.getUTCMinutes()
+    text = original.getDate() + " " + getMonthName(original.getUTCMonth()) + " " + original.getUTCHours() + ":" + original.getMinutes()
   }
   return text
 }

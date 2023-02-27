@@ -42,7 +42,6 @@ export default function CommentBox(props) {
       } else if (previous == "up" && name == "down"){
         payload = -2
       }else{
-        payload = "fuck you"
       }
       console.log('le',previous ,name , payload )
       setScoreCount(scoreCount + payload)
@@ -53,27 +52,27 @@ export default function CommentBox(props) {
   }
 
   return (
-    <div className="comment flex gap-2 py-2 mt-2  px-4 border-slate-50 border rounded-md">
+    <div className="comment flex gap-4 py-2 mt-2  px-4 border-slate-50 border rounded-md">
       <div className="left">
-        <Avatar username={username} className="w-6" src="" />
+        <Avatar username={username} avatar={avatar} className="w-6" src="" />
       </div>
       <div className="right w-full  ">
-        <header className="flex gap-2">
-          <Username username={username} className="text-base" />
-          <span className="text-gray-500 text-sm"> {calculateTimeForUser(createdAt)} </span>
+        <header className="flex gap-2 items-center">
+          <Username username={username} className="text-xl" />
         </header>
         <div className="body w-full flex justify-between mt-2 font-semibold">
           <div className="left">
             <p className="text select-none" onDoubleClick={() => !isReacted ? handleReact("up") : ""}  > {text}  </p>
             <img className='rounded-md' src={src} style={{ maxWidth: "150px" }} alt="" />
+          <span className="text-gray-400 text-sm"> {calculateTimeForUser(createdAt)} </span>
           </div>
-          <div className="right ">
+          <div className="right flex gap-1 items-center">
             <img onClick={() => isReacted == 'up' ? handleReact('none') : handleReact("up")}
-              className={`w-5 p-1 mb-1 cursor-pointer hover:bg-slate-200 ${isReacted == "up" ? "bg-slate-300" : ""}  `}
+              className={`w-4 p-1 mb-1 cursor-pointer hover:bg-slate-200 ${isReacted == "up" ? "bg-slate-300 rounded-md" : ""}  `}
               src={primarySvg} alt="" />
             <span className='ml-1 mb-1 font-semibold'>  {scoreCount|| 0}  </span>
             <img onClick={() => {   isReacted == "down" ? handleReact('none') :  handleReact('down')  }}
-              className={`w-5 p-1 cursor-pointer hover:bg-slate-200  ${isReacted == "down" ? "bg-slate-300" : ""}  `} // 
+              className={`w-4 p-1 cursor-pointer hover:bg-slate-200  ${isReacted == "down" ? "bg-slate-300 rounded-md" : ""}  `} // 
               src={secondarySvg} alt="" />
           </div>
         </div>

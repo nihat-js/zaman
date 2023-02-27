@@ -59,6 +59,7 @@ export default function Basics(){
 
 
     try {
+      console.log(touched)
       let response = await axios.post(host + "api/user/account/edit", { token: getCookie('token'), ...touched })
       console.log(response.data)
       setData(response.data)
