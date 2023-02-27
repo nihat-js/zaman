@@ -27,7 +27,7 @@ async function main(req, res) {
   const members = await Chat.findById(chat_id)
   const target = members.users_id[0] == user_id ? members.users_id[1] : members.users_id[0]
   console.log('target',target)
-  const update = await Chat.findOneAndUpdate({ chat_id, user_id: target._id }, { $inc: { unseen_messages_count: 1 } })
+  const update = await UserChat.findOneAndUpdate({ chat_id, user_id: target._id }, { $inc: { unseen_messages_count: 1 } })
 
   return res.status(200).send()
 

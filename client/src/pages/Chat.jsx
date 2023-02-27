@@ -14,7 +14,7 @@ import Avatar from '../components/User/Avatar'
 import muteSvg from "../components/../assets/svg/mute.svg"
 
 export default function Chat() {
-  const user = useContext(MainContext)
+  const {user} = useContext(MainContext)
   const textRef = useRef()
   const [currentfolderName, setCurrentFolderName] = useState("primary")
   const [chats, setChats] = useState([])
@@ -41,16 +41,24 @@ export default function Chat() {
 
   async function send(e) {
     e.preventDefault()
-    let response = await axios.post(host + "api/chat/message/send", { token: getCookie('token'), chat_id: currentChat, text: textRef.current.value })
-    console.log('message sent', response.data.data)
-    setText('')
-    loadMessages()
+    try {
+      let response = await axios.post(host + "api/chat/message/send", { token: getCookie('token'), chat_id: currentChat, text: textRef.current.value })
+      console.log('message sent', response.data.data)
+      textRef.current.value = ""
+      // loadMessages()
+    } catch (err) {
+
+    }
   }
 
   async function loadMessages() {
-    let response = await axios.post(host + "api/chat/message/load", { chat_id: currentChat, token: getCookie('token') })
-    console.log("loaded Messages", response.data)
-    setMessages(response.data)
+    try {
+      let response = await axios.post(host + "api/chat/message/load", { chat_id: currentChat, token: getCookie('token') })
+      console.log("loaded Messages", response.data)
+      setMessages(response.data)
+    } catch (err) {
+      console.log(err)
+    }
 
   }
 
@@ -73,7 +81,7 @@ export default function Chat() {
       <Nav />
 
 
-      <section className="start py-10">
+      <section className="start py-10 min-h-screen bg-slate-50 ">
         <div style={{ maxWidth: "1200px" }} className="mx-auto">
           <div className="row flex gap-12 " style={{ minHeight: "600px" }} >
             <div className="left w-4/12 border-r-gray-400 border-r-2  px-4  ">
@@ -125,12 +133,14 @@ export default function Chat() {
                 </div>
               </form>
 
-              <div className="messages flex">
+              <div className="messages   ">
                 {
                   messages.map((i, j) => {
-                    <div className={`message ${i.sender_id.username == user.username ? "justify-start" : "justify-end"} `}>
-                      {i.text} maraqli
+                    return(  <div className={`message  flex  mb-3 rounded-lg ${user.username}   ${i.sender_id.username == user.username ? "justify-end " : "justify-start"} `}>
+                      <p className='py-2 px-3 bg-slate-100' > {i.text}  </p>
+                      <Avatar username={i.sender_id.username} avatar={i.sender_id.avatar} />
                     </div>
+                    )
                   })
                 }
               </div>
@@ -213,7 +223,7 @@ function Box(props) {
           </div>
         </div>
         <div className="right">
-           {  isMuted == 1 ? <img className='w-6' src={muteSvg} alt="" /> : "" }
+          {isMuted == 1 ? <img className='w-6' src={muteSvg} alt="" /> : ""}
         </div>
       </div>
       <div className="right relative">
