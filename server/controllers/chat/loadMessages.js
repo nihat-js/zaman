@@ -9,7 +9,10 @@ async function main(req,res) {
     return res.status(488).send() // no access
   }
 
-  const messages = await Message.find({chat_id})
+  const messages = await Message.find({chat_id}).populate({
+    path : 'sender_id',
+    select : "username avatar"
+  })
 
   return res.status(201).json(messages)
 

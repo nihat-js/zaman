@@ -48,11 +48,11 @@ export default function Index() {
     <div className="feed-page min-h-screen bg-slate-100 relative  ">
       <Nav />
 
-      <div style={{ maxWidth: "1200px" }} className="flex mx-auto gap-10 mt-6  pt-1">
-        <div className="lg:w-2/12 mt-6   md:w/6/12 ">
+      <div style={{ maxWidth: "1200px" }} className="feed-inner lg:flex md:flex sm:block mx-auto gap-10 mt-6  pt-1  ">
+        <div className="lg:w-2/12 mt-6   md:w/6/12 wrap-left-nav ">
           <LeftNav place={place} setPlace={setPlace} />
         </div>
-        <div className="lg:w-7/12    wrap-place "  style={{height:"800px" , overflowY : "auto" , scrollbarWidth : "none" , WebkitOverflowScrolling : 'none'  }}>
+        <div  className="lg:w-7/12 wrap-middle     "  style={{height:"800px" , overflowY : "auto" , scrollbarWidth : "none" , WebkitOverflowScrolling : 'none'  }}>
           <CreatePost />
           <div className="mt-8"> </div>
           { 

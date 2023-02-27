@@ -5,12 +5,13 @@ const Message = require("../../models/Message")
 
 async function main(req, res) {
   const { text, user_id, chat_id } = req.body
+  console.log('c',chat_id)
   if (!text || !chat_id) {
     return res.status(406).send()
   }
 
-  const UserChat = await Chat.findById(chat_id, user_id)
-  if (!UserChat) {
+  const userChat = await UserChat.findOne({chat_id, user_id})
+  if (!userChat) {
     return res.status(406).send()
   }
   const message = new Message({
@@ -28,7 +29,7 @@ async function main(req, res) {
   console.log('target',target)
   const update = await Chat.findOneAndUpdate({ chat_id, user_id: target._id }, { $inc: { unseen_messages_count: 1 } })
 
-  return res.status(200)
+  return res.status(200).send()
 
 }
 

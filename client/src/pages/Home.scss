@@ -20,8 +20,20 @@
 }
 
 @media screen and (max-width:768px) {
-  .wrap-place{
+  .wrap-middle{
     height: unset !important;
     overflow: auto !important;
+  }
+}
+
+@media screen and (max-wdith:768px) {
+  .feed-inner{
+    display: block !important ;
+  }
+  .wrap-place{
+    width: 100% !important;
+  }
+  .wrap-left-nav{
+    width: 100% !important
   }
 }

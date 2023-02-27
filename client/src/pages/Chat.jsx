@@ -38,22 +38,21 @@ export default function Chat() {
 
   }
 
-  async function sendMessage(e) {
+  async function send(e) {
     e.preventDefault()
-    let response = await axios.post(host + "api/chat/message/load", { token: getCookie('token'), chat_id: selectedChat, text: text })
+    let response = await axios.post(host + "api/chat/message/send", { token: getCookie('token'), chat_id: currentChat, text: textRef.current.value })
     console.log('message sent', response.data.data)
     setText('')
     loadMessages()
   }
 
   async function loadMessages() {
-    console.log('current chat', currentChat)
     let response = await axios.post(host + "api/chat/message/load", { chat_id: currentChat, token: getCookie('token') })
     console.log("loaded Messages", response.data)
-    setMessages(response.data.data)
-
+    setMessages(response.data)
+    
   }
-
+  
 
 
   useEffect(() => {
@@ -64,7 +63,7 @@ export default function Chat() {
     if (currentChat != "") {
       loadMessages()
     }
-  })
+  }, [currentChat])
 
 
   return (
@@ -111,18 +110,30 @@ export default function Chat() {
                         <span className='text-sm'> Looks like it's empty  </span>
                       </div>
                     </div>
-                    : chats.map((item, index) => <Box currentChat={currentChat} setCurrentChat={setCurrentChat} key={index} item={item} />)}
+                    : chats.map((item, index) => <Box setCurrentFolderName={setCurrentFolderName} currentfolderName={currentfolderName} currentChat={currentChat} setCurrentChat={setCurrentChat} key={index} item={item} />)}
               </div>
             </div>
-            <div className="right w-5/12 flex flex-col-reverse " style={{maxHeight : "800px"}}>
+            <div className="right w-5/12 flex flex-col-reverse " style={{ maxHeight: "800px" }}>
+
               <form action="" className='flex items-center gap-2 ' >
                 <textarea type="text" cols={1} rows={1} ref={textRef}
                   className='resize-none w-full overflow-y-clip  border border-slate-200  outline-none rounded-md  py-2 px-8' placeholder='Message' />
                 <div className=
-                  "rounded-md w-8 h-8 px-1 py-1  img-wrap bg-sky-600  hover:bg-sky-800 cursor-pointer" onClick={() => send()}>
+                  "rounded-md w-8 h-8 px-1 py-1  img-wrap bg-sky-600  hover:bg-sky-800 cursor-pointer" onClick={(e) => send(e)}>
                   <img className='w-full  ' src={sendSvg} alt="" />
                 </div>
               </form>
+
+              <div className="messages flex">
+                {
+                  messages.map((i, j) => {
+                    <div className={`message ${i.sender_id.username == user.username ? "justify-start" : "justify-end"} `}>
+                      {i.text} maraqli
+                    </div>
+                  })
+                }
+              </div>
+
             </div>
           </div>
         </div>
@@ -149,23 +160,33 @@ function SkletonBox() {
 
 function Box(props) {
   const { chat_id, unseen_messages_count, } = props.item
-  const { setCurrentChat, currentChat } = props
+  const { setCurrentChat, currentChat, currentfolderName , setCurrentFolderName } = props
   const { users_id, last_message } = chat_id
 
   const [showOptios, setShowOptions] = useState(false)
 
 
-  console.log("box", currentChat, chat_id)
+  async function move(folder_name){
+    try{ let response = await axios.post(host + "api/chat/move", {chat_id : currentChat , token : getCookie('token') , folder_name } )
+      console.log("moving to", response.data)
+      setCurrentFolderName(folder_name)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+
+  // console.log("box", currentChat, chat_id)
 
 
   let chatTitle = chat_id.target.username
   let chatAvatar = chat_id.target.avatar
   return (
-    <div className={`message flex  justify-between items-center py-2 hover:bg-slate-200 rounded-md cursor-pointer
+    <div className={`message flex  justify-between items-center py-2  rounded-md cursor-pointer
       ${currentChat == chat_id._id ? "bg-slate-300" : ""}
     ` }
-      onClick={(e) => { e.target.tagName.toLowerCase() == "img" ? "" : setCurrentChat(chat_id._id) }}  >
-      <div className="left flex gap-3 items-center ">
+        >
+      <div className="left flex gap-3 items-center hover:bg-slate-200 flex-1 py-2 px-1   "  onClick={() =>  setCurrentChat(chat_id._id) }  >
         <Avatar username={chatAvatar} />
         <div>
           <p className="username text-sm mb-1 rounded-md "> {chatTitle} </p>
@@ -173,18 +194,21 @@ function Box(props) {
         </div>
       </div>
       <div className="right relative">
-        <img className='w-6' onClick={() => setShowOptions(!showOptios)} src={threeDotsSvg} alt="" />
+        <img className='w-8 hover:bg-slate-200 p-1 ' onClick={() => setShowOptions(!showOptios)} src={threeDotsSvg} alt="" />
         <div className={`chat-options   absolute  bg-white  shadow-md rounded-md z-20 ${showOptios ? "" : "hidden"} `} style={{ width: "150px" }}>
           <p className=' py-2 px-1 text-center hover:bg-slate-200 font-bold rounded-tl-md rounded-tr-md text-blue-800 ' > Mute </p>
+
           {
-            // currentfolderName  == "request" ?
-            // <p className=' py-2 px-1  text-center  hover:bg-slate-200  text-blue-800 font-bold ' > Move to Primary </p> :
-            // currentfolderName == "primary" ?
-            // <p className=' py-2 px-1  text-center  hover:bg-slate-200  text-blue-800 font-bold ' > Move to Secondary </p> :
-            // currentfolderName == "secondary" ?
-            // <p className=' py-2 px-1  text-center  hover:bg-slate-200  text-blue-800 font-bold ' > Move to Primary </p> :
-            // ""
-            // console.log(currentfolderName)
+            currentfolderName == "request" ?
+              <p className=' py-2 px-1  text-center  hover:bg-slate-200  text-blue-800 font-bold ' onClick={() => move('primary')} >
+                Move to Primary
+              </p> :
+              currentfolderName == "primary" ?
+                <p className=' py-2 px-1  text-center  hover:bg-slate-200  text-blue-800 font-bold ' onClick={() => move('secondary')}  >
+                  Move to Secondary </p> :
+                currentfolderName == "secondary" ?
+                  <p className=' py-2 px-1  text-center  hover:bg-slate-200  text-blue-800 font-bold ' onClick={() => move('primary')} > Move to Primary </p> :
+                  ""
           }
           <p className=' py-2 px-1  text-red-800   hover:bg-slate-200   font-bold  text-center    ' > Delete </p>
           <p className=' py-2  px-1  text-center mt-1  hover:bg-slate-200    text-blue-800 ' onClick={() => setShowOptions(false)} > Cancel</p>

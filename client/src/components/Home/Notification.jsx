@@ -36,7 +36,7 @@ export default function Notification() {
       <header className='flex justify-between'>
         <div className='flex gap-1 items-center'>
           <img className='w-4' src={notificationSvg} alt="" />
-          <p className='font-semibold text-sm'> Notifications </p>
+          <p className='font-semibold text-sm'> Admin Notifications </p>
         </div>
         <img onClick={() => setShow(!show)} className=' w-6 cursor-pointer hover:bg-slate-200 rounded-full ' src={show ? arrowUpSvg : arrowDownSvg} alt="" />
       </header>
