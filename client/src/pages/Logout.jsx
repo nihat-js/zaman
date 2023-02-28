@@ -6,7 +6,7 @@ export default function Index() {
   const navigate = useNavigate()
 
   function clearCookie(){
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00"
+    document.cookie = "token="
     localStorage.clear()
     navigate('/login')
   }

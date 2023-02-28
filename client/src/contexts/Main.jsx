@@ -23,10 +23,10 @@ export default function Index({ children }) {
 
 
   function updateUser(obj) {
-    console.log('updating', obj);
+    // console.log('updating', obj);
     let oldObj = JSON.parse(localStorage.getItem('user'))
     let newObj = { ...user, ...obj }
-    console.log(newObj)
+    // console.log(newObj)
     localStorage.setItem("user", JSON.stringify(newObj))
     setUser(newObj)
   }

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 
 import lockSvg from '../assets/svg/lock.svg'
 import userSvg from '../assets/svg/user.svg'
@@ -10,8 +10,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { getCookie } from '../utils/getCookie'
 
 import InputGroup from '../components/Entry/InputGroup'
+import { MainContext } from '../contexts/Main'
 
 export default function Index() {
+
+  const {updateUser} = useContext(MainContext)
 
   const navigate = useNavigate();
   const [username, setUsername] = useState("")
@@ -55,7 +58,7 @@ export default function Index() {
         password: password,
       })
       document.cookie = "token=" + response.data.token
-      localStorage.setItem("user", JSON.stringify(response.data.user))
+      updateUser(response.data.user)
       navigate('/settings')
     } catch (error) {
       setError(error.response.data.message)
