@@ -7,8 +7,9 @@ import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { getCookie } from "../../utils/getCookie"
 import { MainContext } from '../../contexts/Main'
+import InputEmoji from "react-input-emoji";
 
-export default function Basics(){
+export default function Basics() {
 
 
   let { user, updateUser } = useContext(MainContext)
@@ -57,7 +58,7 @@ export default function Basics(){
     copy.phone_number != data.phone_number ? touched.phone_number = data.phone_number : null
     copy.gender != data.gender ? touched.gender = data.gender : null
 
-
+    console.log('touched',touched)
     try {
       console.log(touched)
       let response = await axios.post(host + "api/user/account/edit", { token: getCookie('token'), ...touched })
@@ -93,45 +94,45 @@ export default function Basics(){
 
   return (
     <div className='w-8/12'>
-          <form action="" encType='multipart/form-data' >
-            <input onChange={(e) => uploadAvatar(e)} id="file" type="file" name="file" className='hidden' />
-          </form>
-          <header className='flex gap-12 '>
-            <Avatar style={{ width: "100px" }} me={true} />
-            <div>
-              <Username me={true} style={{ color: "#192021" }} />
-              <label htmlFor="file">
-                <p className='text-indigo-800 mt-8 border-indigo-800 border  px-2 py-1 
+      <form action="" encType='multipart/form-data' >
+        <input onChange={(e) => uploadAvatar(e)} id="file" type="file" name="file" className='hidden' />
+      </form>
+      <header className='flex gap-12 '>
+        <Avatar style={{ width: "100px" }} me={true} />
+        <div>
+          <Username me={true} style={{ color: "#192021" }} />
+          <label htmlFor="file">
+            <p className='text-indigo-800 mt-8 border-indigo-800 border  px-2 py-1 
                   rounded-md hover:bg-indigo-800 hover:text-white '> Change Avatar </p>
-              </label>
-            </div>
-            <div>
-              <div className="img-wrap flex gap-3 mb-4">
-                {
-                  ["sample-1.svg", "sample-2.svg", "sample-3.svg", "sample-4.svg"].map((i, j) => {
-                    return <img key={j} onClick={() => setAvatar(i)}
-                      className='w-12 rounded-md cursor-pointer hover:border-indigo-400 border-2 hover:brightness-90 ' src={host + "avatars/" + i} />
-                  })
-                }
-              </div>
-              <p className="text"> Or use sample images </p>
-            </div>
-          </header>
-
-          <UsernameInput data={data} setData={setData} isDataLoading={isDataLoading} />
-          <EmailInput data={data} setData={setData} isDataLoading={isDataLoading} />
-          <PhoneInput data={data} setData={setData} isDataLoading={isDataLoading} />
-          <BioInput data={data} setData={setData} isDataLoading={isDataLoading} />
-          <GenderInput data={data} setData={setData} isDataLoading={isDataLoading} />
-
-
-
-
-          <div className="button-wrap mt-6">
-            <button onClick={handleSubmit} disabled={isDataLoading} className='px-5 py-3 bg-indigo-600 text-white hover:bg-indigo-800 rounded ' > Save it </button>
-          </div>
-
+          </label>
         </div>
+        <div>
+          <div className="img-wrap flex gap-3 mb-4">
+            {
+              ["sample-1.svg", "sample-2.svg", "sample-3.svg", "sample-4.svg", "sample-5.svg", "sample-6.svg", "sample-7.svg", "sample-8.svg"].map((i, j) => {
+                return <img key={j} onClick={() => setAvatar(i)}
+                  className='w-12 rounded-md cursor-pointer hover:border-indigo-400 border-2 hover:brightness-90 ' src={host + "avatars/" + i} />
+              })
+            }
+          </div>
+          <p className="text"> Or use sample images </p>
+        </div>
+      </header>
+
+      <UsernameInput data={data} setData={setData} isDataLoading={isDataLoading} />
+      <EmailInput data={data} setData={setData} isDataLoading={isDataLoading} />
+      <PhoneInput data={data} setData={setData} isDataLoading={isDataLoading} />
+      <BioInput data={data} setData={setData} isDataLoading={isDataLoading} />
+      <GenderInput data={data} setData={setData} isDataLoading={isDataLoading} />
+
+
+
+
+      <div className="button-wrap mt-6">
+        <button onClick={handleSubmit} disabled={isDataLoading} className='px-5 py-3 bg-indigo-600 text-white hover:bg-indigo-800 rounded ' > Save it </button>
+      </div>
+
+    </div>
   )
 }
 
@@ -164,14 +165,21 @@ function EmailInput(props) {
 function BioInput(props) {
   const { data, setData, isDataLoading } = props
 
+  function handleChange(val){
+    setData({...data,bio:val})
+    console.log(data)
+  }
+
+
   return (
     <div style={{ maxWidth: "500px" }} className="bio-group flex  mt-8 gap-4 items-center">
       <label htmlFor='bio' className="bio w-3/12  font-semibold text-xl text-gray-500 "> Bio </label>
-      <textarea disabled={isDataLoading}
+      {/* <textarea disabled={isDataLoading}
         className='w-9/12 outline-none px-2 py-3  border border-indigo-300 rounded-sm focus:border-indigo-500 resize-none '
         type="text" id="bio"
         value={data.bio}
-        onChange={(e) => setData({ ...data, bio: e.target.value })} />
+        onChange={(e) => setData({ ...data, bio: e.target.value })} /> */}
+      <InputEmoji value={data.bio} onChange={handleChange} placeholder="Your bio" />
     </div>
 
   )

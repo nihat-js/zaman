@@ -1,5 +1,6 @@
 const User = require("../../models/User")
-let allowedSampleNames = ['sample-1.svg', 'sample-2.svg', 'sample-3.svg', 'sample-4.svg']
+let allowedSampleNames = ['sample-1.svg', 'sample-2.svg', 'sample-3.svg',
+ 'sample-4.svg','sample-5.svg','sample-6.svg','sample-7.svg','sample-8.svg','sample-9.svg','sample-10.svg']
 
 
 async function avatarSet(req, res) {

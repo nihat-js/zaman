@@ -107,8 +107,8 @@ export default function Index() {
                 </li>
               </Link> */}
 
-              <li className={linkClassName}>
-                <img className='w-6 h-6' src={moonSvg} alt="" onClick={reverseTheme} />
+              <li className={linkClassName}  onClick={reverseTheme}  >
+                <img className='w-6 h-6' src={moonSvg} alt=""/>
               </li>
               <li className={`px-4 py-2 rounded-lg hover:bg-gray-300  relative cursor-pointer     ${theme == "dark" ?   "bg-gray-300 hover:bg-gray-700" : ""}  `}  onClick={() => setToggle(!toggle)} >
                 <div className='flex items-center gap-1'>

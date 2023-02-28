@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
 
   socket.on('load', async (data) => {
     console.log('loading',data.chat_id)
-    const messages = await Message.find({ chat_id: data.chat_id }).populate({ path: "sender_id", select: "username avatar" })
+    const messages = await Message.find({ chat_id: data.chat_id }).populate({ path: "sender_id", select: "username avatar" }).sort({createAt : -1})
     // console.log('loaded messages',messages)
     io.to(data.chat_id).emit('load', messages)
     // console.log(socket.rooms      )
@@ -124,12 +124,18 @@ io.on('connection', (socket) => {
   })
   
   socket.on('delete',async (data) => {
+    console.log('deleting',data.message_id)
     if (!data.token) return false
     const decoded = jwt.verify(data.token, process.env.JWT_SECRET)
     const user_id = decoded.user_id
     // met 
-    let deleted = await Message.findOneAndDelete({user_id : user_id ,_id : data.message_id })
+    let deleted = await Message.findOneAndDelete({ sender_id : user_id ,_id :   data.message_id })
     io.to(data.chat_id).emit('delete',data.message_id)
+  })
+
+  socket.on('theme', async (data) => {
+    console.log('theme',data.theme)
+    io.to(data.chat_id).emit('theme',data.theme)
   })
 
 });

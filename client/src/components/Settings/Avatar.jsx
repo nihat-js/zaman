@@ -5,7 +5,7 @@ import {getCookie} from '../../utils/getCookie'
 
 export default function SetProfilePicture() {
 
-  const sampleImages = ["sample-1.svg", "sample-2.svg", "sample-3.svg", "sample-4.svg"]
+  const sampleImages = ["sample-1.svg", "sample-2.svg", "sample-3.svg", "sample-4.svg","sample-5.svg","sample-6.svg","sample-7.svg"]
   const inputFile = useRef()
   const [image, setImage] = useState()
 
@@ -28,7 +28,6 @@ export default function SetProfilePicture() {
   }
 
     return (<div>
-      sdghsefhsdf
       <div className="samples">
         <div className="row flex gap-3">
           {sampleImages.map((item, index) => <img src={item} key={index} className="w-14 rounded-full cursor-pointer " onClick={() => handleClick(item)} />)}

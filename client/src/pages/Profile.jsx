@@ -20,7 +20,7 @@ export default function Index() {
   const params = useParams()
   const navigate = useNavigate()
 
-  const { user } = useContext(MainContext)
+  const { user, theme } = useContext(MainContext)
   const target_username = params.username
   const [target, setTarget] = useState("Loading")
   const [posts, setPosts] = useState([])
@@ -91,7 +91,7 @@ export default function Index() {
   async function follow() {
     setIsSubmitting(true)
     try {
-      let result = await axios.post("http://localhost:5000/api/follow", { token: getCookie('token'), target_username: target_username })
+      let result = await axios.post(host + "/api/follow", { token: getCookie('token'), target_username: target_username })
       setTarget({...target,isFollowing : true , followers_count : target.followers_count +1 })
     } catch (error) {
       console.log(error)
@@ -106,7 +106,7 @@ export default function Index() {
     }
     setIsSubmitting(true)
     try {
-      let result = await axios.post("http://localhost:5000/api/unfollow", { token: getCookie('token'), target_username: target.username })
+      let result = await axios.post(host +  "api/unfollow", { token: getCookie('token'), target_username: target.username })
       // console.log("res", result)
       setTarget({...target,isFollowing : false , followers_count : target.followers_count -1  })
     } catch (error) {
@@ -121,7 +121,7 @@ export default function Index() {
 
 
   return (
-    <div className="profile-page min-h-full bg-slate-100">
+    <div className={`profile-page min-h-full bg-slate-100 ${theme == "dark"  ? "bg-slate-800" : ""} `}>
 
       <Nav />
 
@@ -132,7 +132,7 @@ export default function Index() {
           <div className='right'>
             <header className='flex gap-8 mb-6 '>
               <Username className="username font-bold text-indigo-800 text-3xl" username={target.username} >   </Username>
-              {me ? <div className='mb-4'>
+              {me ? <div className='mb-0'>
                 <Link to="/settings">
                   <button className='bg-indigo-600 text-white px-2 py-2 hover:bg-indigo-800'> Edit account </button>
                 </Link>
