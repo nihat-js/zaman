@@ -1,6 +1,7 @@
 import exploreSvg from "../../assets/svg/explore.svg"
 import popularSvg from "../../assets/svg/popular.svg"
 import feedSvg from "../../assets/svg/feed.svg"
+import savedSvg from "../../assets/svg/save.svg"
 import { useState } from "react"
 export default function Tab(props) {
 
@@ -30,14 +31,24 @@ export default function Tab(props) {
         </div>
       </div>
 
-      <div onClick={  () => setPlace("popular") }
+      <div onClick={  () => setPlace("trend") }
       className={`flex gap-3 hover:bg-slate-200 rounded-md cursor-pointer py-2 px-2  ${place == "trend" ? "bg-purple-200" : ""} `}>
         <img className="w-6" src={popularSvg} alt="" />
         <div className="">
-          <p className="text-xl font-semibold"> Popular </p>
-          <p className="text-gray-600"> What is trend today </p>
+          <p className="text-xl font-semibold"> Trend </p>
+          <p className="text-gray-600"> What is popular today </p>
         </div>
       </div>
+
+      <div onClick={  () => setPlace("saved") }
+      className={`flex gap-3 hover:bg-slate-200 rounded-md cursor-pointer py-2 px-2  ${place == "saved" ? "bg-purple-200" : ""} `}>
+        <img className="w-6" src={savedSvg} alt="" />
+        <div className="">
+          <p className="text-xl font-semibold"> Saved </p>
+          <p className="text-gray-600"> Saved list </p>
+        </div>
+      </div>
+
 
 
     </div>

@@ -128,6 +128,8 @@ io.on('connection', (socket) => {
     const decoded = jwt.verify(data.token, process.env.JWT_SECRET)
     const user_id = decoded.user_id
     // met 
+    let deleted = await Message.findOneAndDelete({user_id : user_id ,_id : data.message_id })
+    io.to(data.chat_id).emit('delete',data.message_id)
   })
 
 });

@@ -10,6 +10,7 @@ import heartSvg from "../../assets/svg/heart.svg"
 import commentSvg from '../../assets/svg/comment.svg'
 import shareSvg from '../../assets/svg/share.svg'
 import saveSvg from '../../assets/svg/save.svg'
+import saveFillSvg from "../../assets/svg/save-fill.svg"
 import calculateTimeForUser from "../../utils/calculateTimeForUser";
 import threeDotsSvg from '../../assets/svg/three-dots.svg'
 import flagSvg from "../../assets/svg/flag.svg"
@@ -28,7 +29,7 @@ export default function PostBox(props) {
 
   let { user } = useContext(MainContext)
 
-  let { _id, createdAt, text, reactions_count, reaction, reactions, author_id, comments_count, sources } = props.data
+  let { _id, createdAt, reactions_count, reaction, reactions, author_id, comments_count, sources } = props.data
   let { avatar, username } = props.data.author_id
 
 
@@ -36,6 +37,7 @@ export default function PostBox(props) {
   let [isPostDeleted, setIsPostDeleted] = useState(false)
 
 
+  let [text, setText] = useState(props.data.text)
   const [comments, setComments] = useState([])
   const [commentsStatus, setCommentsStatus] = useState("closed") // closed, loading,  open
   const [reactionsCount, setReeactionsCount] = useState(reactions_count)
@@ -46,10 +48,28 @@ export default function PostBox(props) {
   const [showReportModal, setShowReportModal] = useState(false)
   const [sourceIndex, setSourceIndex] = useState(0)
   const [commentsCount, setCommentsCount] = useState(comments_count)
+  const [isEditing, setIsEditing] = useState(false)
+  const [isSaved,setIsSaved] = useState(props.data.saved)
 
-  async function handleReact() {
-
+  async function edit() {
+    try {
+      let res = await axios.post(host + "api/post/edit", { token: getCookie('token'), post_id: _id, text: text })
+    } catch (err) {
+      console.log(err)
+    }
   }
+
+  async function save() {
+    let val = isSaved ? 0 : 1
+    console.log(val)
+    try {
+      let res = await axios.post(host + "api/post/save", { token: getCookie('token'), post_id: _id,val })
+      setIsSaved(!isSaved)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
 
   async function loadComments() {
     setCommentsStatus("loading")
@@ -145,9 +165,17 @@ export default function PostBox(props) {
           <img onClick={() => setShowOptions(true)}
             className="three w-8 p-1 rounded-full cursor-pointer hover:bg-slate-200 " src={threeDotsSvg} alt="" />
           <div ref={showOptionsRef}
-            className={`post-options absolute bg-white   rounded-md  shadow-md z-10  right-2  ${showOptions ? "" : "hidden"} `}>
+            className={`post-options absolute bg-white   rounded-md  shadow-md z-10  right-2  w-fit ${showOptions ? "" : "hidden"} `}>
 
-            {/* <button className="px-2 py-3  rounded hover:bg-slate-100  ">  Unfollow</button> */}
+            {username == user.username &&
+              <button className="px-2 py-3  rounded hover:bg-slate-100  "
+                onClick={() => { setShowOptions(false); setIsEditing(true) }}>
+                Edit
+              </button>
+
+            }
+
+
             <Link to={"/profile/" + username} >
               <button className="px-2 py-3  rounded hover:bg-slate-100    ">  Visit Profile </button>
             </Link>
@@ -191,8 +219,18 @@ export default function PostBox(props) {
           }
         </div>
       }
-      <div className="text font-semibold mb-1 mt-2 text-xl" >
-        {text}
+      <div className="text mt-2 "  >
+        <input spellcheck="false" disabled={!isEditing} className={` bg-transparent text font-semibold mb-1 mt-2 px-2 py-2 text-xl outline-none w-full   ${isEditing ? "border-b-2 border-b-gray-300 " : ""} `}
+          onChange={(e) => setText(e.target.value)} value={text} />
+        {
+          isEditing && <div className="flex justify-end mt-3 gap-2">
+            <button className="text-blue-700  font-bold py-2 px-4   hover:bg-white rounded-md"
+              onClick={() => setIsEditing(false)}> Cancel  </button>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => { setIsEditing(false); edit() }} > Save  </button>
+
+          </div>
+        }
       </div>
 
       <div className="text-gray-400 text-sm hover:opacity-50 " > {calculateTimeForUser(createdAt)} </div>
@@ -216,12 +254,13 @@ export default function PostBox(props) {
             <span>  {commentsCount > 0 && commentsCount}  </span>
           </button>
         </div>
-        
 
 
-        <button className="flex gap-2  items-center group hover:bg-slate-300 px-2 ">
-          <img className="w-8 p-1  rounded-full " src={saveSvg} alt="" />
-          <span className=" text-gray-600  transition-all duration-200" > Save </span>
+
+        <button className="flex gap-2  items-center group hover:bg-slate-300 px-2 "
+          onClick={() => save()}
+        >
+          <img className="w-8 p-1  rounded-full " src={ isSaved ?  saveFillSvg : saveSvg } alt="" />
         </button>
       </div>
 

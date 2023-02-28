@@ -1,7 +1,7 @@
 const Post = require('../../models/Post')
 const PostReaction = require('../../models/PostReaction')
 const User = require('../../models/User')
-
+const Saved = require("../../models/Saved")
 
 
 async function main(req, res) {
@@ -14,6 +14,7 @@ async function main(req, res) {
     }).lean()
   }
   else if (name == "trend") {
+    console.log('bura gelirem')
      posts = await Post.find().sort({ comments_count : -1 }).populate({
       path: "author_id",
       select: "username avatar"
@@ -38,6 +39,17 @@ async function main(req, res) {
     }
     // console.log(posts)
   }
+  else if (name == "saved"){
+    let saveds = await Saved.find({user_id  }).populate({
+      path: 'post_id',
+      populate: {
+        path: 'author_id',
+        select: 'username avatar'
+      }
+    })
+     posts = saveds.map( x=> x.post_id  )
+  console.log('p',posts) 
+  }
 
   if(!posts ){
     return res.status(200).json()
@@ -51,7 +63,15 @@ async function main(req, res) {
       arr[i].reaction = reaction.name
     }
   }
-  console.log(arr)
+  for (let i = 0; i <arr.length; i++) {
+    let saved = await Saved.findOne({ post_id: arr[i]._id , user_id })
+
+    if (saved) {
+      arr[i].saved = true
+    }
+  }
+
+  // console.log(arr)
   return res.status(200).json(arr)
 }
 

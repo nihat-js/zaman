@@ -9,15 +9,16 @@ import cameraSvg from '../../assets/svg/camera.svg'
 import closeSvg from '../../assets/svg/close.svg'
 import loadingSvg from "../../assets/svg/loading.svg"
 import { MainContext } from "../../contexts/Main";
+import Avatar from "../User/Avatar";
+import { host } from "../../config/config";
 export default function CreatePost() {
-  const user = useContext(MainContext)
+  const {user} = useContext(MainContext)
   const { username, avatar } = user
 
   const [text, setText] = useState('');
   const inputFile = useRef()
   const [arr, setArr] = useState([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-
 
 
   async function handleImageButton() {
@@ -48,7 +49,7 @@ export default function CreatePost() {
       })
       formData.append("text", text)
       formData.append("token", getCookie('token'))
-      let response = await axios.post('http://localhost:5000/api/post/create', formData)
+      let response = await axios.post(host + "api/post/create", formData)
       console.log(response.data)
       setText('')
       setArr([])
@@ -68,7 +69,7 @@ export default function CreatePost() {
         <div className="row flex gap-2  py-4 px-5">
           <div className="left">
             <Link to={"profile/" + username} >
-              <img src={avatar ? "http://localhost:5000/avatars/" + avatar : "http://localhost:5000/avatars/default.svg"} className="w-8" alt="" />
+              <Avatar me />
             </Link>
           </div>
           <div className="right ">
