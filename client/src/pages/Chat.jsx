@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { getCookie } from '../utils/getCookie'
 import getUser from '../utils/getUser'
 import axios from 'axios'
+import io from 'socket.io-client';
 
 import Nav from '../components/Nav'
 import sendSvg from '../assets/svg/send.svg'
@@ -14,7 +15,7 @@ import Avatar from '../components/User/Avatar'
 import muteSvg from "../components/../assets/svg/mute.svg"
 
 export default function Chat() {
-  const {user} = useContext(MainContext)
+  const { user } = useContext(MainContext)
   const textRef = useRef()
   const [currentfolderName, setCurrentFolderName] = useState("primary")
   const [chats, setChats] = useState([])
@@ -24,6 +25,15 @@ export default function Chat() {
   const [messages, setMessages] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [text, setText] = useState('')
+  let token = getCookie('token')
+  
+  useEffect(() => {
+    const socket = io('http://localhost:3000');
+    // socket.on('register',  (  token )  => {
+      // socket.emit('message', 'Hello server');
+    // });
+    socket.emit('register',token)
+  }, [])
 
 
   async function loadChats() {
@@ -136,7 +146,7 @@ export default function Chat() {
               <div className="messages   ">
                 {
                   messages.map((i, j) => {
-                    return(  <div className={`message  flex  mb-3 rounded-lg ${user.username}   ${i.sender_id.username == user.username ? "justify-end " : "justify-start"} `}>
+                    return (<div className={`message  flex  mb-3 rounded-lg ${user.username}   ${i.sender_id.username == user.username ? "justify-end " : "justify-start"} `}>
                       <p className='py-2 px-3 bg-slate-100' > {i.text}  </p>
                       <Avatar username={i.sender_id.username} avatar={i.sender_id.avatar} />
                     </div>
