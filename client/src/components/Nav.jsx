@@ -25,7 +25,7 @@ export default function Index() {
   const [searchResults, setSearchResults] = useState([])
   const [hasFocus, setHasFocus] = useState(false)
 
-  const { user } = useContext(MainContext)
+  const { user , theme ,reverseTheme } = useContext(MainContext)
 
   async function search() {
     if (!value || value.length < 2) {
@@ -43,11 +43,11 @@ export default function Index() {
 
 
 
-  const linkClassName = "px-4 py-2 rounded-lg hover:bg-gray-300 cursor-pointer "
+  const linkClassName = `px-4 py-2 rounded-lg hover:bg-gray-300 cursor-pointer ${theme == "dark" ?   "bg-gray-300 hover:bg-gray-700" : ""  } `
 
 
   return (
-    <nav className='main shadow-md py-3 bg-white    w-full  ' >
+    <nav className={`main shadow-md py-3  ${theme == "light" ? "bg-white" : "bg-gray-900"}      w-full  `}>
       <div style={{ maxWidth: "1200px" }} className="container mx-auto  ">
         <div className="row flex justify-between items-center gap-16   ">
 
@@ -88,7 +88,7 @@ export default function Index() {
 
 
           <div className="links     ">
-            <ul className='flex gap-3 '>
+            <ul className='flex gap-3 items-center '>
               <Link to='/'>
                 <li className={linkClassName} >
 
@@ -108,10 +108,9 @@ export default function Index() {
               </Link> */}
 
               <li className={linkClassName}>
-                <img className='w-6 h-6' src={moonSvg} alt="" />
+                <img className='w-6 h-6' src={moonSvg} alt="" onClick={reverseTheme} />
               </li>
-
-              <li className="px-4 py-2 rounded-lg hover:bg-gray-300  relative cursor-pointer"  onClick={() => setToggle(!toggle)} >
+              <li className={`px-4 py-2 rounded-lg hover:bg-gray-300  relative cursor-pointer     ${theme == "dark" ?   "bg-gray-300 hover:bg-gray-700" : ""}  `}  onClick={() => setToggle(!toggle)} >
                 <div className='flex items-center gap-1'>
                   <Avatar className='w-6 rounded-full'  me={true} />
                   <span> {user.username} </span>

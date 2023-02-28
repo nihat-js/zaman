@@ -21,7 +21,7 @@ import Options from "./Options";
 import Actions from "./Actions";
 export default function PostBox(props) {
 
-  let { user } = useContext(MainContext)
+  let { user,theme } = useContext(MainContext)
 
   let { _id, createdAt, reactions_count, reaction, reactions, author_id, comments_count, sources , saved } = props.data
   let { avatar, username } = props.data.author_id
@@ -94,7 +94,7 @@ export default function PostBox(props) {
 
   return (
 
-    <div className="bg-gray-50 mb-6 py-5 px-5 rounded-md post-box "  >
+    <div className={`bg-slate-50 mb-6 py-5 px-5 rounded-md post-box ${theme == "dark" ? "bg-slate-700 text-slate-800" : ""}  `   } >
 
       {showReportModal && <ReportModal post_id={_id} closeModal={() => setShowReportModal(false)} />}
 

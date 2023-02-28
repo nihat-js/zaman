@@ -16,7 +16,7 @@ import muteSvg from "../components/../assets/svg/mute.svg"
 import './Chat.scss'
 let socket = io('http://localhost:3000');
 export default function Chat() {
-  const { user } = useContext(MainContext)
+  const { user ,theme } = useContext(MainContext)
   const textRef = useRef()
   const [currentfolderName, setCurrentFolderName] = useState("primary")
   const [chats, setChats] = useState([])
@@ -116,7 +116,7 @@ export default function Chat() {
       <Nav />
 
 
-      <section className="start py-10 min-h-screen bg-slate-50 ">
+      <section className={`start py-10 min-h-screen bg-slate-50 ${theme == "dark" ?  'bg-slate-800 text-gray-600' : "" }  `}>
         <div style={{ maxWidth: "1200px" }} className="mx-auto">
           <div className="row flex gap-12 " style={{ minHeight: "600px" }} >
             <div className="left w-3/12 border-r-gray-400 border-r-2  px-4  ">

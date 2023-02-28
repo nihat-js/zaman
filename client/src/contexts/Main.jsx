@@ -11,15 +11,30 @@ export const MainContext = createContext()
 export default function Index({ children }) {
 
   const [user, setUser] = useState({})
-  
+  const [theme,setTheme] = useState({})
   useEffect(() => {
-
-    if ( !localStorage.getItem('user')){
-    }
-
     let obj = JSON.parse(localStorage.getItem('user'))
     setUser(obj)
+    let theme_ = localStorage.getItem('theme')
+    if (!theme_ || !['light','dark'].includes(theme_) ){
+      localStorage.setItem('theme','light')
+      setTheme('light')
+    }else{
+      setTheme(theme_)
+    }
+
+
   }, [])
+
+
+  function reverseTheme(){
+    let next ;
+    next = theme == "light" ? "dark"  : "light" 
+    localStorage.setItem('theme',next)
+    setTheme(next)
+  }
+
+  
 
 
   function updateUser(obj) {
@@ -32,7 +47,7 @@ export default function Index({ children }) {
   }
 
   return (
-    <MainContext.Provider value={{ user, updateUser }} >
+    <MainContext.Provider value={{ user, updateUser, theme,reverseTheme }} >
       {children}
     </MainContext.Provider>
   )

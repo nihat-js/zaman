@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from 'axios'
 import { Link, useNavigate } from "react-router-dom";
 import './Home.scss'
@@ -11,6 +11,8 @@ import CreatePost from "../components/Post/Create";
 import SuggestedProfiles from "../components/Home/SuggestedProfiles";
 import Notification from '../components/Home/Notification'
 import LeftNav from "../components/Home/LeftNav"
+import { MainContext } from "../contexts/Main";
+import { host } from "../config/config";
 
 export default function Index() {
 
@@ -26,11 +28,14 @@ export default function Index() {
   },[])
 
 
+  const {theme} = useContext(MainContext)
+  console.log(theme)
+
   async function loadPosts() {
     setPosts("loading")
     // console.log('zz')
     try {
-      let response = await axios.post('http://localhost:5000/api/post/place', { name : place, token: getCookie('token') })
+      let response = await axios.post(host + "api/post/place", { name : place, token: getCookie('token') })
       console.log(response.data)
       setPosts(response.data)
     } catch (err) {
@@ -45,7 +50,7 @@ export default function Index() {
 
 
   return (
-    <div className="feed-page min-h-screen bg-slate-100 relative  ">
+    <div className={`feed-page min-h-screen bg-slate-100  ${theme =="light" ? "bg-slate-100" : "bg-slate-800" }   relative  `}>
       <Nav />
 
       <div style={{ maxWidth: "1200px" }} className="feed-inner lg:flex md:flex sm:block mx-auto gap-10 mt-6  pt-1  ">

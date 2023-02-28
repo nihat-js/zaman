@@ -2,15 +2,17 @@ import exploreSvg from "../../assets/svg/explore.svg"
 import popularSvg from "../../assets/svg/popular.svg"
 import feedSvg from "../../assets/svg/feed.svg"
 import savedSvg from "../../assets/svg/save.svg"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { MainContext } from "../../contexts/Main"
 export default function Tab(props) {
+  const {theme} = useContext(MainContext)
 
   const {place,setPlace} = props
 
  
 
   return (
-    <div className=''>
+    <div className={` py-2 px-2 rounded-md ${theme == "dark" ?  "bg-gray-900 text-gray-700" : "" } "  }`}>
       <h3 className="title font-bold text-xl mb-4 "> Choose your place </h3>
       <div 
         onClick={  () => setPlace("feed") }
