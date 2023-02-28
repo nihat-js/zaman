@@ -13,18 +13,16 @@ import saveSvg from '../../assets/svg/save.svg'
 import saveFillSvg from "../../assets/svg/save-fill.svg"
 import calculateTimeForUser from "../../utils/calculateTimeForUser";
 import threeDotsSvg from '../../assets/svg/three-dots.svg'
-import flagSvg from "../../assets/svg/flag.svg"
 import Avatar from "../User/Avatar";
-
+import Gallery from "./Gallery";
 
 import primarySvg from "../../assets/svg/primary.svg"
 import secondarySvg from "../../assets/svg/secondary.svg"
 import sadSvg from "../../assets/svg/sad.png"
-import arrowLeftSvg from "../../assets/svg/arrow-left.svg"
-import arrowRightSvg from "../../assets/svg/arrow-right.svg"
 import { MainContext } from "../../contexts/Main";
 import Username from "../User/Username"
 import ReportModal from './ReportModal'
+import Options from "./Options";
 export default function PostBox(props) {
 
   let { user } = useContext(MainContext)
@@ -44,12 +42,10 @@ export default function PostBox(props) {
   const [showComments, setShowComments] = useState(false)
   const [areCommentsLoading, setAreCommentsLoading] = useState(false)
   const [showOptions, setShowOptions] = useState(false)
-  const showOptionsRef = useRef()
   const [showReportModal, setShowReportModal] = useState(false)
-  const [sourceIndex, setSourceIndex] = useState(0)
   const [commentsCount, setCommentsCount] = useState(comments_count)
   const [isEditing, setIsEditing] = useState(false)
-  const [isSaved,setIsSaved] = useState(props.data.saved)
+  const [isSaved, setIsSaved] = useState(props.data.saved)
 
   async function edit() {
     try {
@@ -63,7 +59,7 @@ export default function PostBox(props) {
     let val = isSaved ? 0 : 1
     console.log(val)
     try {
-      let res = await axios.post(host + "api/post/save", { token: getCookie('token'), post_id: _id,val })
+      let res = await axios.post(host + "api/post/save", { token: getCookie('token'), post_id: _id, val })
       setIsSaved(!isSaved)
     } catch (err) {
       console.log(err)
@@ -164,61 +160,11 @@ export default function PostBox(props) {
         <div className="right relative">
           <img onClick={() => setShowOptions(true)}
             className="three w-8 p-1 rounded-full cursor-pointer hover:bg-slate-200 " src={threeDotsSvg} alt="" />
-          <div ref={showOptionsRef}
-            className={`post-options absolute bg-white   rounded-md  shadow-md z-10  right-2  w-fit ${showOptions ? "" : "hidden"} `}>
-
-            {username == user.username &&
-              <button className="px-2 py-3  rounded hover:bg-slate-100  "
-                onClick={() => { setShowOptions(false); setIsEditing(true) }}>
-                Edit
-              </button>
-
-            }
-
-
-            <Link to={"/profile/" + username} >
-              <button className="px-2 py-3  rounded hover:bg-slate-100    ">  Visit Profile </button>
-            </Link>
-            <button
-              className="px-2 py-3  rounded hover:bg-slate-100 flex gap-2  "
-              onClick={() => { setShowOptions(false); setShowReportModal(true) }} >
-              <img src={flagSvg} className="w-6" />
-              <span className="text-sm"> Report  </span>
-            </button>
-            {username == user.username &&
-              <button className="text-red-800 px-2 py-3  rounded hover:bg-slate-100 flex gap-2 " onClick={() => deletePost()}  > Delete post </button>
-            }
-            <button className="px-2 py-3  rounded hover:bg-slate-100   "
-              onClick={() => setShowOptions(false)} > Cancel </button>
-
-          </div>
+          <Options showOptions={showOptions} setShowOptions={setShowOptions} 
+           setShowReportModal={setShowReportModal} deletePost={deletePost} username={username} setIsEditing={setIsEditing}  />
         </div>
       </header>
-      <div className="gallery relative mb-4">
-        {5 > 3 ? <img style={{ width: "100%" }} onDoubleClick={() => reactToPost('up')} src={host + "images/" + sources[sourceIndex]} /> : ""}
-        {sources.length > 1 &&
-          <img onClick={() => sourceIndex + 1 == sources.length ? setSourceIndex(0) : setSourceIndex(sourceIndex + 1)}
-            className="w-8 absolute top-1/2 right-4 bg-slate-50 rounded-full p-2 cursor-pointer hover:bg-slate-200  opacity-50 hover:opacity-90 " src={arrowRightSvg} />
-        }
-        {sources.length > 1 &&
-          <img onClick={() => sourceIndex == 0 ? setSourceIndex(sources.length - 1) : setSourceIndex(sourceIndex - 1)}
-            className="transition-all duration-300 w-8 absolute top-1/2 left-4  bg-slate-50 rounded-full p-2 cursor-pointer hover:bg-slate-200 opacity-50 hover:opacity-90  " src={arrowLeftSvg} />
-        }
-
-      </div>
-      {
-        typeof sources == 'object' && sources.length > 1 &&
-        <div className="flex justify-center gap-2">
-          {
-            sources.map((i, j) => {
-              return (
-                <p key={j} className={`w-2 h-2 bg-indigo-400  rounded-full  cursor-pointer hover:bg-indigo-600 ${j == sourceIndex ? 'bg-indigo-800  ' : ""} `}
-                  onClick={() => setSourceIndex(j)} > </p>
-              )
-            })
-          }
-        </div>
-      }
+      <Gallery sources={sources} />
       <div className="text mt-2 "  >
         <input spellcheck="false" disabled={!isEditing} className={` bg-transparent text font-semibold mb-1 mt-2 px-2 py-2 text-xl outline-none w-full   ${isEditing ? "border-b-2 border-b-gray-300 " : ""} `}
           onChange={(e) => setText(e.target.value)} value={text} />
@@ -260,7 +206,7 @@ export default function PostBox(props) {
         <button className="flex gap-2  items-center group hover:bg-slate-300 px-2 "
           onClick={() => save()}
         >
-          <img className="w-8 p-1  rounded-full " src={ isSaved ?  saveFillSvg : saveSvg } alt="" />
+          <img className="w-8 p-1  rounded-full " src={isSaved ? saveFillSvg : saveSvg} alt="" />
         </button>
       </div>
 
