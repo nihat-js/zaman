@@ -12,10 +12,10 @@ async function main(req, res) {
   if (!target) {
     return res.status(405).send()
   }
-  console.log('me and target',user_id,target._id) 
   const target_id = target._id
   
-  let isChatExists = await Chat.findOne({ users_id: { $in: target_id, $size: 2 } })
+  console.log('me and target',user_id,target._id) 
+  let isChatExists = await Chat.findOne({ users_id: { $all: [target_id,user_id], $size: 2 } })
   if (isChatExists) {
     return res.status(200).json({ chat_id: isChatExists._id })
   }

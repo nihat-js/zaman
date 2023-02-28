@@ -40,8 +40,8 @@ export default function Index() {
       let response = await axios.post(URL, { "username": username, "password": password })
       document.cookie = "token=" + response.data.token
       console.log(response.data.user)
-      // updateUser(response.data.user)
-      localStorage.setItem("user",JSON.stringify(response.data.user))
+      updateUser(response.data.user)
+      // localStorage.setItem("user",JSON.stringify(response.data.user))
       navigate('/')
     } catch(error)
      {

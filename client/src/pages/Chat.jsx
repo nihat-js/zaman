@@ -13,7 +13,8 @@ import { MainContext } from '../contexts/Main'
 import { host } from "../config/config"
 import Avatar from '../components/User/Avatar'
 import muteSvg from "../components/../assets/svg/mute.svg"
-
+import './Chat.scss'
+let socket = io('http://localhost:3000');
 export default function Chat() {
   const { user } = useContext(MainContext)
   const textRef = useRef()
@@ -26,13 +27,25 @@ export default function Chat() {
   const [isLoading, setIsLoading] = useState(false)
   const [text, setText] = useState('')
   let token = getCookie('token')
-  
   useEffect(() => {
-    const socket = io('http://localhost:3000');
-    // socket.on('register',  (  token )  => {
-      // socket.emit('message', 'Hello server');
-    // });
-    socket.emit('register',token)
+
+    socket.on('load', (data) => {
+      console.log('loading', data)
+      setMessages(data)
+    })
+
+
+
+    socket.on("new", (data) => {
+      console.log("messages",messages)
+      // console.log("new", messages)
+      // setMessages(prevState  =>  {message :   [...prevState.messages, data] } )
+      // setMessages(messages => [...messages, msg]);
+      setMessages( (x) =>  [...x,data])
+      // setQuotes(prevState => prevState.concat(msg))
+
+    })
+
   }, [])
 
 
@@ -51,14 +64,16 @@ export default function Chat() {
 
   async function send(e) {
     e.preventDefault()
-    try {
-      let response = await axios.post(host + "api/chat/message/send", { token: getCookie('token'), chat_id: currentChat, text: textRef.current.value })
-      console.log('message sent', response.data.data)
-      textRef.current.value = ""
-      // loadMessages()
-    } catch (err) {
+    socket.emit('send', { text: textRef.current.value, chat_id: currentChat, token: getCookie('token') })
+    textRef.current.value = ""
+    // try {
+    //   let response = await axios.post(host + "api/chat/message/send", { token: getCookie('token'), chat_id: currentChat, text: textRef.current.value })
+    //   console.log('message sent', response.data.data)
+    //   textRef.current.value = ""
+    //   // loadMessages()
+    // } catch (err) {
 
-    }
+    // }
   }
 
   async function loadMessages() {
@@ -79,10 +94,20 @@ export default function Chat() {
   }, [currentfolderName])
 
   useEffect(() => {
-    if (currentChat != "") {
-      loadMessages()
+    if (currentChat == "") {
+
+    } else {
+      socket.emit('join', { chat_id: currentChat, token: getCookie('token') })
+      socket.emit('load', { chat_id: currentChat })
+
     }
+
   }, [currentChat])
+
+
+  function leaveRoom() {
+    socket.emit('leave', { chat_id: currentChat })
+  }
 
 
   return (
@@ -94,7 +119,7 @@ export default function Chat() {
       <section className="start py-10 min-h-screen bg-slate-50 ">
         <div style={{ maxWidth: "1200px" }} className="mx-auto">
           <div className="row flex gap-12 " style={{ minHeight: "600px" }} >
-            <div className="left w-4/12 border-r-gray-400 border-r-2  px-4  ">
+            <div className="left w-3/12 border-r-gray-400 border-r-2  px-4  ">
 
               {currentfolderName != "request" ? <header className='flex justify-between mb-6 transi '>
                 <h3 className="title font-bold text-3xl "> Chat </h3>
@@ -132,7 +157,7 @@ export default function Chat() {
                     : chats.map((item, index) => <Box setCurrentFolderName={setCurrentFolderName} currentfolderName={currentfolderName} currentChat={currentChat} setCurrentChat={setCurrentChat} key={index} item={item} />)}
               </div>
             </div>
-            <div className="right w-5/12 flex flex-col-reverse " style={{ maxHeight: "800px" }}>
+            <div className="right w-7/12 flex flex-col-reverse " style={{ maxHeight: "800px" }}>
 
               <form action="" className='flex items-center gap-2 ' >
                 <textarea type="text" cols={1} rows={1} ref={textRef}
@@ -143,7 +168,7 @@ export default function Chat() {
                 </div>
               </form>
 
-              <div className="messages   ">
+              <div className="messages-div   " style={{ maxHeight: "600px", overflowY: "auto" }} >
                 {
                   messages.map((i, j) => {
                     return (<div className={`message  flex  mb-3 rounded-lg ${user.username}   ${i.sender_id.username == user.username ? "justify-end " : "justify-start"} `}>
@@ -224,7 +249,10 @@ function Box(props) {
       ${currentChat == chat_id._id ? "bg-slate-300" : ""}
     ` }
     >
-      <div className="left flex justify-between gap-3 items-center hover:bg-slate-200 flex-1 py-2 px-1   " onClick={() => setCurrentChat(chat_id._id)}  >
+      <div className="left flex justify-between gap-3 items-center hover:bg-slate-200 flex-1 py-2 px-1   "
+        onClick={
+          () => { socket.emit('leave', { chat_id: currentChat, token: getCookie('token') }); setCurrentChat(chat_id._id) }
+        } >
         <div className="left flex gap-2">
           <Avatar username={chatAvatar} />
           <div className='flex '>
