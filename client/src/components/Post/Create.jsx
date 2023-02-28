@@ -63,18 +63,16 @@ export default function CreatePost() {
   return (
     <section className="start py-2 ">
       <form action="" encType="multipart/form-data" >
-        <input className="hidden" onChange={handleImageUpload} ref={inputFile} type="file" multiple />
+        <input  className="hidden" onChange={handleImageUpload} ref={inputFile} type="file" multiple />
       </form>
       <div className="container mx-auto bg-slate-50 rounded-lg shadow-md">
         <div className="row flex gap-2  py-4 px-5">
           <div className="left">
-            <Link to={"profile/" + username} >
               <Avatar me />
-            </Link>
           </div>
           <div className="right ">
             <header className="flex gap-1">
-              <textarea rows={1} cols={80}
+              <textarea spellCheck="false" rows={1} cols={80}
                 className=" w-full py-2 px-4 bg-gray-200  border-gray-200 outline-none resize-none rounded-md" value={text}
                 onChange={(e) => setText(e.target.value)} type="text"
                 placeholder="What are your thoughts ? " />

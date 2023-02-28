@@ -6,46 +6,38 @@ import { host } from "../../config/config";
 import AddComment from "../Comment/Add";
 import CommentBox from '../Comment/Box'
 import Skleton from "../Comment/Skleton"
-import heartSvg from "../../assets/svg/heart.svg"
-import commentSvg from '../../assets/svg/comment.svg'
-import shareSvg from '../../assets/svg/share.svg'
-import saveSvg from '../../assets/svg/save.svg'
-import saveFillSvg from "../../assets/svg/save-fill.svg"
+
 import calculateTimeForUser from "../../utils/calculateTimeForUser";
 import threeDotsSvg from '../../assets/svg/three-dots.svg'
 import Avatar from "../User/Avatar";
 import Gallery from "./Gallery";
 
-import primarySvg from "../../assets/svg/primary.svg"
-import secondarySvg from "../../assets/svg/secondary.svg"
+
 import sadSvg from "../../assets/svg/sad.png"
 import { MainContext } from "../../contexts/Main";
 import Username from "../User/Username"
 import ReportModal from './ReportModal'
 import Options from "./Options";
+import Actions from "./Actions";
 export default function PostBox(props) {
 
   let { user } = useContext(MainContext)
 
-  let { _id, createdAt, reactions_count, reaction, reactions, author_id, comments_count, sources } = props.data
+  let { _id, createdAt, reactions_count, reaction, reactions, author_id, comments_count, sources , saved } = props.data
   let { avatar, username } = props.data.author_id
 
 
-  let [isReacted, setIsReacted] = useState(reaction)
   let [isPostDeleted, setIsPostDeleted] = useState(false)
 
 
   let [text, setText] = useState(props.data.text)
   const [comments, setComments] = useState([])
   const [commentsStatus, setCommentsStatus] = useState("closed") // closed, loading,  open
-  const [reactionsCount, setReeactionsCount] = useState(reactions_count)
   const [showComments, setShowComments] = useState(false)
   const [areCommentsLoading, setAreCommentsLoading] = useState(false)
   const [showOptions, setShowOptions] = useState(false)
   const [showReportModal, setShowReportModal] = useState(false)
-  const [commentsCount, setCommentsCount] = useState(comments_count)
   const [isEditing, setIsEditing] = useState(false)
-  const [isSaved, setIsSaved] = useState(props.data.saved)
 
   async function edit() {
     try {
@@ -55,17 +47,7 @@ export default function PostBox(props) {
     }
   }
 
-  async function save() {
-    let val = isSaved ? 0 : 1
-    console.log(val)
-    try {
-      let res = await axios.post(host + "api/post/save", { token: getCookie('token'), post_id: _id, val })
-      setIsSaved(!isSaved)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
+ 
 
   async function loadComments() {
     setCommentsStatus("loading")
@@ -89,42 +71,7 @@ export default function PostBox(props) {
     }
   }
 
-  async function reactToPost(incoming) {
-    if (isReacted == "loading") {
-      console.log('Please wait')
-      return false
-    }
-    let first = isReacted, last;
-    if (incoming == first) {
-      last = ""
-    } else {
-      last = incoming
-    }
-    setIsReacted("loading")
-    try {
-      let response = await axios.post(host + "api/post/react", { token: getCookie('token'), name: last, post_id: _id })
-      let val
-      if (first == "down" && last == "up") {
-        val = 2
-      } else if (first == "up" && last == 'down') {
-        val = -2
-      } else if (first == "down" && last == "") {
-        val = 1
-      } else if (first == "up" && last == "") {
-        val = -1
-      } else if (first == "" && last == "up") {
-        val = 1
-      } else if (first == "" && last == "down") {
-        val = -1
-      }
-      console.log('val', val)
-      setReeactionsCount(reactionsCount + val)
-      setIsReacted(last)
-      console.log(response.data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+
 
 
 
@@ -165,8 +112,9 @@ export default function PostBox(props) {
         </div>
       </header>
       <Gallery sources={sources} />
+      
       <div className="text mt-2 "  >
-        <input spellcheck="false" disabled={!isEditing} className={` bg-transparent text font-semibold mb-1 mt-2 px-2 py-2 text-xl outline-none w-full   ${isEditing ? "border-b-2 border-b-gray-300 " : ""} `}
+        <input spellCheck={false} disabled={!isEditing} className={` bg-transparent text font-semibold mb-1 mt-2 px-2 py-2 text-xl outline-none w-full   ${isEditing ? "border-b-2 border-b-gray-300 " : ""} `}
           onChange={(e) => setText(e.target.value)} value={text} />
         {
           isEditing && <div className="flex justify-end mt-3 gap-2">
@@ -180,36 +128,8 @@ export default function PostBox(props) {
       </div>
 
       <div className="text-gray-400 text-sm hover:opacity-50 " > {calculateTimeForUser(createdAt)} </div>
-      <div className="actions flex gap-2 justify-between mb-5 mt-2 ">
-
-        <div className="left flex gap-2 ">
-          <div className="likes flex gap-2  pr-5 items-center ">
-            <img className={`w-9 p-2  hover:bg-slate-200 rounded-full
-            ${isReacted == "up" ? "bg-slate-300" : ""}`}
-              onClick={() => reactToPost('up')}
-              src={primarySvg} alt="" />
-            <span className="count font-semibold text-xl"> {reactionsCount || 0}   </span>
-            <img className={`w-9  p-2 hover:bg-slate-200 rounded-full    ${isReacted == "down" ? "bg-slate-300" : ""}          `}
-              onClick={() => reactToPost('down')}
-              src={secondarySvg} alt="" />
-          </div>
-
-          <button onClick={() => { commentsStatus == "closed" ? loadComments() : commentsStatus == "open" ? setCommentsStatus("closed") : "" }}
-            className="flex gap-1 px-5  items-center hover:bg-slate-200">
-            <img className="w-8 p-1" src={commentSvg} alt="" />
-            <span>  {commentsCount > 0 && commentsCount}  </span>
-          </button>
-        </div>
-
-
-
-        <button className="flex gap-2  items-center group hover:bg-slate-300 px-2 "
-          onClick={() => save()}
-        >
-          <img className="w-8 p-1  rounded-full " src={isSaved ? saveFillSvg : saveSvg} alt="" />
-        </button>
-      </div>
-
+        <Actions  _id={_id} saved={saved} reaction={reaction} loadComments={loadComments} 
+         commentsStatus={commentsStatus} comments_count={comments_count} reactions_count={reactions_count} />
       <div className="comments">
         {commentsStatus != "closed" && <AddComment post_id={_id} refresh={loadComments} />}
         <hr />

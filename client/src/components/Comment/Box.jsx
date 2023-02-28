@@ -67,7 +67,7 @@ export default function CommentBox(props) {
           <span className="text-gray-400 text-sm"> {calculateTimeForUser(createdAt)} </span>
           </div>
           <div className="right flex gap-1 items-center">
-            <img onClick={() => isReacted == 'up' ? handleReact('none') : handleReact("up")}
+            <img onClick={() => isReacted == 'up' ?  handleReact('none') : handleReact("up")}
               className={`w-4 p-1 mb-1 cursor-pointer hover:bg-slate-200 ${isReacted == "up" ? "bg-slate-300 rounded-md" : ""}  `}
               src={primarySvg} alt="" />
             <span className='ml-1 mb-1 font-semibold'>  {scoreCount|| 0}  </span>

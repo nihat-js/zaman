@@ -5,7 +5,7 @@ const allReactions = ['up', 'down',] // for future ' primary', "secondary" ,'lik
 async function reactToPost(req, res) {
   const { post_id, user_id, name } = req.body
   const isReacted = await PostReaction.findOne({ post_id, user_id })
-
+  console.log("name",name)
   // console.log('d',isReacted , name )
   if (!isReacted && allReactions.includes(name)) {
     console.log("Debugging 1")
@@ -16,7 +16,7 @@ async function reactToPost(req, res) {
     return res.status(200).send()
   }
 
-  else if (isReacted && name == "") { // delete reaction
+  else if (isReacted && name == "none") { // delete reaction
     let val = isReacted.name == 'up' ? -1 : isReacted.name == "down" ? 1 : 0
     let post = await Post.findByIdAndUpdate(post_id, { $inc: { reactions_count: val } })
     let savedIsReacted = await isReacted.remove()
