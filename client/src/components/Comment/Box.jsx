@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Avatar from '../User/Avatar'
 import Username from '../User/Username'
 import primarySvg from "../../assets/svg/primary.svg"
@@ -7,6 +7,7 @@ import { host } from '../../config/config'
 import calculateTimeForUser from '../../utils/calculateTimeForUser'
 import axios from 'axios'
 import { getCookie } from '../../utils/getCookie'
+import { MainContext } from '../../contexts/Main'
 
 export default function CommentBox(props) {
   let { _id, text, author_id, sources, reaction, createdAt, score } = props.data
@@ -16,7 +17,7 @@ export default function CommentBox(props) {
 
   const [isReacted, setIsReacted] = useState( reaction ? reaction : "none" )
   const [scoreCount, setScoreCount] = useState(score)
-
+  const {theme} = useContext(MainContext)
   async function handleReact(name) {
     if (isReacted == "loading"){
       return false
@@ -52,7 +53,7 @@ export default function CommentBox(props) {
   }
 
   return (
-    <div className="comment flex gap-4 py-2 mt-2  px-4 border-slate-50 border rounded-md">
+    <div className={`comment flex gap-4 py-2 mt-3  px-4 shadow-sm ${theme =="dark" ? "" : "" }  rounded-md`}>
       <div className="left">
         <Avatar username={username} avatar={avatar} className="w-6" src="" />
       </div>

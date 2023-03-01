@@ -182,7 +182,7 @@ export default function Chat() {
               </div>
             </div>
             <div className=
-              {`right w-7/12  flex flex-col  ${currentChat == "" ? "hidden" : ""}  
+              {`right w-7/12  flex flex-col py-5 px-3  ${currentChat == "" ? "hidden" : ""}  
             ${chatTheme == 0 ? "bg-slate-50" : chatTheme == 1 ? "bg-sky-800 " :
                   chatTheme == 2 ? "bg-indigo-800  " : chatTheme == 3 ? "bg-green-800" : chatTheme == 4 ? "bg-yellow-800" : ""} 
             `} style={{ maxHeight: "700px" }}>
@@ -203,7 +203,7 @@ export default function Chat() {
                 {
                   messages.map((i, j) => {
                     return (<div key={j}
-                      className={`message  flex  mb-3 rounded-lg ${user.username}   ${i.sender_id.username == user.username ? "justify-end  " : "justify-start  "}                     `}>
+                      className={`message  flex items-center  mb-3 rounded-lg ${user.username}   ${i.sender_id.username == user.username ? "justify-end  " : "justify-start  "}                     `}>
 
                       {
                         i.sender_id.username == user.username &&
@@ -216,7 +216,7 @@ export default function Chat() {
                         < Avatar username={i.sender_id.username} avatar={i.sender_id.avatar} />
                       }
 
-                      <p className={`py-3 px-3 bg-slate-100  rounded-md 
+                      <p className={`py-3 px-3 mx-2 bg-slate-100  rounded-md 
                           ${chatTheme == 0 ? "" : chatTheme == 1 ? "bg-sky-600 " :
                           chatTheme == 2 ? " text-black  " : chatTheme == 3 ? "bg-green-600" : chatTheme == 4 ? "bg-yellow-600" : ""} 
                       `} > {i.text}  </p>
@@ -270,6 +270,7 @@ function Box(props) {
   const foo = props.item.isMuted
   const { setCurrentChat, currentChat, currentfolderName, setCurrentFolderName } = props
   const { users_id, last_message } = chat_id
+  const {theme } = useContext(MainContext)
 
   const [showOptios, setShowOptions] = useState(false)
   const [isMuted, setIsMuted] = useState(foo)
@@ -310,11 +311,11 @@ function Box(props) {
       ${currentChat == chat_id._id ? "bg-slate-300" : ""}
     ` }
     >
-      <div className="left flex justify-between gap-3 items-center hover:bg-slate-200 flex-1 py-2 px-1   "
+      <div className={`left flex justify-between gap-6 items-center hover:bg-slate-200 ${theme == "dark" ? "hover:bg-slate-600" : "" }  flex-1 py-2 px-2 rounded-md   `}
         onClick={
           () => { socket.emit('leave', { chat_id: currentChat, token: getCookie('token') }); setCurrentChat(chat_id._id) }
         } >
-        <div className="left flex gap-2">
+        <div className="left flex gap-2 px-2">
           <Avatar avatar={chatAvatar} username={chatTitle} />
           <div className='flex '>
             <p className="username text-xl mb-1 rounded-md "> {chatTitle} </p>
@@ -326,7 +327,7 @@ function Box(props) {
         </div>
       </div>
       <div className="right relative">
-        <img className='w-8 hover:bg-slate-200 p-1 ' onClick={() => setShowOptions(!showOptios)} src={threeDotsSvg} alt="" />
+        <img className={`w-8 hover:bg-slate-200 p-1 rounded-md  ${theme == "dark" ? "hover:bg-slate-600" : "" }  `} onClick={() => setShowOptions(!showOptios)} src={threeDotsSvg} alt="" />
         <div className={`chat-options   absolute  bg-white  shadow-md rounded-md z-20 ${showOptios ? "" : "hidden"} `} style={{ width: "150px" }}>
           <p className={` py-2 px-1 text-center hover:bg-slate-200 font-bold rounded-tl-md rounded-tr-md text-blue-800 
             

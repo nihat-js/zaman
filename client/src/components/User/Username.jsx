@@ -3,9 +3,9 @@ import getUser from '../../utils/getUser'
 import { Link } from 'react-router-dom'
 import { MainContext } from '../../contexts/Main'
 export default function Username(props) {
-  const user = useContext(MainContext)
-  let { me, username , style , className } = props
-  
+  const {user} = useContext(MainContext)
+  let { me, username, style, className } = props
+
   if (me) {
     username = user.username
   }
@@ -13,11 +13,11 @@ export default function Username(props) {
 
   return (
 
-    <p style={style} className={`username font-bold text-indigo-800 text-2xl ${className} `}>
-      <Link to ={"/profile/"+ username } >
+    <Link to={"/profile/" + username} >
+      <p style={style} className={`username font-bold text-indigo-800 text-xl ${className} `}>
         {username}
-      </Link>
-    </p>
+      </p>
+    </Link>
 
   )
 }

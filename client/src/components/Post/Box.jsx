@@ -132,7 +132,7 @@ export default function PostBox(props) {
          commentsStatus={commentsStatus} comments_count={comments_count} reactions_count={reactions_count} />
       <div className="comments">
         {commentsStatus != "closed" && <AddComment post_id={_id} refresh={loadComments} />}
-        <hr />
+        {/* <hr /> */}
         {commentsStatus == "loading" && [...new Array(3)].map((item, index) => <Skleton key={index} />)}
         {commentsStatus == "open" && comments.length > 0 ? comments.map((item, index) => <CommentBox key={index} data={item} />) : ""}
         {commentsStatus == "open" && comments.length == 0 && <div> <p className="text text-gray-500" > Oops, An awesome chance to make  a first comment </p> </div>}

@@ -5,7 +5,7 @@ import { useContext } from 'react'
 import { host } from '../../config/config'
 export default function Avatar(props) {
   const {user,updateUser} = useContext(MainContext)
-  const { className, avatar, username, style, me } = props
+  const { className, avatar, username, style, me ,disableLink} = props
   let src,to
   if (me) {
     src = user.avatar ? host + "/avatars/" + user.avatar : host + "/avatars/default.svg"
@@ -17,8 +17,8 @@ export default function Avatar(props) {
 
 
   return (
-    <Link to={to} >
-      <img style={style} src={src} className={` w-8 cursor-pointer rounded-full hover:outline-2    ${className} hover:outline-indigo-600 outline outline-0  `} />
+    <Link to={ !disableLink ? to : "" } >
+      <img style={style} src={src} className={` w-8 h-8 object-contain  rounded-full hover:outline-2    ${className} hover:outline-indigo-600 outline outline-0  `} />
     </Link>
   )
 }

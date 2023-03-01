@@ -34,7 +34,7 @@ async function accountEdit(req, res) {
   }
 
   console.log('bil bunu',obj)
-  let result = await User.findByIdAndUpdate(user_id, { ...obj }, ).select('username email phone_number bio gender')
+  let result = await User.findByIdAndUpdate(user_id, { ...obj },{new : true} ).select('username email phone_number bio gender')
   return res.status(200).json(result)
 
 

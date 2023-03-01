@@ -9,13 +9,17 @@ import commentSvg from '../../assets/svg/comment.svg'
 import shareSvg from '../../assets/svg/share.svg'
 import saveSvg from '../../assets/svg/save.svg'
 import threeDotsSvg from '../../assets/svg/three-dots.svg'
+import { useState } from "react"
+import { MainContext } from "../../contexts/Main"
 
 
 
 export default function PostBox(props) {
 
+  const {theme} = useState(MainContext)
+
   return (
-    <div className="bg-gray-50 mb-6 py-5 px-5 rounded-md">
+    <div className={`  bg-slate-30 ${theme == "dark" ? "bg-slate-800" : "" }  mb-6 py-5 px-5 rounded-md`}>
       <header className="flex justify-between px-2 mb-5 items-center" >
         <div className="left flex gap-3">
           <div className="w-8 h-8 rounded-full bg-slate-100" alt="" />
@@ -38,7 +42,7 @@ export default function PostBox(props) {
             <img className="w-8 p-1  hover:bg-blue-300 rounded-full" src={secondarySvg} alt="" />
           </div>
           <button onClick={() => { commentsStatus == "closed" ? loadComments() : commentsStatus == "open" ? setCommentsStatus("closed") : "" }}
-            className="flex gap-1 px-5  items-center bg-slate-200">
+            className="flex gap-1 px-5  items-center ">
             <img className="w-8 p-1" src={commentSvg} alt="" />
             <span className="bg-slate-200 text-transparent  ">   5521  </span>
           </button>

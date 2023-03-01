@@ -11,8 +11,10 @@ import loadingSvg from "../../assets/svg/loading.svg"
 import { MainContext } from "../../contexts/Main";
 import Avatar from "../User/Avatar";
 import { host } from "../../config/config";
+import InputEmoji from "react-input-emoji";
+
 export default function CreatePost() {
-  const {user} = useContext(MainContext)
+  const {user,theme} = useContext(MainContext)
   const { username, avatar } = user
 
   const [text, setText] = useState('');
@@ -61,27 +63,28 @@ export default function CreatePost() {
   }
 
   return (
-    <section className="start py-2 ">
+    <section className={`start py-2  `}>
       <form action="" encType="multipart/form-data" >
         <input  className="hidden" onChange={handleImageUpload} ref={inputFile} type="file" multiple />
       </form>
-      <div className="container mx-auto bg-slate-50 rounded-lg shadow-md">
+      <div className={`container mx-auto bg-slate-50 rounded-lg shadow-md ${theme == "dark" ? "bg-slate-600" : "" }   `}>
         <div className="row flex gap-2  py-4 px-5">
           <div className="left">
               <Avatar me />
           </div>
           <div className="right ">
             <header className="flex gap-1">
+              {/* <InputEmoji value={text} onChange={ (e) =>  setText(e) } placeholder="How good  " /> */}
               <textarea spellCheck="false" rows={1} cols={80}
-                className=" w-full py-2 px-4 bg-gray-200  border-gray-200 outline-none resize-none rounded-md" value={text}
+                className={`w-full py-2 px-4 bg-gray-200  border-gray-200 outline-none resize-none rounded-lg ${theme == "dark" ? "bg-slate-500" : "" }  `} value={text}
                 onChange={(e) => setText(e.target.value)} type="text"
-                placeholder="What are your thoughts ? " />
+                placeholder=" If you win the lattery ... " />
             </header>
 
-            <div className="actions mt-2 flex ">
-              <button onClick={() => { !isSubmitting ? handleImageButton() : "" }} className=" flex gap-2  py-2 px-2 hover:bg-gray-300 cursor-pointer">
+            <div className="actions mt-5 flex ">
+              <button onClick={() => { !isSubmitting ? handleImageButton() : "" }} className=" flex gap-2 group  py-2 px-2 hover:shadow-md cursor-pointer mr-3">
                 <img src={cameraSvg} className={`w-6 `} alt="" />
-                <span className="font-semibold text-purple-600"> Add image </span>
+                <span className="font-semibold text-purple-600 group-hover:text-purple-500 "> Add image </span>
               </button>
               <div >
                 <button onClick={(e) => handlePostButton(e)}

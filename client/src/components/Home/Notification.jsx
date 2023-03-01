@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import notificationSvg from '../../assets/svg/notification.svg'
 import arrowDownSvg from '../../assets/svg/arrow-down.svg'
 import arrowUpSvg from '../../assets/svg/arrow-up.svg'
@@ -6,10 +6,11 @@ import axios from 'axios'
 import { getCookie } from "../../utils/getCookie"
 import { host } from "../../config/config"
 import calculateTimeForUser from "../../utils/calculateTimeForUser"
+import { MainContext } from '../../contexts/Main'
 export default function Notification() {
 
   const [show, setShow] = useState(false)
-
+  const {theme} = useContext(MainContext)
   const [data, setData] = useState([])
 
   async function load() {
@@ -32,7 +33,7 @@ export default function Notification() {
 
 
   return (
-    <div className='py-5 px-4 bg-white rounded-md shadow-md mb-6'>
+    <div className={`py-5 px-4 bg-white rounded-md shadow-md mb-6  ${theme == "dark" ? "bg-slate-600  " : "" }  `}>
       <header className='flex justify-between'>
         <div className='flex gap-1 items-center'>
           <img className='w-4' src={notificationSvg} alt="" />
@@ -54,7 +55,7 @@ export default function Notification() {
         }
         {
           typeof (data) == 'object' && show && data.length == 0 && <div>
-              <p className="text mt-2 tetx-gray-600 text-sm tracking-wide"> Wow, you play games with rules </p>
+              <p className="text mt-2 tetx-gray-600 text-sm tracking-wide"> Perfect, No violation   </p>
           </div>
         }
       </div>

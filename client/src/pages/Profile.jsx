@@ -121,7 +121,7 @@ export default function Index() {
 
 
   return (
-    <div className={`profile-page min-h-full bg-slate-100 ${theme == "dark"  ? "bg-slate-800" : ""} `}>
+    <div className={`profile-page min-h-screen bg-slate-100 ${theme == "dark"  ? "bg-slate-800" : ""} `}>
 
       <Nav />
 
@@ -196,7 +196,7 @@ export default function Index() {
         </section> */}
 
       <section className="posts py-10">
-        <div style={{ maxWidth: "600px" }} className="mx-auto" >
+        <div style={{ maxWidth: "700px" }} className="mx-auto" >
 
           {
             typeof (posts) == "object" ? posts.map((item, index) => <PostBox key={index} data={item} />) :

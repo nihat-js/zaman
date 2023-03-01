@@ -1,13 +1,9 @@
 import Nav from '../components/Nav'
 
-import Avatar from '../components/User/Avatar'
-import Username from "../components/User/Username"
-import LeftNav from "../components/Settings/LeftNav"
 import logo from "../assets/svg/zaman.png"
 import { host } from "../config/config"
 import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import { getCookie } from "../utils/getCookie"
 import { MainContext } from '../contexts/Main'
 import Basics from "../components/Settings/Basics"
 import ChangePassword from "../components/Settings/ChangePassword"
@@ -24,11 +20,11 @@ export default function Index() {
         <div className='w-4/12'>
           <img src={logo} alt="" />
           <div className='mt-4' >
-            <p className={`py-4 px-3 bg-teal-800 rounded-md hover:bg-teal-700 text-white mb-2 font-bold border-b-black border-b-2 
-              ${currentTab === "basics" ? "bg-teal-500" : ""}            `}
+            <p className={`py-4 px-3 bg-blue-800 rounded-md hover:bg-blue-700 text-white mb-2 font-bold border-b-black border-b-2 
+              ${currentTab === "basics" ? "bg-blue-500" : ""}            `}
               onClick={() => setCurrentTab('basics')}
             > Basic Settings  </p>
-            <p className={`py-4 px-3 bg-teal-800 rounded-md hover:bg-teal-700 text-white mb-2 font-bold border-b-black border-b-2  ${currentTab === "password" ? "bg-teal-500" : ""}     `}
+            <p className={`py-4 px-3 bg-blue-800 rounded-md hover:bg-blue-700 text-white mb-2 font-bold border-b-black border-b-2  ${currentTab === "password" ? "bg-teal-500" : ""}     `}
               onClick={() => setCurrentTab('password')}
             > Change Password </p>
           </div>

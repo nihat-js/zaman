@@ -1,16 +1,18 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import axios from 'axios'
 import { getCookie } from '../../utils/getCookie'
 import Avatar from '../User/Avatar'
 import gallerySvg from "../../assets/svg/gallery.svg"
 import gifSvg from "../../assets/svg/gif.svg"
 import gif1 from '../../assets/svg/gif-1.gif'
-
+import { host } from '../../config/config'
+import { MainContext } from '../../contexts/Main'
 
 
 
 
 export default function AddComment(props) {
+  const {theme} = useContext(MainContext)
   const { post_id , refresh } = props
 
   const [image, setImage] = useState()
@@ -39,7 +41,7 @@ export default function AddComment(props) {
       formData.append("post_id", post_id)
       formData.append("gif_name",gif_name)
       formData.append("token", getCookie('token'))
-      let response = await axios.post('http://localhost:5000/api/comment/add', formData )
+      let response = await axios.post(host+"api/comment/add", formData )
       setImage(null)
       setText('')
       console.log(response)
@@ -51,7 +53,7 @@ export default function AddComment(props) {
 
   return (
     
-    <div className="add-comment flex gap-3 mb-5 ">
+    <div className={`add-comment flex gap-3 mb-5 ${theme == "dark" ? "bg-slate-600" : "" } py-2 px-2  `}>
       {/* <div className='absolute w-screen h-screen top-0  left-0 ' style={{backgroundColor : "rgba(0,0,0,0.3) "}} > */}
         {/* <div className="content"> */}
           {/* Wao */}
@@ -61,7 +63,8 @@ export default function AddComment(props) {
       <div className="right w-full">
         <form className='mb-4'>
           <input value={text} onChange={(e) => setText(e.target.value)} type="text"
-            className=" w-full outline-none px-1 py-2 rounded-md border- border border-sky-600" />
+            className={` w-full outline-none px-1 py-2 rounded-md border- border border-sky-600 
+            ${theme == "dark" ? "bg-slate-600 border-slate-400" : "" } `} />
           <input accept="image/png, image/jpeg" onChange={() => handleInputChange()} type="file" ref={inputFile} hidden />
         </form>
         <div className="preview">

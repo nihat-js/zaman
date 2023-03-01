@@ -24,8 +24,11 @@ export default function Basics() {
       let formData = new FormData()
       formData.append('file', e.target.files[0])
       formData.append('token', getCookie('token'))
-      let result = await axios.post(host + "/api/user/avatar/upload")
-      // updateUser({avatar : result.data  })
+      let result = await axios.post(host + "api/user/avatar/upload",formData)
+      if (result.status >=200  && result.status< 300){
+        updateUser({avatar : result.data.avatar  })
+
+      }
     } catch (err) {
       console.log(err)
     }
@@ -50,6 +53,7 @@ export default function Basics() {
 
 
   async function handleSubmit() {
+    // console.log('g',data.gender)
     setIsDataLoading(true)
     let touched = {}
     copy.username != data.username ? touched.username = data.username : null
@@ -98,16 +102,16 @@ export default function Basics() {
         <input onChange={(e) => uploadAvatar(e)} id="file" type="file" name="file" className='hidden' />
       </form>
       <header className='flex gap-12 '>
-        <Avatar style={{ width: "100px" }} me={true} />
+        <Avatar style={{ width: "100px" }} me={true} disableLink={true} />
         <div>
           <Username me={true} style={{ color: "#192021" }} />
           <label htmlFor="file">
-            <p className='text-indigo-800 mt-8 border-indigo-800 border  px-2 py-1 
+            <p className='text-indigo-800 mt-3 border-indigo-800 border  px-2 py-1 
                   rounded-md hover:bg-indigo-800 hover:text-white '> Change Avatar </p>
           </label>
         </div>
         <div>
-          <div className="img-wrap flex gap-3 mb-4">
+          <div style={{gridTemplateColumns : "1fr 1fr 1fr 1fr"}} className="img-wrap grid gap-3 mb-4">
             {
               ["sample-1.svg", "sample-2.svg", "sample-3.svg", "sample-4.svg", "sample-5.svg", "sample-6.svg", "sample-7.svg", "sample-8.svg"].map((i, j) => {
                 return <img key={j} onClick={() => setAvatar(i)}
