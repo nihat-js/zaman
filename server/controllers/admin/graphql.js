@@ -24,7 +24,7 @@ async function main(req, res) {
     return res.status(200).json(posts)
   }else if(model == "report" ) {
 
-    let report = await Report.find()
+    let report = await Report.find().populate({path : "who_id", select : "username avatar"})
     return res.status(200).json(report)
   }
   else{

@@ -35,11 +35,11 @@ export default function Posts() {
               <div className='flex justify-between bg-white px-5 py-5 rounded-md shadow-md '>
                 <div className="left">
                   <header className='flex gap-2'>
-                    <p className="text text-xl "> Who  </p>
+                    <p className="text  "> Who  </p>
                     <Avatar avatar={i.who_id.avatar} username={i.who_id.username} />
                     <Username username={i.who_id.username} />
                   </header>
-                  <p className="argument font-semibold text-2xl mt-3 ">
+                  <p className="argument font-semibold  mt-4 ">
                     Argument :
                     {
                       i.argument == 0 ? "Spam" : i.argument == 1 ? "Hate Speech" : i.argument == 2 ? "Scam" : i.argument == 3 ? "Other" : ""
