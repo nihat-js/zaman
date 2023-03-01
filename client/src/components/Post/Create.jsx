@@ -39,7 +39,8 @@ export default function CreatePost() {
   }
   async function handlePostButton(e) {
     e.preventDefault()
-    if (arr.length == 0 && !text) {
+    if (arr.length == 0 || !text) {
+      setText('Please select at least one image')
       return false
     }
     // console.log(arr)

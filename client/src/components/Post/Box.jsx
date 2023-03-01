@@ -127,7 +127,7 @@ export default function PostBox(props) {
         }
       </div>
 
-      <div className="text-gray-400 text-sm hover:opacity-50 " > {calculateTimeForUser(createdAt)} </div>
+      <div className="text-gray-400 text-sm hover:opacity-50 px-2 py-2 " > {calculateTimeForUser(createdAt)} </div>
         <Actions  _id={_id} saved={saved} reaction={reaction} loadComments={loadComments} 
          commentsStatus={commentsStatus} comments_count={comments_count} reactions_count={reactions_count} />
       <div className="comments">
