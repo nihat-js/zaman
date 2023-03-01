@@ -12,12 +12,13 @@ import { MainContext } from '../contexts/Main'
 import Basics from "../components/Settings/Basics"
 import ChangePassword from "../components/Settings/ChangePassword"
 
+
 export default function Index() {
 
   const [currentTab, setCurrentTab] = useState("basics")
-
+  const {theme} = useContext(MainContext)
   return (
-    <div className="setttings-page min-h-screen w-full bg-slate-50">
+    <div className={`setttings-page min-h-screen w-full bg-slate-50 ${theme == "dark" ? "bg-slate-800" : ""}  `}>
       <Nav />
       <div style={{ maxWidth: "1200px" }} className='flex gap-12 mx-auto mt-8'>
         <div className='w-4/12'>
