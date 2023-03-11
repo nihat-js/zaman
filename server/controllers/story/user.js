@@ -14,7 +14,7 @@ module.exports = async function main(req, res) {
 
   let userStories = await Story.find({ author_id: target_id })
   //  console.log('target_id', target_id, userStories)
-  return res.status(202).json( {  stories :  userStories  } )
+  return res.status(202).json( userStories )
 
 
 

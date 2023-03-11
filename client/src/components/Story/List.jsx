@@ -11,6 +11,10 @@ import "cropperjs/dist/cropper.min.css";
 import { host } from '../../config/config'
 import axios from 'axios'
 import { getCookie } from "../../utils/getCookie"
+import arrowLeftSvg from "../../assets/svg/arrow-left.svg"
+import arrowRightSvg from "../../assets/svg/arrow-right.svg"
+import Username from '../User/Username'
+import calculateTimeForUser from '../../utils/calculateTimeForUser'
 
 export default function Story() {
 
@@ -44,9 +48,9 @@ export default function Story() {
     let res = await axios.post(host + "api/story/load", { token: getCookie('token') })
     setUsers(res.data)
   }
-  
-  async function showUserStory(username){
-    let res = await axios.post(host+ "api/story/user",{token : getCookie('token') ,target_username : username  })
+
+  async function showUserStory(username) {
+    let res = await axios.post(host + "api/story/user", { token: getCookie('token'), target_username: username })
     console.log(res)
   }
 
@@ -57,11 +61,8 @@ export default function Story() {
 
   return (
     <div className='py-2  flex gap-2' >
-      <div className='absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-50  ' style={{backgroundColor : "rgba(0,0,0,0.65)"}} >
-        <div className="content bg-white py-4 px-3 rounded-md shadow-md ">
-          Waa
-        </div>
-      </div>
+      <UserStory current={user} />
+
       <div className="me relative ">
         <Avatar me={true} style={{ width: "75px", height: "75px" }} />
         <img className='w-6  z-5 rounded-full cursor-pointer hover:bg-blue-500 ' src={addStorySvg} alt="" />
@@ -73,7 +74,7 @@ export default function Story() {
         </button>
       </div>
       {users.map((i, j) => <div key={j}>
-        <div className="avatar-wrap" onClick={() => showUserStory(i.username) } >
+        <div className="avatar-wrap" onClick={() => showUserStory(i.username)} >
           <Avatar disableLink username={i.username} Avatar={i.avatar} />
         </div>
         <p> {i.username} </p>
@@ -123,6 +124,44 @@ async function getCroppedImg(image, crop,) {
   return croppedImage
 }
 
-function UserStory(){
-  
+function UserStory({ current, previous, next }) {
+  const [data, setData] = useState([])
+  const [currentIndex, setCurrentIndex] = useState(0)
+  current = {
+    username: "code",
+  }
+  async function get() {
+    let res = await axios.post(host + "api/story/user", { token: getCookie('token'), target_username: current.username })
+    setData(res.data)
+    console.log(res.data)
+  }
+
+  useEffect(() => {
+    get()
+  }, [])
+
+
+
+  return (
+    <div className='absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-50  ' style={{ backgroundColor: "rgba(0,0,0,0.65)" }} >
+      <div className="content bg-white py-4 px-3 rounded-md shadow-md " style={{ width: "400px" }}>
+        <div className="indicator flex  gap-1">
+          {data.map((i, j) => <p  key={j} className='line flex-1 bg-gray-200 select-none rounded-md text-transparent inline-block text-sm ' > . </p>)}
+        </div>
+        <header>
+          <div className="left flex gap-2">
+            <Avatar username = {current.username} disableLink />
+            <Username username={current.username} />
+            <div className="time"> {data[currentIndex]?.created_at  } </div>
+          </div>
+          <div className="right">
+
+          </div>
+        </header>
+        <div className="source">
+          <img src={host + "stories/" + data[currentIndex]?.source} alt="" />
+        </div>
+      </div>
+    </div >
+  )
 }
