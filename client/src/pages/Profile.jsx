@@ -6,8 +6,6 @@ import Avatar from '../components/User/Avatar'
 import Username from "../components/User/Username"
 import FollowButton from '../components/User/FollowButton'
 import cakeSvg from '../assets/svg/cake.svg'
-import rowSvg from '../assets/svg/row.svg'
-import gridSvg from '../assets/svg/grid.svg'
 import PostBox from "../components/Post/Box"
 import PostSkleton from "../components/Post/Skleton"
 import Nav from '../components/Nav'
@@ -15,7 +13,7 @@ import { MainContext } from '../contexts/Main'
 import { host } from "../config/config"
 import { Link } from 'react-router-dom'
 import loadingSvg from '../assets/svg/loading.svg'
-
+import FollowingList from "../components/User/FollowingList"
 export default function Index() {
   const params = useParams()
   const navigate = useNavigate()
@@ -122,9 +120,9 @@ export default function Index() {
 
   return (
     <div className={`profile-page min-h-screen bg-slate-100 ${theme == "dark"  ? "bg-slate-800" : ""} `}>
-
       <Nav />
 
+    <FollowingList />        
 
       <section className="start mt-5">
         <div style={{ maxWidth: "800px" }} className="mx-auto flex gap-12  "  >

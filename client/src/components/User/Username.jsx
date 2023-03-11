@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react'
-import getUser from '../../utils/getUser'
 import { Link } from 'react-router-dom'
 import { MainContext } from '../../contexts/Main'
 export default function Username(props) {

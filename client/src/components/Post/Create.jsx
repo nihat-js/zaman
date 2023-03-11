@@ -4,7 +4,6 @@ import axios from "axios";
 
 import gallerySvg from '../../assets/svg/gallery.svg'
 import { getCookie } from "../../utils/getCookie";
-import getUser from '../../utils/getUser'
 import cameraSvg from '../../assets/svg/camera.svg'
 import closeSvg from '../../assets/svg/close.svg'
 import loadingSvg from "../../assets/svg/loading.svg"

@@ -1,24 +1,19 @@
-const route  = require('express').Router()
+const route = require('express').Router()
+const {followingsList , followersList } = require("../controllers/user/list")
 
+route.post('/suggested', require("../controllers/user/suggested"))
+route.post('/profile', require("../controllers/user/profile"))
+route.post('/account', require("../controllers/user/account"))
+route.post('/account/edit', require("../controllers/user/accountEdit"))
+route.post("/avatar/set", require("../controllers/user/avatarSet"))
+route.post("/avatar/upload", require("../controllers/user/avatarUpload"))
+route.post("/account/change-password", require('../controllers/user/changePassword'))
+route.post('/notification', require("../controllers/user/notification"))
+route.post('/follow',require("../controllers/user/follow"))
+route.post('/unfollow',require("../controllers/user/unfollow"))
 
-const suggested  = require("../controllers/user/suggested")
-const profile = require("../controllers/user/profile")
-const account = require("../controllers/user/account")
-const avatarSet = require("../controllers/user/avatarSet")
-const avatarUpload = require("../controllers/user/avatarUpload")
-const accountEdit = require("../controllers/user/accountEdit")
-const changePassword = require('../controllers/user/changePassword')
-const notification = require("../controllers/user/notification")
-
-route.post('/suggested',suggested)
-route.post('/profile',profile)
-route.post('/account',account)
-route.post('/account/edit',  accountEdit )
-route.post("/avatar/set",avatarSet  )
-route.post("/avatar/upload",avatarUpload)
-route.post("/account/change-password",changePassword)
-route.post('/notification',notification )
-
+route.post('/list/followers', followersList)
+route.post('/list/followings',  followingsList )
 
 
 

@@ -15,7 +15,9 @@ import arrowLeftSvg from "../../assets/svg/arrow-left.svg"
 import arrowRightSvg from "../../assets/svg/arrow-right.svg"
 import Username from '../User/Username'
 import calculateTimeForUser from '../../utils/calculateTimeForUser'
-
+import OptionsSvg from "../../assets/svg/three-dots.svg"
+import playSvg from "../../assets/svg/play.svg"
+import pauseSvg from "../../assets/svg/pause.svg"
 export default function Story() {
 
   const { user } = useContext(MainContext)
@@ -143,23 +145,24 @@ function UserStory({ current, previous, next }) {
 
 
   return (
-    <div className='absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-50  ' style={{ backgroundColor: "rgba(0,0,0,0.65)" }} >
-      <div className="content bg-white py-4 px-3 rounded-md shadow-md " style={{ width: "400px" }}>
+    <div className='absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-50  ' style={{ backgroundColor: "rgba(0,0,0,0.85)" }} >
+      <div className="content bg-white py-4 px-3 rounded-md shadow-md " style={{ width: "500px" }}>
         <div className="indicator flex  gap-1">
           {data.map((i, j) => <p  key={j} className='line flex-1 bg-gray-200 select-none rounded-md text-transparent inline-block text-sm ' > . </p>)}
         </div>
-        <header>
+        <header className='flex justify-between py-4'>
           <div className="left flex gap-2">
             <Avatar username = {current.username} disableLink />
             <Username username={current.username} />
-            <div className="time"> {data[currentIndex]?.created_at  } </div>
+            <p className="time text-gray-600 text-sm "> { data[currentIndex] && calculateTimeForUser ( data[currentIndex].created_at ) } </p>
           </div>
-          <div className="right">
-
+          <div className="right flex gap-2">
+            <img className='w-6' src={playSvg} alt="" />
+            <img  className='w-6' src={OptionsSvg} alt="" />
           </div>
         </header>
         <div className="source">
-          <img src={host + "stories/" + data[currentIndex]?.source} alt="" />
+          <img className='w-full'  src={host + "stories/" + data[currentIndex]?.source} alt="" />
         </div>
       </div>
     </div >

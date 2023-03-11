@@ -27,8 +27,6 @@ const story = require("./routes/story")
 
 
 // controllers
-const follow = require('./controllers/follow/follow')
-const unfollow = require('./controllers/follow/unfollow')
 const search = require('./controllers/search')
 
 
@@ -47,8 +45,6 @@ app.use("/api/admin", adminAuth, admin)
 app.use("/api/user/", auth, user)
 app.use("/api/story/",auth,story)
 
-app.post('/api/follow', auth, follow)
-app.post('/api/unfollow', auth, unfollow)
 app.post('/api/search', search)
 
 

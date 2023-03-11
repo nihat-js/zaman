@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import getUser from "../../utils/getUser"
 import { MainContext } from '../../contexts/Main'
 import { useContext } from 'react'
 import { host } from '../../config/config'
