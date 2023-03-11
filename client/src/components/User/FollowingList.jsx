@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react'
 import closeSvg from '../../assets/svg/close-black.svg'
 import { host } from '../../config/config'
-import { getCookie } from '../../utils/getCookie'
 import axios from 'axios'
-export default function FollowingsList({ username }) {
+import { getToken } from '../../utils/utils'
+export default function FollowingsList({ target_username , me  }) {
   const [data, setData] = useState([])
   username = "eltun"
+  me = false
   async function get() {
     setData("loading")
-    let res = await axios.post(host + "api/user/list/followings", { token: getCookie('token'), type: "following", target_username: { username } })
+    let  obj = { token :  getToken }
+    me == true ? obj.me = true : obj.target_username = target_username
+    let res = await axios.post(host + "api/user/list/followings", obj )
     console.log(res.data)
     setData(res.data)
   }

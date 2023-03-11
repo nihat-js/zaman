@@ -6,9 +6,9 @@ const Follow = require("../../models/Follow")
 
 async function followingsList(req,res) {
   const { user_id, target_username } = req.body
-  let target = await User.findOne({ username: target_username }).select("_id username ")
+  console.log('t',target_username)
+  let target = await User.findOne({ username: target_username })
   if (!target) return res.status(478).send()
-  console.log('burada ',target)
   let arr = await Follow.find({ who_id: target._id }).lean()
   
   if (target._id == user_id) {
