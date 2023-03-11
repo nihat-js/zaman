@@ -12,7 +12,7 @@ async function auth(req, res, next) {
   if (!user) {
     return res.status(401).send()
   }
-  console.log('a',decoded.user_id)
+  // console.log('a',decoded.user_id)
   // console.log('verifying',token,);
   // if (user.active_device?.session == decoded.session) {
     req.body.user_id = decoded.user_id

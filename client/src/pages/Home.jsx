@@ -13,7 +13,7 @@ import Notification from '../components/Home/Notification'
 import LeftNav from "../components/Home/LeftNav"
 import { MainContext } from "../contexts/Main";
 import { host } from "../config/config";
-import Story from "../components/Story/Story";
+import StoryList from "../components/Story/List";
 
 export default function Index() {
 
@@ -57,7 +57,7 @@ export default function Index() {
       <Nav />
 
       <div style={{ maxWidth: "1200px" }} className="mx-auto" >
-        <Story />
+        <StoryList />
       </div>
 
       <div style={{ maxWidth: "1200px" }} className="feed-inner lg:flex md:flex sm:block mx-auto gap-10 mt-6  pt-1  ">

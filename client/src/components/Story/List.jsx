@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { MainContext } from '../../contexts/Main'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/src/ReactCrop.scss'
@@ -21,6 +21,7 @@ export default function Story() {
     height: "500"
   })
   const [image, setImage] = useState()
+  const [users, setUsers] = useState([])
   const imageRef = useRef()
 
 
@@ -38,19 +39,45 @@ export default function Story() {
     }
   }
 
+  async function load() {
+    console.log('story loading',)
+    let res = await axios.post(host + "api/story/load", { token: getCookie('token') })
+    setUsers(res.data)
+  }
+  
+  async function showUserStory(username){
+    let res = await axios.post(host+ "api/story/user",{token : getCookie('token') ,target_username : username  })
+    console.log(res)
+  }
+
+  useEffect(() => {
+    load()
+  }, [])
+
 
   return (
     <div className='py-2  flex gap-2' >
+      <div className='absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-50  ' style={{backgroundColor : "rgba(0,0,0,0.65)"}} >
+        <div className="content bg-white py-4 px-3 rounded-md shadow-md ">
+          Waa
+        </div>
+      </div>
       <div className="me relative ">
         <Avatar me={true} style={{ width: "75px", height: "75px" }} />
         <img className='w-6  z-5 rounded-full cursor-pointer hover:bg-blue-500 ' src={addStorySvg} alt="" />
         <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+        {image && <CropDemo crop={crop} src={URL.createObjectURL(image)} setCrop={setCrop} imageRef={imageRef} />}
+        <button onClick={add}
+          className='btn py-2 px-3 bg-blue-800 text-white rounded-md'>
+          Upload it
+        </button>
       </div>
-      {image && <CropDemo crop={crop} src={URL.createObjectURL(image)} setCrop={setCrop} imageRef={imageRef} />}
-      <button onClick={add}
-        className='btn py-2 px-3 bg-blue-800 text-white rounded-md'>
-        Upload it
-      </button>
+      {users.map((i, j) => <div key={j}>
+        <div className="avatar-wrap" onClick={() => showUserStory(i.username) } >
+          <Avatar disableLink username={i.username} Avatar={i.avatar} />
+        </div>
+        <p> {i.username} </p>
+      </div>)}
     </div>
   )
 }
@@ -94,4 +121,8 @@ async function getCroppedImg(image, crop,) {
     resolve(file)
   }, 'image/jpeg'))
   return croppedImage
+}
+
+function UserStory(){
+  
 }
