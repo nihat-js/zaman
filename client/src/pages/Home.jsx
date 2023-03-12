@@ -3,7 +3,6 @@ import axios from 'axios'
 import { Link, useNavigate } from "react-router-dom";
 import './Home.scss'
 
-import { getCookie } from '../utils/getCookie'
 import Nav from '../components/Nav'
 import PostBox from '../components/Post/Box'
 import PostSkleton from "../components/Post/Skleton"
@@ -14,6 +13,7 @@ import LeftNav from "../components/Home/LeftNav"
 import { MainContext } from "../contexts/Main";
 import { host } from "../config/config";
 import StoryList from "../components/Story/List";
+import { token } from "../utils/utils";
 
 export default function Index() {
 
@@ -28,15 +28,13 @@ export default function Index() {
     }
   }, [])
 
-
   const { theme } = useContext(MainContext)
-  console.log(theme)
 
   async function loadPosts() {
     setPosts("loading")
     // console.log('zz')
     try {
-      let response = await axios.post(host + "api/post/place", { name: place, token: getCookie('token') })
+      let response = await axios.post(host + "api/post/place", { name: place, token: token })
       console.log(response.data)
       setPosts(response.data)
     } catch (err) {

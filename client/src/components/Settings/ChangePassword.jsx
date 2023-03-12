@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { host } from '../../config/config';
-import { getCookie } from '../../utils/getCookie';
+import { token } from '../../utils/utils';
 import loadingSvg from "../../assets/svg/loading.svg"
 
 
@@ -29,7 +29,7 @@ export default function main() {
     setIsLoading(true)
     setError('')
     try {
-      let response = await axios.post(host + "api/user/account/change-password", { token: getCookie('token'), old_password: oldPassword, new_password :newPassword, })
+      let response = await axios.post(host + "api/user/account/change-password", { token, old_password: oldPassword, new_password :newPassword, })
       // navigate('/account')
       setError('')
       if (response.status == 200) {

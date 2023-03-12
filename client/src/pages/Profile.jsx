@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { getCookie } from '../utils/getCookie'
 import { useContext, useEffect, useState } from 'react'
 import Avatar from '../components/User/Avatar'
 import Username from "../components/User/Username"
@@ -12,6 +11,7 @@ import Nav from '../components/Nav'
 import { MainContext } from '../contexts/Main'
 import { host } from "../config/config"
 import { Link } from 'react-router-dom'
+import { token } from '../utils/utils'
 import FollowingsList from '../components/User/FollowingsList'
 import FollowersList from '../components/User/FollowersList'
 export default function Index() {
@@ -36,7 +36,7 @@ export default function Index() {
   async function loadPosts() {
     setPosts("loading")
     try {
-      let response = await axios.post(host + 'api/post/place', { name: "user", token: getCookie('token'), target_username: target_username })
+      let response = await axios.post(host + 'api/post/place', { name: "user", token, target_username: target_username })
       console.log(response.data)
       setPosts(response.data)
     } catch (err) {
@@ -47,7 +47,7 @@ export default function Index() {
 
   async function handleMessage(req, res) {
     try {
-      let response = await axios.post(host + "api/chat/start-or-find-chat", { target_username, token: getCookie('token') })
+      let response = await axios.post(host + "api/chat/start-or-find-chat", { target_username, token })
       console.log(response)
       navigate("/chat/" + response.data.chat_id)
     } catch (err) {
@@ -57,7 +57,7 @@ export default function Index() {
 
   async function loadUser() {
     try {
-      let response = await axios.post(host + "api/user/profile", { token: getCookie('token'), target_username: target_username })
+      let response = await axios.post(host + "api/user/profile", { token, target_username: target_username })
       setTarget(response.data)
       console.log("loadUser", response)
     } catch (err) {

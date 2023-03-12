@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 import gallerySvg from '../../assets/svg/gallery.svg'
-import { getCookie } from "../../utils/getCookie";
+import { token } from "../../utils/utils";
 import cameraSvg from '../../assets/svg/camera.svg'
 import closeSvg from '../../assets/svg/close.svg'
 import loadingSvg from "../../assets/svg/loading.svg"
@@ -50,7 +50,7 @@ export default function CreatePost() {
         formData.append("image" + index, item)
       })
       formData.append("text", text)
-      formData.append("token", getCookie('token'))
+      formData.append("token", token )
       let response = await axios.post(host + "api/post/create", formData)
       console.log(response.data)
       setText('')

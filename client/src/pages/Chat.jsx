@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react'
-import { getCookie } from '../utils/getCookie'
+import { token } from '../utils/utils';
 import axios from 'axios'
 import io from 'socket.io-client';
 import { MainContext } from '../contexts/Main'

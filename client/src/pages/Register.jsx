@@ -7,7 +7,8 @@ import loadingWhiteSvg from '../assets/svg/loading-white.svg'
 import emailSvg from '../assets/svg/email.svg'
 
 import { Link, useNavigate } from 'react-router-dom'
-import { getCookie } from '../utils/getCookie'
+import { token } from '../utils/utils'
+import { host } from '../config/config'
 
 import InputGroup from '../components/Entry/InputGroup'
 import { MainContext } from '../contexts/Main'
@@ -27,7 +28,7 @@ export default function Index() {
 
 
   function isLoggedIn() {
-    if (getCookie('token')) {
+    if (token ) {
       navigate('/feed')
     }
   }

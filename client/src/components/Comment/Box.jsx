@@ -6,12 +6,12 @@ import secondarySvg from "../../assets/svg/secondary.svg"
 import { host } from '../../config/config'
 import calculateTimeForUser from '../../utils/calculateTimeForUser'
 import axios from 'axios'
-import { getCookie } from '../../utils/getCookie'
+import { token } from '../../utils/utils'
 import { MainContext } from '../../contexts/Main'
 
 export default function CommentBox(props) {
   let { _id, text, author_id, sources, reaction, createdAt, score } = props.data
-  let { avatar, username, } = author_id
+  let { avatar, username,stories_count } = author_id
   let src = sources?.length > 0 ? host + "images/" + sources[0] : ""
   // console.log("src", src)
 
@@ -27,7 +27,7 @@ export default function CommentBox(props) {
     setIsReacted('loading')
     console.log('name',name)
     try {
-      let res = await axios.post(host + "api/comment/react", { token: getCookie('token'), comment_id: _id, name })
+      let res = await axios.post(host + "api/comment/react", { token: token, comment_id: _id, name })
       let payload;
       if (previous == "down" && name == "none") {
         payload = 1
@@ -55,7 +55,7 @@ export default function CommentBox(props) {
   return (
     <div className={`comment flex gap-4 py-2 mt-3  px-4 shadow-sm ${theme =="dark" ? "" : "" }  rounded-md`}>
       <div className="left">
-        <Avatar username={username} avatar={avatar} className="w-6" src="" />
+        <Avatar username={username} avatar={avatar} stories_count={stories_count}  src="" />
       </div>
       <div className="right w-full  ">
         <header className="flex gap-2 items-center">

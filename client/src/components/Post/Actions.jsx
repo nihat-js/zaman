@@ -7,7 +7,7 @@ import saveSvg from '../../assets/svg/save.svg'
 import saveFillSvg from "../../assets/svg/save-fill.svg"
 import primarySvg from "../../assets/svg/primary.svg"
 import secondarySvg from "../../assets/svg/secondary.svg"
-import { getCookie } from '../../utils/getCookie'
+
 import linkSvg from "../../assets/svg/link.svg"
 import { token } from '../../utils/utils'
 import ShareModal from './ShareModal'
@@ -27,7 +27,7 @@ export default function Actions({ reaction, commentsStatus, loadComments, reacti
     let previous = isReacted
     setIsReacted("loading")
     try {
-      let response = await axios.post(host + "api/post/react", { token: getCookie('token'), name: name, post_id: _id })
+      let response = await axios.post(host + "api/post/react", { token, name: name, post_id: _id })
       let payload;
       if (previous == "down" && name == "none") {
         payload = 1
@@ -66,7 +66,7 @@ export default function Actions({ reaction, commentsStatus, loadComments, reacti
     let val = isSaved ? 0 : 1
     console.log(val)
     try {
-      let res = await axios.post(host + "api/post/save", { token: getCookie('token'), post_id: _id, val })
+      let res = await axios.post(host + "api/post/save", { token, post_id: _id, val })
       setIsSaved(!isSaved)
     } catch (err) {
       console.log(err)

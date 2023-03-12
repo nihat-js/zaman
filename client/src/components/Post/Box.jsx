@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie } from "../../utils/getCookie";
+import { token } from "../../utils/utils";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from 'react-router-dom'
 import { host } from "../../config/config";
@@ -64,7 +64,7 @@ export default function PostBox(props) {
 
   async function deletePost(req, res) {
     try {
-      let response = await axios.post(host + "api/post/delete", { token: getCookie('token'), post_id: _id })
+      let response = await axios.post(host + "api/post/delete", { token, post_id: _id })
       console.log(response.data)
       setIsPostDeleted(true)
     } catch (err) {

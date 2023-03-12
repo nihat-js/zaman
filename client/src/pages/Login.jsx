@@ -5,8 +5,8 @@ import lockSvg from '../assets/svg/lock.svg'
 import userSvg from '../assets/svg/user.svg'
 import loadingWhiteSvg from '../assets/svg/loading-white.svg'
 import { Link, useNavigate } from 'react-router-dom'
-import { getCookie } from '../utils/getCookie'
-
+import { token } from '../utils/utils'
+import { host } from '../config/config'
 import InputGroup from '../components/Entry/InputGroup'
 import { MainContext } from '../contexts/Main'
 

@@ -1,13 +1,13 @@
-import { getCookie } from "../../utils/getCookie"
 import { host } from "../../config/config"
 import axios from "axios"
+import { token } from "../../utils/utils"
 export default function ReportModal(props) {
   const {post_id ,val , closeModal} = props
   const token = getCookie('token')
 
   async function report(val){
     try{
-      let response = await axios.post(host + 'api/post/report', { token : getCookie('token') , post_id ,argument : val } )
+      let response = await axios.post(host + 'api/post/report', { token , post_id ,argument : val } )
       console.log(response.data)
       closeModal()
     }catch(err){

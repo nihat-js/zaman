@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from 'react'
 import axios from 'axios'
-import { getCookie } from '../../utils/getCookie'
+import { token } from '../../utils/utils'
 import Avatar from '../User/Avatar'
 import gallerySvg from "../../assets/svg/gallery.svg"
 import gifSvg from "../../assets/svg/gif.svg"
@@ -40,7 +40,7 @@ export default function AddComment(props) {
       formData.append('text', text)
       formData.append("post_id", post_id)
       formData.append("gif_name",gif_name)
-      formData.append("token", getCookie('token'))
+      formData.append("token", token )
       let response = await axios.post(host+"api/comment/add", formData )
       setImage(null)
       setText('')

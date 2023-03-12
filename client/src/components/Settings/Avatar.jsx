@@ -1,7 +1,7 @@
 import { useRef , useState } from 'react'
 import axios from 'axios'
+import { token } from '../../utils/utils'
 
-import {getCookie} from '../../utils/getCookie'
 
 export default function SetProfilePicture() {
 
@@ -14,7 +14,6 @@ export default function SetProfilePicture() {
     e.preventDefault()
     const formData = new FormData();
 
-    const token = getCookie('token')
     const image = inputFile.current.files[0]
     
     formData.append('image', image)

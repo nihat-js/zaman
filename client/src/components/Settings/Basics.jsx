@@ -5,9 +5,10 @@ import logo from "../../assets/svg/logo.png"
 import { host } from "../../config/config"
 import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import { getCookie } from "../../utils/getCookie"
+import { token } from '../../utils/utils'
 import { MainContext } from '../../contexts/Main'
 import InputEmoji from "react-input-emoji";
+import { token } from '../../utils/utils'
 
 export default function Basics() {
 
@@ -23,7 +24,7 @@ export default function Basics() {
     try {
       let formData = new FormData()
       formData.append('file', e.target.files[0])
-      formData.append('token', getCookie('token'))
+      formData.append('token', token)
       let result = await axios.post(host + "api/user/avatar/upload",formData)
       if (result.status >=200  && result.status< 300){
         updateUser({avatar : result.data.avatar  })
@@ -40,7 +41,7 @@ export default function Basics() {
 
   async function setAvatar(file_name) {
     try {
-      let result = await axios.post(host + "api/user/avatar/set", { token: getCookie('token'), file_name })
+      let result = await axios.post(host + "api/user/avatar/set", { token, file_name })
       if (result) {
         updateUser({ avatar: file_name })
       }
@@ -65,7 +66,7 @@ export default function Basics() {
     console.log('touched',touched)
     try {
       console.log(touched)
-      let response = await axios.post(host + "api/user/account/edit", { token: getCookie('token'), ...touched })
+      let response = await axios.post(host + "api/user/account/edit", { token, ...touched })
       console.log(response.data)
       setData(response.data)
       setCopy(response.data)
@@ -80,7 +81,7 @@ export default function Basics() {
   async function loadData() {
     setIsDataLoading(true)
     try {
-      let response = await axios.post(host + "api/user/account", { token: getCookie('token') })
+      let response = await axios.post(host + "api/user/account", { token })
       console.log(response.data)
       setData(response.data)
       setCopy(response.data)

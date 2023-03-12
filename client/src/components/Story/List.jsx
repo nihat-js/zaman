@@ -10,7 +10,7 @@ import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.min.css";
 import { host } from '../../config/config'
 import axios from 'axios'
-import { getCookie } from "../../utils/getCookie"
+import { token } from '../../utils/utils'
 
 import Username from '../User/Username'
 import calculateTimeForUser from '../../utils/calculateTimeForUser'
@@ -34,7 +34,7 @@ export default function Story() {
     try {
       let formData = new FormData()
       formData.append('file', croppedImage)
-      formData.append('token', getCookie('token'))
+      formData.append('token', token)
       let res = await axios.post(host + "api/story/add", formData)
       console.log(res)
     } catch (err) {
@@ -44,12 +44,12 @@ export default function Story() {
 
   async function load() {
     console.log('story loading',)
-    let res = await axios.post(host + "api/story/load", { token: getCookie('token') })
+    let res = await axios.post(host + "api/story/load", { token })
     setUsers(res.data)
   }
 
   async function showUserStory(username) {
-    let res = await axios.post(host + "api/story/user", { token: getCookie('token'), target_username: username })
+    let res = await axios.post(host + "api/story/user", { token ,target_username: username })
     console.log(res)
   }
 
@@ -100,7 +100,7 @@ function UserStory({ current, previous, next }) {
     username: "code",
   }
   async function get() {
-    let res = await axios.post(host + "api/story/user", { token: getCookie('token'), target_username: current.username })
+    let res = await axios.post(host + "api/story/user", { token , target_username: current.username })
     setData(res.data)
     console.log(res.data)
   }

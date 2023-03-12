@@ -3,7 +3,7 @@ import notificationSvg from '../../assets/svg/notification.svg'
 import arrowDownSvg from '../../assets/svg/arrow-down.svg'
 import arrowUpSvg from '../../assets/svg/arrow-up.svg'
 import axios from 'axios'
-import { getCookie } from "../../utils/getCookie"
+import { token } from '../../utils/utils'
 import { host } from "../../config/config"
 import calculateTimeForUser from "../../utils/calculateTimeForUser"
 import { MainContext } from '../../contexts/Main'
@@ -18,8 +18,7 @@ export default function Notification() {
       return false
     }
     try {
-      let res = await axios.post(host + "api/user/notification",
-        { token: getCookie('token') })
+      let res = await axios.post(host + "api/user/notification",   { token })
       setData(res.data)
       console.log('notif', res)
     } catch (err) {
