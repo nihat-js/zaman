@@ -21,6 +21,7 @@
     "react-input-emoji": "^4.3.0",
     "react-loading-skeleton": "^3.1.1",
     "react-router-dom": "^6.8.0",
+    "react-share": "^4.4.1",
     "sass": "^1.58.0",
     "socket.io-client": "^4.6.1",
     "styled-components": "^5.3.6",

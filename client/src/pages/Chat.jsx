@@ -6,30 +6,22 @@ import { MainContext } from '../contexts/Main'
 import { host } from "../config/config"
 import { token } from '../utils/utils';
 import Nav from '../components/Nav'
-import lefArrow from '../assets/svg/arrow-left.svg'
-import sadSvg from '../assets/svg/sad.svg'
-import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
-
 import './Chat.scss'
-import Form from '../components/Chat/Form';
-import Messages from '../components/Chat/Messages';
-import Contacts from '../components/Chat/ContactsBox';
+
+import ContactsList from '../components/Chat/ContactsList';
+import Conversation from "../components/Chat/Conversation"
 export default function Chat() {
   const { user, theme } = useContext(MainContext)
   let socket = io('http://localhost:3000');
 
-  const [currentfolderName, setCurrentFolderName] = useState("primary")
-  const [chats, setChats] = useState([])
-  const [areChatsLoading, setAreChatsLoading] = useState(true)
   const [currentChat, setCurrentChat] = useState("")
   const [messages, setMessages] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
   const [chatTheme, setChatTheme] = useState(0)
 
 
   useEffect(() => {
     socket.on('load', (data) => {
-      console.log('loading', data)
+      console.log('loading messages', data)
       setMessages(data)
     })
     socket.on("theme", (x) => {
@@ -46,28 +38,11 @@ export default function Chat() {
   }, [])
 
 
-  async function loadChats() {
-    setAreChatsLoading(true)
-    try {
-      let response = await axios.post(host + 'api/chat/load-chats', { token: token, folder_name: currentfolderName })
-      console.log("loaded Chats", response)
-      setChats(response.data)
-      setAreChatsLoading(false)
-    } catch (err) {
-      console.log(err)
-    }
-
-  }
   async function send(text) {
     socket.emit('send', { text: text, chat_id: currentChat, token: token })
   }
   // !!!!!! now using socket.io 
 
-
-
-  useEffect(() => {
-    loadChats()
-  }, [currentfolderName])
 
   useEffect(() => {
     if (currentChat == "") {
@@ -84,12 +59,12 @@ export default function Chat() {
   function deleteMessage(id) {
     socket.emit('delete', { message_id: id, token, chat_id: currentChat })
   }
-  function leaveRoom() {
-    socket.emit('leave', { chat_id: currentChat })
-  }
   function updateTheme(x) {
     // console.log('bura gelir')
     socket.emit('theme', { chat_id: currentChat, theme: x })
+  }
+  function leaveRoom(){
+    socket.emit('leave', { chat_id: currentChat, token: token })
   }
 
 
@@ -97,89 +72,22 @@ export default function Chat() {
   return (
     <div className='chat-page'>
       <Nav />
-      <main className={`start py-10 min-h-screen bg-slate-50 ${theme == "dark" ? 'bg-slate-800 text-gray-600' : ""}  `}>
 
-
-        <div style={{ maxWidth: "1200px" }} className="mx-auto">
-          <div className="row flex gap-6" style={{ minHeight: "700px" }} >
-            <div className={`left w-3/12  shadow-md  rounded-md py-2  px-4 ${theme == "dark" ? 'bg-slate-700 text-white' : ""}   `}>
-
-              {currentfolderName != "request" ? <header className='flex justify-between mb-6 transi '>
-                <h3 className="title font-bold text-3xl "> Chat </h3>
-                <button className='text-sky-900 font-bold ' onClick={() => setCurrentFolderName('request')} > Requests </button>
-              </header>
-                : <header className='flex justify-between items-center mb-6'>
-                  <img className='w-8 h-8 p-2 cursor-pointer hover:bg-slate-100 rounded-full' onClick={() => setCurrentFolderName("primary")} src={lefArrow} alt="" />
-                  <h3 className='font-bold text-2xl'> Chat Requests </h3>
-                  <div>  </div>
-                </header>
-              }
-
-              {currentfolderName != "request" ?
-                <div className="chat-filter flex gap-2">
-
-                  <p onClick={() => setCurrentFolderName("primary")}
-                    className={`px-2 py-2 text-gray-600  hover:bg-gray-100 rounded-md cursor-pointer ${currentfolderName == "primary" ? "bg-gray-200 animate-pulse" : ""}  `}   > Primary </p>
-                  <p onClick={() => { setCurrentFolderName("secondary"); }}
-                    className={`px-2 py-2 text-gray-600  rounded-md  hover:bg-gray-200 cursor-pointer ${currentfolderName == "secondary" ? "bg-gray-200 animate-pulse" : ""}  `} > Secondary </p>
-                </div>
-                : ""
-              }
-
-              <div className="messages mt-4">
-                {areChatsLoading ? [...new Array(5)].map((item, index) => <SkletonBox key={index} />) :
-                  chats.length == 0 ?
-                    <div className='flex flex-col ' >
-
-                      <img className='w-20' src={sadSvg} alt="" />
-                      <div className="alert alert-info shadow-lg bg-sky-700 text-white px-4 py-2 flex gap-2 rounded-md ">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current flex-shrink-0 w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span className='text-sm'> Looks like it's empty  </span>
-                      </div>
-                    </div>
-                    : chats.map((item, index) => <Contacts setCurrentFolderName={setCurrentFolderName} currentfolderName={currentfolderName} currentChat={currentChat} setCurrentChat={setCurrentChat} key={index} item={item} />)}
-              </div>
-            </div>
-            <div className=
-              {`right w-7/12  flex flex-col py-5 px-3  ${currentChat == "" ? "hidden" : ""}  
-            ${chatTheme == 0 ? "bg-slate-50" : chatTheme == 1 ? "bg-sky-800 " :
-                  chatTheme == 2 ? "bg-indigo-800  " : chatTheme == 3 ? "bg-green-800" : chatTheme == 4 ? "bg-yellow-800" : ""} 
-            `} style={{ maxHeight: "700px" }}>
-              <header className='flex gap-2 py-3 px-2 shadow-md rounded-md mb-5'>
-                <p> Select theme </p>
-                <div className='flex gap-2'>
-                  {
-                    ["slate-200", "sky-800", "indigo-800", "green-800", "yellow-800"].map((i, j) => {
-                      return <div onClick={() => updateTheme(j)}
-                        className={`w-5 h-5 rounded-md hover:opacity-70 bg-${i} ${j == chatTheme ? "border border-blue-800" : ""} `} />
-                    })
-                  }
-                </div>
-              </header>
-              <Messages messages={messages} chatTheme={chatTheme} deleteMessage={deleteMessage} />
-              <Form send={send} />
-
-            </div>
+      <main className={` bg-slate-50   ${theme == "dark" ? 'bg-slate-800 text-gray-600' : ""}  `} >
+        <div style={{ maxWidth: "1200px" }} className={`start py-10 min-h-screen mx-auto  flex  `}>
+          <div className="left w-3/12">
+            <ContactsList socket={socket} leaveRoom={leaveRoom} currentChat={currentChat}  setCurrentChat={setCurrentChat} />
           </div>
-
-        </div>
+          <div className="right w-9/12">
+            <Conversation chatTheme={chatTheme} currentChat={currentChat} messages={messages} deleteMessage={deleteMessage} send={send} />
+          </div>
+        </div >
       </main>
-    </div>
+
+
+    </div >
   )
 }
 
-
-function SkletonBox() {
-  return (
-    <div className='message flex gap-3 items-center py-2  rounded-md select-none'>
-      <div className='w-12 h-12 bg-slate-200 rounded-full animate-pulse ' >  </div>
-      <div>
-        <p className="username text-sm rounded-md text-transparent bg-slate-200 mb-1"> heyiamloading </p>
-        <p className="last-message text-sm rounded-md text-transparent bg-slate-200  "> Ne vaxt gelirsen </p>
-      </div>
-    </div>
-
-  )
-}
 
 

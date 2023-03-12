@@ -10,7 +10,7 @@ import Home from './pages/Home'
 import Settings from './pages/Settings'
 import Logout from './pages/Logout'
 import Admin from "./pages/Admin"
-
+import Post from './pages/Post'
 import './assets/css/tailwind.css'
 
 import MainProvider from './contexts/Main'
@@ -28,6 +28,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/' element={<Home />} />
         <Route path='/settings/' element={<Settings />} />
         <Route path='/logout' element = {<Logout/>} />
+        <Route path='/post/:id' element={<Post/>} />
       </Routes>
       <Routes>
         <Route path='/admin/dashboard' element={<Admin />} />

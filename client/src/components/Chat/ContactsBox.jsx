@@ -3,8 +3,9 @@ import { MainContext } from "../../contexts/Main"
 import Avatar from "../User/Avatar"
 import threeDotsSvg from '../../assets/svg/three-dots.svg'
 import muteSvg from "../../assets/svg/mute.svg"
+import { token } from "../../utils/utils"
 
-export default function Contacts(props) {
+export default function Box(props) {
   const { chat_id, unseen_messages_count, } = props.item
   const foo = props.item.isMuted
   const { setCurrentChat, currentChat, currentfolderName, setCurrentFolderName } = props
@@ -17,7 +18,7 @@ export default function Contacts(props) {
   async function move(folder_name) {
     setShowOptions(false)
     try {
-      let response = await axios.post(host + "api/chat/move", { chat_id: chat_id._id, token: getCookie('token'), folder_name })
+      let response = await axios.post(host + "api/chat/move", { chat_id: chat_id._id, token, folder_name })
       console.log("moving to", response.data)
       setCurrentFolderName(folder_name)
     } catch (err) {
@@ -30,7 +31,7 @@ export default function Contacts(props) {
     isMuted == 1 ? val = 0 : val = 1;
     setShowOptions(false)
     try {
-      let response = await axios.post(host + "api/chat/mute", { chat_id: chat_id._id, token: getCookie('token'), val, })
+      let response = await axios.post(host + "api/chat/mute", { chat_id: chat_id._id, token, val, })
       console.log("changing  ", response.data)
       setIsMuted(val)
     } catch (err) {
@@ -51,7 +52,7 @@ export default function Contacts(props) {
     >
       <div className={`left flex justify-between gap-6 items-center hover:bg-slate-200 ${theme == "dark" ? "hover:bg-slate-600" : ""}  flex-1 py-2 px-2 rounded-md   `}
         onClick={
-          () => { socket.emit('leave', { chat_id: currentChat, token: getCookie('token') }); setCurrentChat(chat_id._id) }
+          () => {  setCurrentChat(chat_id._id) }
         } >
         <div className="left flex gap-2 px-2">
           <Avatar avatar={chatAvatar} username={chatTitle} />

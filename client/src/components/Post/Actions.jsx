@@ -8,6 +8,7 @@ import saveFillSvg from "../../assets/svg/save-fill.svg"
 import primarySvg from "../../assets/svg/primary.svg"
 import secondarySvg from "../../assets/svg/secondary.svg"
 import { getCookie } from '../../utils/getCookie'
+import linkSvg from "../../assets/svg/link.svg"
 export default function Actions({ reaction, commentsStatus, loadComments, reactions_count, comments_count , saved , _id }) {
 
   let [isReacted, setIsReacted] = useState( reaction ? reaction :  "none"  )
@@ -52,6 +53,10 @@ export default function Actions({ reaction, commentsStatus, loadComments, reacti
 
   }
 
+  async function copy(){
+    window.navigator.clipboard.writeText("http://localhost:5173/post/" + _id)
+  }
+
 
   async function save() {
     let val = isSaved ? 0 : 1
@@ -69,22 +74,24 @@ export default function Actions({ reaction, commentsStatus, loadComments, reacti
     <div className="actions flex gap-2 justify-between mb-5 mt-2 ">
 
       <div className="left flex gap-2 ">
-        <div className="likes flex gap-2  pr-5 items-center ">
-          <img className={`w-9 p-2  hover:bg-slate-200 rounded-full
+        <div className="likes flex gap-2   items-center ">
+          <img className={`w-8 p-2  hover:bg-slate-200 rounded-full
         ${isReacted == "up" ? "bg-slate-300" : ""}`}
             onClick={() => isReacted == 'up' ? reactToPost('none') : reactToPost('up')}
             src={primarySvg} alt="" />
           <span className="count font-semibold text-xl"> {reactionsCount || 0}   </span>
-          <img className={`w-9  p-2 hover:bg-slate-200 rounded-full    ${  isReacted == "down" ? "bg-slate-300" : ""}          `}
+          <img className={`w-8 p-2 hover:bg-slate-200 rounded-full    ${  isReacted == "down" ? "bg-slate-300" : ""}          `}
             onClick={() => isReacted == 'down' ? reactToPost('none')  :  reactToPost('down')  }
             src={secondarySvg} alt="" />
         </div>
 
         <button onClick={() => { commentsStatus == "closed" ? loadComments() : commentsStatus == "open" ? setCommentsStatus("closed") : "" }}
-          className="flex gap-1 px-5  items-center hover:bg-slate-200">
+          className="flex gap-1 px-1  items-center hover:bg-slate-200">
           <img className="w-8 p-1" src={commentSvg} alt="" />
-          <span>  {commentsCount > 0 && commentsCount}  </span>
+          <span className='font-semibold'>  {commentsCount > 0 ? commentsCount  +" Comments" : "0 Comment"}  </span>
         </button>
+        <img className='w-8 rounded-full hover:bg-slate-200 p-1 active:bg-blue-400' src={linkSvg} onClick={ () => copy()} />  
+        <img src={shareSvg} className="w-8 rounded-full hover:bg-slate-200 p-1" alt="" />
       </div>
 
 

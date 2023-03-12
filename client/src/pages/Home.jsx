@@ -57,7 +57,7 @@ export default function Index() {
       <Nav />
 
       <div style={{ maxWidth: "1200px" }} className="mx-auto" >
-        <StoryList />
+        {/* <StoryList /> */}
       </div>
 
       <div style={{ maxWidth: "1200px" }} className="feed-inner lg:flex md:flex sm:block mx-auto gap-10 mt-6  pt-1  ">

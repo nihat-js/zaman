@@ -21,9 +21,9 @@ import Options from "./Options";
 import Actions from "./Actions";
 export default function PostBox(props) {
 
-  let { user,theme } = useContext(MainContext)
+  let { user, theme } = useContext(MainContext)
 
-  let { _id, createdAt, reactions_count, reaction, reactions, author_id, comments_count, sources , saved } = props.data
+  let { _id, createdAt, reactions_count, reaction, reactions, author_id, comments_count, sources, saved } = props.data
   let { avatar, username } = props.data.author_id
 
 
@@ -47,7 +47,7 @@ export default function PostBox(props) {
     }
   }
 
- 
+
 
   async function loadComments() {
     setCommentsStatus("loading")
@@ -94,7 +94,7 @@ export default function PostBox(props) {
 
   return (
 
-    <div className={`bg-slate-50 mb-6 py-5 px-5 rounded-md post-box ${theme == "dark" ? "bg-slate-700 text-slate-800" : ""}  `   } >
+    <div className={`bg-slate-50 mb-6 py-5 px-5 rounded-md post-box ${theme == "dark" ? "bg-slate-700 text-slate-800" : ""}  `} >
 
       {showReportModal && <ReportModal post_id={_id} closeModal={() => setShowReportModal(false)} />}
 
@@ -107,14 +107,14 @@ export default function PostBox(props) {
         <div className="right relative">
           <img onClick={() => setShowOptions(true)}
             className="three w-8 p-1 rounded-full cursor-pointer hover:bg-slate-200 " src={threeDotsSvg} alt="" />
-          <Options showOptions={showOptions} setShowOptions={setShowOptions} 
-           setShowReportModal={setShowReportModal} deletePost={deletePost} username={username} setIsEditing={setIsEditing}  />
+          <Options showOptions={showOptions} setShowOptions={setShowOptions}
+            setShowReportModal={setShowReportModal} deletePost={deletePost} username={username} setIsEditing={setIsEditing} />
         </div>
       </header>
       <Gallery sources={sources} />
-      
+
       <div className="text mt-2 "  >
-        <input spellCheck={false} disabled={!isEditing} className={` bg-transparent text font-semibold mb-1 mt-2 px-2 py-2 text-xl outline-none w-full   ${isEditing ? "border-b-2 border-b-gray-300 " : ""} `}
+        <input spellCheck={false} disabled={!isEditing} className={` bg-transparent text font-semibold mb-1 mt-1 px-2  text-xl outline-none w-full   ${isEditing ? "border-b-2 border-b-gray-300 " : ""} `}
           onChange={(e) => setText(e.target.value)} value={text} />
         {
           isEditing && <div className="flex justify-end mt-3 gap-2">
@@ -127,9 +127,10 @@ export default function PostBox(props) {
         }
       </div>
 
-      <div className="text-gray-400 text-sm hover:opacity-50 px-2 py-2 " > {calculateTimeForUser(createdAt)} </div>
-        <Actions  _id={_id} saved={saved} reaction={reaction} loadComments={loadComments} 
-         commentsStatus={commentsStatus} comments_count={comments_count} reactions_count={reactions_count} />
+      <div className="text-gray-400 text-sm hover:opacity-50 px-2  " > {calculateTimeForUser(createdAt)} </div>
+
+      <Actions _id={_id} saved={saved} reaction={reaction} loadComments={loadComments}
+        commentsStatus={commentsStatus} comments_count={comments_count} reactions_count={reactions_count} />
       <div className="comments">
         {commentsStatus != "closed" && <AddComment post_id={_id} refresh={loadComments} />}
         {/* <hr /> */}
