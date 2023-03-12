@@ -20,7 +20,7 @@ export default function Avatar(props) {
 
 
   let img = <img onClick={() => stories_count > 0 ? setShowStory(true) : setShowZoom(true)} style={style} src={src}
-    className={` w-9 h-9 object-contain  rounded-full     ${className} ${stories_count > 0 && "border-2 border-red-400"}  `} />
+    className={` w-9 h-9 object-contain  rounded-full     ${className} ${stories_count > 0 ? "border-2 border-red-400" : " cursor-zoom-in"}  `} />
 
   return (
     <>

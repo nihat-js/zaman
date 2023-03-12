@@ -13,7 +13,7 @@ async function followingsList(req,res) {
   if (target._id == user_id) {
     arr = arr.map(k => k.whom_id.isFollowing = true)
     arr = arr.map (k => k.whom_id )
-    return res.send(200).json(arr)
+    return res.status(200).json(arr)
   }
 
   for (let i=0;i<arr.length;i++){
