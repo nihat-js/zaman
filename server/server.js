@@ -34,6 +34,8 @@ app.use(express.json())
 app.use(cors())
 app.use(fileUpload())
 
+
+app.get('/test',(req,res)=> res.send("test") )
 app.use(express.static('storage'))
 app.use('/api/entry/', entry)
 // app.use('/api/message/',auth,message)
