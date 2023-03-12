@@ -5,7 +5,7 @@ async function profile(req, res) {
   const { user_id, target_username } = req.body
   console.log("target" , target_username)
   let target = await User.findOne({ username: target_username }).
-    select("username avatar followings_count followers_count posts_count bio cake_day ").lean()
+    select("username avatar stories_count followings_count followers_count posts_count bio cake_day ").lean()
 
   if (!target) { return res.status(404).send() }
   let target_id = target._id

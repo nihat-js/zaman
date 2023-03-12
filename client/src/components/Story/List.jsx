@@ -11,13 +11,10 @@ import "cropperjs/dist/cropper.min.css";
 import { host } from '../../config/config'
 import axios from 'axios'
 import { getCookie } from "../../utils/getCookie"
-import arrowLeftSvg from "../../assets/svg/arrow-left.svg"
-import arrowRightSvg from "../../assets/svg/arrow-right.svg"
+
 import Username from '../User/Username'
 import calculateTimeForUser from '../../utils/calculateTimeForUser'
-import OptionsSvg from "../../assets/svg/three-dots.svg"
-import playSvg from "../../assets/svg/play.svg"
-import pauseSvg from "../../assets/svg/pause.svg"
+
 export default function Story() {
 
   const { user } = useContext(MainContext)
@@ -94,37 +91,7 @@ function CropDemo({ src, crop, setCrop, imageRef }) {
   )
 }
 
-async function getCroppedImg(image, crop,) {
-  const canvas = document.createElement('canvas');
-  const scaleX = image.naturalWidth / image.width;
-  const scaleY = image.naturalHeight / image.height;
-  canvas.width = crop.width;
-  canvas.height = crop.height;
-  const ctx = canvas.getContext('2d');
 
-  const pixelRatio = window.devicePixelRatio;
-  canvas.width = crop.width * pixelRatio;
-  canvas.height = crop.height * pixelRatio;
-  ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-  ctx.imageSmoothingQuality = 'high';
-
-  ctx.drawImage(
-    image,
-    crop.x * scaleX,
-    crop.y * scaleY,
-    crop.width * scaleX,
-    crop.height * scaleY,
-    0,
-    0,
-    crop.width,
-    crop.height,
-  );
-  let croppedImage = await new Promise(resolve => canvas.toBlob((blob) => {
-    let file = new File([blob], "fileName.jpg", { type: "image/jpeg" })
-    resolve(file)
-  }, 'image/jpeg'))
-  return croppedImage
-}
 
 function UserStory({ current, previous, next }) {
   const [data, setData] = useState([])

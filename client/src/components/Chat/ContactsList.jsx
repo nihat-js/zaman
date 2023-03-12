@@ -3,6 +3,7 @@ import { MainContext } from "../../contexts/Main"
 import axios from "axios";
 import { host } from "../../config/config";
 import { token } from "../../utils/utils";
+import leftArrow from "../../assets/svg/arrow-left.svg"
 import ContactsBox from "./ContactsBox"
 export default function ContactsList({ currentChat,setCurrentChat , socket, leaveRoom }) {
 
@@ -36,7 +37,7 @@ export default function ContactsList({ currentChat,setCurrentChat , socket, leav
         <button className='text-sky-900 font-bold ' onClick={() => setCurrentFolderName('request')} > Requests </button>
       </header>
         : <header className='flex justify-between items-center mb-6'>
-          <img className='w-8 h-8 p-2 cursor-pointer hover:bg-slate-100 rounded-full' onClick={() => setCurrentFolderName("primary")} src={lefArrow} alt="" />
+          <img className='w-8 h-8 p-2 cursor-pointer hover:bg-slate-100 rounded-full' onClick={() => setCurrentFolderName("primary")} src={leftArrow} alt="" />
           <h3 className='font-bold text-2xl'> Chat Requests </h3>
           <div>  </div>
         </header>

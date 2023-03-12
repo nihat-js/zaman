@@ -1,10 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Skeleton from 'react-loading-skeleton'
-
 import { getCookie } from '../../utils/getCookie'
+import { token } from "../../utils/utils"
+import { host } from "../../config/config"
+import Avatar from "../User/Avatar"
+import FollowButton from "../User/FollowButton"
 import loadingSvg from '../../assets/svg/loading.svg'
+import Username from '../User/Username'
 
 export default function SuggestedProfiles() {
 
@@ -15,7 +18,7 @@ export default function SuggestedProfiles() {
   async function get() {
     setIsLoading(true)
     try {
-      let response = await axios.post('http://localhost:5000/api/user/suggested', { token: getCookie('token') })
+      let response = await axios.post(host + "api/user/suggested", { token })
       // console.log(response.data)
       setUsers(response.data)
       setIsLoading(false)
@@ -38,8 +41,8 @@ export default function SuggestedProfiles() {
         <button className='font-semibold' onClick={get} >Refresh        </button>
       </header>
       <div className="body">
-        {isLoading ? [ ...new Array(5) ].map((item,index) =>  <SkletonBox key={index} /> )   : 
-        users.map((item, index) => <Box key={index} item={item} />) }
+        {isLoading ? [...new Array(5)].map((item, index) => <SkletonBox key={index} />) :
+          users.map((item, index) => <Box key={index} item={item} />)}
       </div>
 
     </div >
@@ -54,45 +57,18 @@ function SkletonBox() {
         <p className=" bg-slate-200 animate-pulse  duration-300 text-transparent username font-semibold"> randomrandom </p>
       </div>
       <button className={`px-1  animate-pulse duration-300 rounded-md bg-slate-200 text-transparent text-sm `}>
-         Follow
+        Follow
       </button>
     </div>
   )
 }
 
 function Box(props) {
-  const { avatar, username } = props.item
+  const { avatar, username, stories_count } = props.item
   const [isFollowing, setIsFollowing] = useState(props.item.isFollowing)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
 
-
-  async function follow() {
-    setIsSubmitting(true)
-    try {
-      let result = await axios.post("http://localhost:5000/api/follow", { token: getCookie('token'), target_username: username })
-      setIsFollowing(true)
-    } catch (error) {
-      console.log(error)
-    }
-    setIsSubmitting(false)
-
-  }
-  async function unfollow() {
-    let response = confirm(`Are you sure you want to unfollow  " ${username}" ? `)
-    if (!response) {
-      return false
-    }
-    setIsSubmitting(true)
-    try {
-      let result = await axios.post("http://localhost:5000/api/unfollow", { token: getCookie('token'), target_username: username })
-      // console.log("res", result)
-      setIsFollowing(false)
-    } catch (error) {
-      console.log(error)
-    }
-    setIsSubmitting(false)
-  }
 
   const followButton = <button onClick={() => follow()}
     className={`px-2 py-1 text-white bg-violet-400 rounded-lg hover:bg-violet-800 text-sm  flex gap-1 items-center ${isSubmitting ? "cursor-not-allowed" : ""}  `}>
@@ -109,14 +85,10 @@ function Box(props) {
   return (
     <div className="flex justify-between py-2 hover:bg-slate-200 px-1 rounded-md" >
       <div className='flex gap-2 items-center'>
-        <Link to={"/profile/" + username} >
-          <img className='w-6 rounded-full' src={avatar ? "http://localhost:5000/avatars/" + avatar : "http://localhost:5000/avatars/default.svg"} alt="" />
-        </Link >
-        <Link to={"/profile/" + username} >
-          <p className="username font-semibold"> {username} </p>
-        </Link>
+        <Avatar username={username} avatar={avatar} stories_count={stories_count} />
+        <Username username={username} avatar={avatar} />
       </div>
-      {isFollowing ? unfollowButton : followButton}
+      <FollowButton target_username={username} isFollowing={isFollowing} />
     </div>
   )
 }

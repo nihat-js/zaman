@@ -19,12 +19,13 @@ import Username from "../User/Username"
 import ReportModal from './ReportModal'
 import Options from "./Options";
 import Actions from "./Actions";
+import { token } from "../../utils/utils";
 export default function PostBox(props) {
 
   let { user, theme } = useContext(MainContext)
 
   let { _id, createdAt, reactions_count, reaction, reactions, author_id, comments_count, sources, saved } = props.data
-  let { avatar, username } = props.data.author_id
+  let { avatar, username , stories_count } = props.data.author_id
 
 
   let [isPostDeleted, setIsPostDeleted] = useState(false)
@@ -41,7 +42,7 @@ export default function PostBox(props) {
 
   async function edit() {
     try {
-      let res = await axios.post(host + "api/post/edit", { token: getCookie('token'), post_id: _id, text: text })
+      let res = await axios.post(host + "api/post/edit", { token , post_id: _id, text: text })
     } catch (err) {
       console.log(err)
     }
@@ -52,7 +53,7 @@ export default function PostBox(props) {
   async function loadComments() {
     setCommentsStatus("loading")
     try {
-      let result = await axios.post(host + "api/comment/load", { token: getCookie('token'), post_id: _id })
+      let result = await axios.post(host + "api/comment/load", { token, post_id: _id })
       setComments(result.data)
       console.log("comments", result.data)
       setCommentsStatus("open")
@@ -100,7 +101,7 @@ export default function PostBox(props) {
 
       <header className="flex justify-between px-2 mb-5 items-center" >
         <div className="left flex gap-3">
-          <Avatar avatar={avatar} username={username} />
+          <Avatar avatar={avatar} username={username} stories_count={stories_count} />
           <Username username={username} className="font-semibold text-xl hover:text-gray-500 " />
 
         </div>

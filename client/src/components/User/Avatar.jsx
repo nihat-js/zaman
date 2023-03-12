@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
 import { MainContext } from '../../contexts/Main'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { host } from '../../config/config'
+import StoryModal from '../Story/Modal'
 export default function Avatar(props) {
   const { user, updateUser } = useContext(MainContext)
-  const { className, avatar, username, style, me, disableLink } = props
+  let { className, avatar, username, stories_count, style, me, disableLink } = props
   let src, to
+  const [showStory, setShowStory] = useState(false)
   if (me) {
     src = user.avatar ? host + "/avatars/" + user.avatar : host + "/avatars/default.svg"
     to = "/profile/" + user.username
@@ -14,10 +16,16 @@ export default function Avatar(props) {
     to = "/profile/" + username
   }
 
-  let img = <img style={style} src={src} className={` w-8 h-8 object-contain  rounded-full hover:outline-2    ${className} hover:outline-indigo-600 outline outline-2  `} />
+
+
+  let img = <img onClick={() => stories_count > 0 ? setShowStory(true)  : ""   } style={style} src={src} 
+  className={` w-9 h-9 object-contain  rounded-full     ${className} ${stories_count > 0  && "border-2 border-red-400" }  `} />
 
   return (
-    disableLink ? img : 
-    <Link to={to} >   {img} </Link >    
+    <>
+      {showStory && <StoryModal setShowStory={setShowStory} arr={  [{username : username , avatar : avatar } ]}  />}
+      {stories_count > 0 ? img : <Link to={to} >   {img} </Link >}
+
+    </>
   )
 }

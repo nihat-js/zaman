@@ -13,7 +13,6 @@ const jwt = require('jsonwebtoken')
 const auth = require('./middlewares/auth')
 const adminAuth = require("./middlewares/adminAuth")
 //routes
-// const message = require('./routes/message')
 const entry = require('./routes/entry')
 const chat = require('./routes/chat')
 const post = require("./routes/post")

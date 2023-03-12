@@ -10,19 +10,19 @@ async function main(req, res) {
   if (name == "feed") {
     posts = await Post.find().sort({ createdAt: -1 }).populate({
       path: "author_id",
-      select: "username avatar"
+      select: "username avatar stories_count"
     }).lean()
   }
   else if (name == "trend") {
     console.log('bura gelirem')
     posts = await Post.find().sort({ comments_count: -1 }).populate({
       path: "author_id",
-      select: "username avatar"
+      select: "username avatar stories_count"
     }).lean()
   } else if (name == "explore") {
     posts = await Post.find().sort({ saved_count: -1 }).populate({
       path: "author_id",
-      select: "username avatar"
+      select: "username avatar  stories_count "
     }).lean()
   }
 
