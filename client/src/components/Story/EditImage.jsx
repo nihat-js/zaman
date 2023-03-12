@@ -12,6 +12,7 @@ export default function EditImage({ src,setFile }) {
     unit: "px",
     width: "500",
     height: "500"
+
   })
 
   async function add() {
@@ -33,7 +34,7 @@ export default function EditImage({ src,setFile }) {
     <div className='absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-50  ' style={{ backgroundColor: "rgba(0,0,0,0.85)" }} >
       <div className="content bg-white py-4 px-6 rounded-md shadow-md " style={{ width: "500px" }}>
 
-        <ReactCrop crop={crop} onChange={c => { setCrop(c); }} aspect={1} >
+        <ReactCrop crop={crop} onChange={c => { setCrop(c); }} aspect={1}  >
           <img ref={imageRef} src={src} />
         </ReactCrop>
         <div className="actions flex justify-end flex-3 mt-4">
