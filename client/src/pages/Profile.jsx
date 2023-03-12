@@ -12,21 +12,18 @@ import Nav from '../components/Nav'
 import { MainContext } from '../contexts/Main'
 import { host } from "../config/config"
 import { Link } from 'react-router-dom'
-import loadingSvg from '../assets/svg/loading.svg'
-import FollowingList from "../components/User/FollowingList"
+import FollowingsList from '../components/User/FollowersList'
+import FollowersList from '../components/User/FollowersList'
 export default function Index() {
   const params = useParams()
   const navigate = useNavigate()
-
   const { user, theme } = useContext(MainContext)
   const target_username = params.username
   const [target, setTarget] = useState("Loading")
   const [posts, setPosts] = useState([])
-  const [isChanged, setIsChanged] = useState(params)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showFollowersList,setShowFollowersList ] = useState(false)
+  const [showFollowingsList,setShowFollowingsList] = useState(false)
   let me;
-
-
   if (target_username == user.username) {
     me = true
   }
@@ -36,10 +33,6 @@ export default function Index() {
     loadPosts()
 
   }, [params])
-
-
-
-
   async function loadPosts() {
     setPosts("loading")
     try {
@@ -81,88 +74,47 @@ export default function Index() {
   return (
     <div className={`profile-page min-h-screen bg-slate-100 ${theme == "dark" ? "bg-slate-800" : ""} `}>
       <Nav />
-
-      {/* <FollowingList />         */}
+      { showFollowingsList && <FollowingsList me = {me} target_username={target_username} setShowFollowingsList={setShowFollowingsList} />    }
+      { showFollowersList && <FollowersList me={me} target_username={target_username}  setShowFollowersList={setShowFollowersList} />    }
 
       <section className="start mt-5">
-        <div style={{ maxWidth: "800px" }} className="mx-auto flex gap-12  "  >
-          <Avatar style={{ width: '80px' }} me={me} avatar={target.avatar} username={target.username} />
+        <div style={{ maxWidth: "700px" }} className="mx-auto flex gap-12  "  >
+          <Avatar style={{ width: '80px' , height : "80px" }} me={me} avatar={target.avatar} username={target.username} />
           <div className='right'>
             <header className='flex gap-8 mb-6 '>
-              <Username className="username font-bold text-indigo-800 text-3xl" username={target.username} >   </Username>
+              <Username className=" text-3xl cursor-pointer " username={target.username} disableLink  >   </Username>
               {me ? <div className='mb-0'>
                 <Link to="/settings">
                   <button className='bg-indigo-600 text-white px-2 py-2 hover:bg-indigo-800'> Edit account </button>
                 </Link>
               </div> :
                 <div className='flex gap-3 '>
-                  { target && <FollowButton isFollowing={target.isFollowing} target_username={target.username} />
-                  }
-
+                  { target.username  && <FollowButton  isFollowing={target.isFollowing} target_username={target.username} /> }
                   <button className='px-2 py-2 bg-danube-600 font-bold text-white rounded-md' onClick={handleMessage} > Message </button>
                 </div>
-
               }
             </header>
             <div className="stats">
-              <span className='followers px-2 py-1 bg-slate-300 mr-2 rounded-md cursor-pointer hover:bg-slate-400 ' > Followers {target.followers_count} </span>
-              <span className='following  px-2 py-1 bg-slate-300 mr-2 rounded-md cursor-pointer hover:bg-slate-400 '> Following  {target.followings_count} </span>
+              <span onClick={ () => setShowFollowersList(true) } 
+              className='followers px-2 py-1 bg-slate-300 mr-2 rounded-md cursor-pointer hover:bg-slate-400 ' > Followers {target.followers_count} </span>
+              <span onClick={()=> setShowFollowingsList(true) } 
+              className='following  px-2 py-1 bg-slate-300 mr-2 rounded-md cursor-pointer hover:bg-slate-400 '> Following  {target.followings_count} </span>
               <span className='posts  px-2 py-1 bg-slate-300 mr-2 rounded-md cursor-pointer hover:bg-slate-400  ' >  Posts count  {target.posts_count} </span>
             </div>
-            <div className="bio mt-4 text-xl font-semibold"> {target?.bio} </div>
-
+            <div className="bio mt-4 text-2xl font-semibold"> {target?.bio} </div>
           </div>
         </div>
       </section>
 
-      {/* <section className="start">
-        <div style={{ maxWidth: "1200px" }} className="mx-auto flex flex-col items-center justify-between ">
-          <div className="row mx-auto flex flex-col content-center" style={{ maxWidth: "800px" }}> */}
-      {/* <div style={{ minWidth: "800px", height: "150px" }} className="cover bg-slate-200 rounded-lg"> </div> */}
-      {/* <div className="img-wrap mx-auto">
-            </div>
-            <h3 className="username font-bold text-2xl"> {target.username} </h3>
-            
-            <div className="cake-day flex gap-1">
-              <span> Cake day  </span>
-              <img className='w-6' src={cakeSvg} alt="" />
-              <span>  {target.createdAt} </span>
-            </div>
-            <div className="actions flex gap-2">
-              <FollowButton isFollowing={target.isFollowing} target_username={target_username} />
-            </div>
-          </div>
-        </div> */}
-
-      {/*         
-        <section className="test py-20">
-          <div style={{ maxWidth: "1000px" }} className="container mx-auto">
-            <hr />
-            <div className="filter flex justify-center mt-6 gap-2  ">
-              <div className={`flex gap-1 py-2 px-3 cursor-pointer hover:bg-danube-600 hover:text-white    ${postStyle == "grid" ? "font-bold" : "text-gray-600"}  `}>
-                <img className='w-5' src={gridSvg} alt="" />
-                <span className='text-sm'>Grid style</span>
-              </div>
-              <div className={`flex gap-1 py-2 px-3 cursor-pointer hover:bg-danube-600 hover:text-white    ${postStyle == "row" ? "font-bold" : "text-gray-600"} `}>
-                <img className='w-5' src={rowSvg} alt="" />
-                <span className='text-sm'> Row style </span>
-              </div>
-            </div>
-          </div>
-        </section> */}
 
       <section className="posts py-10">
         <div style={{ maxWidth: "700px" }} className="mx-auto" >
-
           {
             typeof (posts) == "object" ? posts.map((item, index) => <PostBox key={index} data={item} />) :
               <PostSkleton />
           }
         </div>
       </section>
-
-      {/* </section> */}
-
     </div>
   )
 }
