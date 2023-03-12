@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import closeSvg from '../../assets/svg/close-black.svg'
 import { host } from '../../config/config'
 import axios from 'axios'
-import { getToken } from '../../utils/utils'
+import { token } from '../../utils/utils'
 import Avatar from './Avatar'
 import Username from './Username'
 import FollowButton from './FollowButton'
@@ -11,7 +11,7 @@ export default function FollowersList({ target_username, me, setShowFollowersLis
   const [data, setData] = useState([])
   async function get() {
     setData("loading")
-    let obj = { token: getToken, target_username }
+    let obj = { token, target_username }
     let res = await axios.post(host + "api/user/list/followers", obj)
     // console.log(res)
     setData(res.data)

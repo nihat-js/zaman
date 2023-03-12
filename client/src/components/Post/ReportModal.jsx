@@ -3,7 +3,6 @@ import axios from "axios"
 import { token } from "../../utils/utils"
 export default function ReportModal(props) {
   const {post_id ,val , closeModal} = props
-  const token = getCookie('token')
 
   async function report(val){
     try{

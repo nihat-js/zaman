@@ -8,7 +8,6 @@ import axios from 'axios'
 import { token } from '../../utils/utils'
 import { MainContext } from '../../contexts/Main'
 import InputEmoji from "react-input-emoji";
-import { token } from '../../utils/utils'
 
 export default function Basics() {
 

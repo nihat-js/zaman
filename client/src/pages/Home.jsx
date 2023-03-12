@@ -34,7 +34,7 @@ export default function Index() {
     setPosts("loading")
     // console.log('zz')
     try {
-      let response = await axios.post(host + "api/post/place", { name: place, token: token })
+      let response = await axios.post(host + "api/post/place", { name: place, token})
       console.log(response.data)
       setPosts(response.data)
     } catch (err) {
@@ -49,16 +49,16 @@ export default function Index() {
 
 
   return (
-    <div className={`feed-page min-h-screen bg-slate-100  ${theme == "light" ? "bg-slate-100" : "bg-slate-800"}   relative  `}>
+    <div className={`feed-page min-h-screen bg-slate-100  ${theme == "light" ? "bg-slate-100" : "bg-slate-800"}     `}>
 
 
       <Nav />
 
       <div style={{ maxWidth: "1200px" }} className="mx-auto" >
-        {/* <StoryList /> */}
+        <StoryList />
       </div>
 
-      <div style={{ maxWidth: "1200px" }} className="feed-inner lg:flex md:flex sm:block mx-auto gap-10 mt-6  pt-1  ">
+      <div style={{ maxWidth: "1200px" }} className="feed-inner lg:flex md:flex sm:block mx-auto gap-10    ">
         <div className="lg:w-2/12 mt-6   md:w/6/12 wrap-left-nav ">
           <LeftNav place={place} setPlace={setPlace} />
         </div>
@@ -70,7 +70,7 @@ export default function Index() {
               <PostSkleton />
           }
         </div>
-        <div className="lg:w-3/12 sticky  top-0 md:order-2  ">
+        <div className="lg:w-3/12    md:order-2  ">
           <Notification />
           <SuggestedProfiles />
 

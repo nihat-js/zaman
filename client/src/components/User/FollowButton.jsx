@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from "axios"
 import { host } from '../../config/config'
-import { getToken } from '../../utils/utils'
+import { token } from '../../utils/utils'
 import loadingSvg from '../../assets/svg/loading.svg'
 
 export default function FollowButton(props) {
@@ -12,7 +12,7 @@ export default function FollowButton(props) {
   async function follow() {
     setIsSubmitting(true)
     try {
-      let result = await axios.post(host + "api/user/follow", { token: getToken, target_username: target_username })
+      let result = await axios.post(host + "api/user/follow", { token, target_username: target_username })
       setIsFollowing(true)
     } catch (error) {
       console.log(error)
@@ -24,7 +24,7 @@ export default function FollowButton(props) {
     if (!response) {return false }
     setIsSubmitting(true)
     try {
-      let result = await axios.post(host + "api/user/unfollow", { token: getToken, target_username: target_username })
+      let result = await axios.post(host + "api/user/unfollow", { token, target_username: target_username })
       setIsFollowing(false)
       // console.log("res", result)
     } catch (error) {

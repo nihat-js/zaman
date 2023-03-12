@@ -1,10 +1,9 @@
 import { useContext, useEffect, useRef, useState } from 'react'
-import { token } from '../utils/utils';
 import axios from 'axios'
 import io from 'socket.io-client';
-import { MainContext } from '../contexts/Main'
-import { host } from "../config/config"
+
 import { token } from '../utils/utils';
+import { MainContext } from '../contexts/Main'
 import Nav from '../components/Nav'
 import './Chat.scss'
 

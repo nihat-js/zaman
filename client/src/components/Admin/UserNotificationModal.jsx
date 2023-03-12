@@ -3,7 +3,7 @@ import closeSvg from "../../assets/svg/close-black.svg"
 import { useEffect, useRef, useState } from "react"
 import axios from "axios"
 import {host} from '../../config/config'
-import {getCookie} from "../../utils/getCookie"
+import { token } from "../../utils/utils"
 export default function UserNotificationModal(props) {
   let { close, user } = props
   const messageRef = useRef()
@@ -22,7 +22,7 @@ export default function UserNotificationModal(props) {
   async function handleSubmit() {
     try{
       let res = await axios.post(host + "api/admin/user/notification/send", 
-      { token : getCookie('token') ,target_id : user._id , type : typeRef.current.value , message : messageRef.current.value  })
+      { token  ,target_id : user._id , type : typeRef.current.value , message : messageRef.current.value  })
       console.log(res)
       close()
     }catch(err) {

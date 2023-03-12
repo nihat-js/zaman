@@ -1,8 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getCookie } from '../../utils/getCookie'
 import { token } from "../../utils/utils"
+
 import { host } from "../../config/config"
 import Avatar from "../User/Avatar"
 import FollowButton from "../User/FollowButton"

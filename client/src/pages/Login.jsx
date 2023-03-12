@@ -21,7 +21,7 @@ export default function Index() {
 
 
   function isLoggedIn() {
-    if (getCookie('token')) {
+    if (token) {
       navigate('/')
     }
   }

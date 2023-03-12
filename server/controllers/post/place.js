@@ -14,7 +14,7 @@ async function main(req, res) {
     }).lean()
   }
   else if (name == "trend") {
-    console.log('bura gelirem')
+    // console.log('bura gelirem')
     posts = await Post.find().sort({ comments_count: -1 }).populate({
       path: "author_id",
       select: "username avatar stories_count"
@@ -47,7 +47,7 @@ async function main(req, res) {
       }
     })
     posts = saveds.map(x => x.post_id)
-    console.log('p', posts)
+    // console.log('p', posts)
   } else if (name == "specific") {
     let post = await Post.findById(post_id)
      posts = [post]
@@ -55,6 +55,10 @@ async function main(req, res) {
 
 
   let arr = JSON.parse(JSON.stringify(posts))
+  // console.log('place',arr)
+  if (arr.length == 0){
+    return res.send()
+  }
   for (let i = 0; i < arr.length; i++) {
     let reaction = await PostReaction.findOne({ post_id: arr[i]._id, user_id })
     if (reaction) { arr[i].reaction = reaction.name }

@@ -7,6 +7,7 @@ import { MainContext } from '../contexts/Main'
 import { token } from '../utils/utils'
 import PostBox from '../components/Post/Box'
 import PostSkleton from '../components/Post/Skleton'
+import PostBox2 from '../components/Post/Box2'
 export default function PostPage() {
   const { theme } = useContext(MainContext)
   const params = useParams()
@@ -28,7 +29,7 @@ export default function PostPage() {
     <div>
       <Nav />
       <main className="mx-auto" style={{ maxWidth: "700px" }} >
-        {data ? <PostBox data={data} /> : <PostSkleton />}
+        {data ? <PostBox2 data={data} /> : <PostSkleton />}
 
       </main>
     </div>

@@ -3,7 +3,6 @@ export function getCookie(n) {
   return a ? a[1] : '';
 }
 
-export const getToken = getCookie('token')
 export const token = getCookie('token')
 
 const getMonthName = (month, lang = "en") => {
