@@ -5,7 +5,8 @@ import trashSvg from "../../assets/svg/trash.svg"
 
 export default function Messages({messages,chatTheme,deleteMessage}) {
   const {user} = useContext(MainContext)
-  
+  console.log('messages',messages)
+
   return (
     <div className="messages-div flex-1 px-5   " style={{ overflowY: "auto" }} >
       {

@@ -4,7 +4,8 @@ import Avatar from "../User/Avatar"
 import threeDotsSvg from '../../assets/svg/three-dots.svg'
 import muteSvg from "../../assets/svg/mute.svg"
 import { token } from "../../utils/utils"
-
+import { host } from "../../config/config"
+import axios from "axios"
 export default function Box(props) {
   const { chat_id, unseen_messages_count, } = props.item
   const foo = props.item.isMuted

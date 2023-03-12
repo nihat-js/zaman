@@ -10,9 +10,9 @@ import './Chat.scss'
 
 import ContactsList from '../components/Chat/ContactsList';
 import Conversation from "../components/Chat/Conversation"
+let socket = io('http://localhost:3000');
 export default function Chat() {
   const { user, theme } = useContext(MainContext)
-  let socket = io('http://localhost:3000');
 
   const [currentChat, setCurrentChat] = useState("")
   const [messages, setMessages] = useState([])
@@ -21,7 +21,7 @@ export default function Chat() {
 
   useEffect(() => {
     socket.on('load', (data) => {
-      console.log('loading messages', data)
+      console.log('debuggging problem',data )
       setMessages(data)
     })
     socket.on("theme", (x) => {
@@ -42,20 +42,6 @@ export default function Chat() {
     socket.emit('send', { text: text, chat_id: currentChat, token: token })
   }
   // !!!!!! now using socket.io 
-
-
-  useEffect(() => {
-    if (currentChat == "") {
-    } else {
-      setChatTheme(0)
-      socket.emit('join', { chat_id: currentChat, token })
-      socket.emit('load', { chat_id: currentChat })
-
-    }
-
-  }, [currentChat])
-
-
   function deleteMessage(id) {
     socket.emit('delete', { message_id: id, token, chat_id: currentChat })
   }
@@ -68,14 +54,24 @@ export default function Chat() {
   }
 
 
+  useEffect(() => {
+    if (currentChat == "") {
+    } else {
+      setChatTheme(0)
+      socket.emit('join', { chat_id: currentChat, token })
+      socket.emit('load', { chat_id: currentChat })
+    }
+
+  }, [currentChat])
+
 
   return (
     <div className='chat-page'>
       <Nav />
 
       <main className={` bg-slate-50   ${theme == "dark" ? 'bg-slate-800 text-gray-600' : ""}  `} >
-        <div style={{ maxWidth: "1200px" }} className={`start py-10 min-h-screen mx-auto  flex  `}>
-          <div className="left w-3/12">
+        <div style={{ maxWidth: "1200px"  }} className={`start py-10 min-h-screen mx-auto  flex  `}>
+          <div className="left w-3/12 " >
             <ContactsList socket={socket} leaveRoom={leaveRoom} currentChat={currentChat}  setCurrentChat={setCurrentChat} />
           </div>
           <div className="right w-9/12">

@@ -1,10 +1,11 @@
 import React from 'react'
 import Messages from './Messages'
 import Form from './Form'
-export default function Conversation({currentChat , chatTheme,messages , deleteMessage,send}) {
+export default function Conversation({ currentChat , chatTheme,messages , deleteMessage,send}) {
+  console.log('messages',messages)
   return (
     <div className=
-      {`right w-7/12  flex flex-col py-5 px-3  ${currentChat == "" ? "hidden" : ""}  
+      {`right   flex flex-col py-5 px-3  ${currentChat == "" ? "hidden" : ""}  
             ${chatTheme == 0 ? "bg-slate-50" : chatTheme == 1 ? "bg-sky-800 " :
           chatTheme == 2 ? "bg-indigo-800  " : chatTheme == 3 ? "bg-green-800" : chatTheme == 4 ? "bg-yellow-800" : ""} 
             `} style={{ maxHeight: "700px" }}>

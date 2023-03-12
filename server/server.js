@@ -94,7 +94,6 @@ io.on('connection', (socket) => {
   socket.on('load', async (data) => {
     console.log('loading', data.chat_id)
     const messages = await Message.find({ chat_id: data.chat_id }).populate({ path: "sender_id", select: "username avatar" }).sort({ createAt: -1 })
-    // console.log('loaded messages',messages)
     io.to(data.chat_id).emit('load', messages)
     // console.log(socket.rooms      )
   })
@@ -107,6 +106,7 @@ io.on('connection', (socket) => {
 
   socket.on('send', async (data) => {
     if (!data.token) return false
+    // console.log('sending',data)
     const decoded = jwt.verify(data.token, process.env.JWT_SECRET)
     const user_id = decoded.user_id
     let message = new Message({
@@ -117,7 +117,7 @@ io.on('connection', (socket) => {
     let savedMessage = await message.save()
     savedMessage = await savedMessage.populate(({ path: "sender_id", select: "username avatar" }))
     io.to(data.chat_id).emit('new', savedMessage)
-    console.log(savedMessage)
+    // console.log(savedMessage)
   })
 
   socket.on('delete', async (data) => {

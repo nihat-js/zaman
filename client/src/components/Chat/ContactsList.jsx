@@ -30,7 +30,7 @@ export default function ContactsList({ currentChat,setCurrentChat , socket, leav
 
   return (
 
-    <div className={`  shadow-md  rounded-md py-2  px-4 ${theme == "dark" ? 'bg-slate-700 text-white' : ""}   `}>
+    <div style={{height : "700px" }} className={` overflow-y-auto  shadow-md  rounded-md py-2  px-4 ${theme == "dark" ? 'bg-slate-700 text-white' : ""}   `}>
       {currentfolderName != "request" ? <header className='flex justify-between mb-6 transi '>
         <h3 className="title font-bold text-3xl "> Chat </h3>
         <button className='text-sky-900 font-bold ' onClick={() => setCurrentFolderName('request')} > Requests </button>
