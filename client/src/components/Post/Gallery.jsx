@@ -11,7 +11,7 @@ export default function Gallery({sources}) {
   return (
     <div>
 
-      <div className="gallery relative mb-4">
+      <div className="gallery relative mb-4 z-10">
         {5 > 3 ? <img className='rounded-md'  style={{ width: "100%" }} onDoubleClick={() => reactToPost('up')} src={host + "images/" + sources[sourceIndex]} /> : ""}
         {sources.length > 1 &&
           <img onClick={() => sourceIndex + 1 == sources.length ? setSourceIndex(0) : setSourceIndex(sourceIndex + 1)}

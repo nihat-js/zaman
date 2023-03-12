@@ -5,7 +5,7 @@ const Follow = require('../../models/Follow')
 async function follow (req,res){
 
   const {user_id , target_username} = req.body;
-  
+    console.log("bax")
   if ( !(user_id && target_username)){
       return res.status(406);
     }

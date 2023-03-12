@@ -40,13 +40,13 @@ export default function FollowButton(props) {
       {
         isFollowing ? <button
           onClick={() => isSubmitting ? "" : unfollow()}
-          className={` flex gap-1 items-center px-2 py-1 text-violet-800 border border-violet-600  rounded-lg hover:bg-violet-800 hover:text-white  text-sm ${isSubmitting ? "cursor-not-allowed" : ""}   `}>
+          className={` cursor-default flex gap-1 items-center px-2 py-1 text-violet-800 border border-violet-600  rounded-lg hover:bg-violet-800 hover:text-white  text-sm ${isSubmitting ? "cursor-not-allowed" : ""}   `}>
           <span> Following </span>
           {isSubmitting && <img className='w-4 animate-spin' src={loadingSvg} />}
         </button> :
           <button
             onClick={() => follow()}
-            className={`px-2 py-1 text-white bg-violet-400 rounded-lg hover:bg-violet-800 text-sm  flex gap-1 items-center ${isSubmitting ? "cursor-not-allowed" : ""}  `}>
+            className={` cursor-default px-2 py-1 text-white bg-violet-400 rounded-lg hover:bg-violet-800 text-sm  flex gap-1 items-center ${isSubmitting ? "cursor-not-allowed" : ""}  `}>
             <span> Follow</span>
             {isSubmitting && <img className='w-4 animate-spin' src={loadingSvg} />}
           </button>

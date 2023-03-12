@@ -12,7 +12,7 @@ import Nav from '../components/Nav'
 import { MainContext } from '../contexts/Main'
 import { host } from "../config/config"
 import { Link } from 'react-router-dom'
-import FollowingsList from '../components/User/FollowersList'
+import FollowingsList from '../components/User/FollowingsList'
 import FollowersList from '../components/User/FollowersList'
 export default function Index() {
   const params = useParams()
@@ -75,7 +75,7 @@ export default function Index() {
     <div className={`profile-page min-h-screen bg-slate-100 ${theme == "dark" ? "bg-slate-800" : ""} `}>
       <Nav />
       { showFollowingsList && <FollowingsList me = {me} target_username={target_username} setShowFollowingsList={setShowFollowingsList} />    }
-      { showFollowersList && <FollowersList me={me} target_username={target_username}  setShowFollowersList={setShowFollowersList} />    }
+      { showFollowersList && <FollowersList  target_username={target_username}  setShowFollowersList={setShowFollowersList} />    }
 
       <section className="start mt-5">
         <div style={{ maxWidth: "700px" }} className="mx-auto flex gap-12  "  >

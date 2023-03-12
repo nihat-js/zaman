@@ -14,7 +14,7 @@ export default function Avatar(props) {
     to = "/profile/" + username
   }
 
-  let img = <img style={style} src={src} className={` w-8 h-8 object-contain  rounded-full hover:outline-2    ${className} hover:outline-indigo-600 outline outline-0  `} />
+  let img = <img style={style} src={src} className={` w-8 h-8 object-contain  rounded-full hover:outline-2    ${className} hover:outline-indigo-600 outline outline-2  `} />
 
   return (
     disableLink ? img : 
