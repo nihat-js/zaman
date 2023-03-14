@@ -13,6 +13,7 @@ let timers = []
 io.on('connection', async (socket) => {
   let socketId = socket.id
   socket.on('createRoom', async (data) => {
+    console.log('connected',socketId)
     const decoded = jwt.verify(data.token, process.env.JWT_SECRET)
     const user = await User.findById(decoded.user_id).select("username avatar")
     await socket.join(data.gameId)

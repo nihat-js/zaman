@@ -91,8 +91,8 @@ export default function CreatePost() {
                 <span className="font-semibold text-purple-600 group-hover:text-purple-500 "> Add image </span>
               </button>
               <div >
-                <button onClick={(e) => handlePostButton(e)}
-                  className={`flex gap-2 items-center px-5 py-2.5 relative rounded group overflow-hidden font-medium bg-purple-50 text-purple-600 ${isSubmitting ? "cursor-not-allowed" : ""}  `}>
+                <button disabled={arr.length == 0 || !text }  onClick={(e) => handlePostButton(e)}
+                  className={`flex gap-2 items-center px-5 py-2.5 relative rounded group overflow-hidden font-medium bg-purple-50 text-purple-600 ${isSubmitting ? "cursor-not-allowed" : ""} ${arr.length == 0 || !text ? "cursor-not-allowed" : "" }  `}>
                   <span className="absolute top-0 left-0 flex w-full h-0 mb-0 transition-all duration-200 ease-out transform translate-y-0 bg-purple-600 group-hover:h-full opacity-90"></span>
                   <img className={`w-4 animate-spin ${isSubmitting ? "" : "hidden"}  `} src={loadingSvg} alt="" />
                   <span className="relative group-hover:text-white"> Post it </span>
