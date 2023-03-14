@@ -81,12 +81,11 @@ export default function Actions({ reaction, commentsStatus, loadComments, reacti
       {showShareModal &&   <ShareModal setShowShareModal={setShowShareModal} postURL={postURL}  />       }
       <div className="left flex gap-2 ">
         <div className="likes flex gap-2   items-center ">
-          <img className={`w-8 p-2  hover:bg-slate-200 rounded-full
-        ${isReacted == "up" ? "bg-slate-300" : ""}`}
+          <img className={`w-8 p-2  hover:bg-slate-200 rounded-full active:-translate-y-3 duration-300 transition-all    ${isReacted == "up" ? "bg-slate-300" : ""}`}
             onClick={() => isReacted == 'up' ? reactToPost('none') : reactToPost('up')}
             src={primarySvg} alt="" />
           <span className="count font-semibold text-xl"> {reactionsCount || 0}   </span>
-          <img className={`w-8 p-2 hover:bg-slate-200 rounded-full    ${isReacted == "down" ? "bg-slate-300" : ""}          `}
+          <img className={`w-8 p-2 hover:bg-slate-200 rounded-full  active:-translate-y-3 duration-300 transition-all     ${isReacted == "down" ? "bg-slate-300" : ""}          `}
             onClick={() => isReacted == 'down' ? reactToPost('none') : reactToPost('down')}
             src={secondarySvg} alt="" />
         </div>

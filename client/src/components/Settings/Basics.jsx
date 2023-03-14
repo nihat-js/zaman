@@ -8,6 +8,7 @@ import axios from 'axios'
 import { token } from '../../utils/utils'
 import { MainContext } from '../../contexts/Main'
 import InputEmoji from "react-input-emoji";
+import EditAvatar from './EditAvatar'
 
 export default function Basics() {
 
@@ -98,8 +99,9 @@ export default function Basics() {
 
   return (
     <div className='w-8/12'>
+      {  file && <EditAvatar src={URL.createObjectURL(file)}  setFile={setFile} />  } 
       <form action="" encType='multipart/form-data' >
-        <input onChange={(e) => uploadAvatar(e)} id="file" type="file" name="file" className='hidden' />
+        <input onChange={(e) => setFile(e.target.files[0])  } id="file" type="file" name="file" className='hidden' />
       </form>
       <header className='flex gap-12 '>
         <Avatar style={{ width: "100px" }} me={true} disableLink={true} />

@@ -20,7 +20,7 @@ export default function Avatar(props) {
       to = "/profile/" + user.username
     } else {
       src = avatar ? host + "/avatars/" + avatar : host + "/avatars/default.svg"
-      console.log('uff',src)
+      // console.log('uff',src)
       to = "/profile/" + username
     }
 

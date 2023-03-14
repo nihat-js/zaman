@@ -14,6 +14,7 @@ import Post from './pages/Post'
 import './assets/css/tailwind.css'
 
 import MainProvider from './contexts/Main'
+import GameTic from './pages/GameTic'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -29,6 +30,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/settings/' element={<Settings />} />
         <Route path='/logout' element = {<Logout/>} />
         <Route path='/post/:id' element={<Post/>} />
+        <Route path="/game/tic" element={<GameTic />} />
+        <Route path= "/game/tic/:id" element={<GameTic/>} />
       </Routes>
       <Routes>
         <Route path='/admin/dashboard' element={<Admin />} />

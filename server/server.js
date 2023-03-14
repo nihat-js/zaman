@@ -8,7 +8,8 @@ const path = require('path')
 const http = require('http');
 const socketio = require('socket.io');
 const jwt = require('jsonwebtoken')
-
+const gameSocket = require('./services/ticGameSocket')
+const checkerGameSocket = require("./services/checkerGameSocket")
 //middlewares
 const auth = require('./middlewares/auth')
 const adminAuth = require("./middlewares/adminAuth")
@@ -34,7 +35,7 @@ app.use(cors())
 app.use(fileUpload())
 
 
-app.get('/test',(req,res)=> res.send("test") )
+app.get('/test', (req, res) => res.send("test"))
 app.use(express.static('storage'))
 app.use('/api/entry/', entry)
 // app.use('/api/message/',auth,message)
@@ -44,7 +45,7 @@ app.use("/api/comment/", auth, comment)
 app.use("/api/admin", adminAuth, admin)
 
 app.use("/api/user/", auth, user)
-app.use("/api/story/",auth,story)
+app.use("/api/story/", auth, story)
 
 app.post('/api/search', search)
 
@@ -52,7 +53,7 @@ app.post('/api/search', search)
 app.post('/ok', (req, res) => res.send('ok'))
 
 
-app.listen(process.env.PORT || 3000, () => { console.log(`Server is running on ${process.env.PORT} `) })
+app.listen(process.env.PORT || 2000, () => { console.log(`Express Server is running on ${process.env.PORT} `) })
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGODB_URI, () => { console.log("Connected to MongoDB") })
 
@@ -63,32 +64,19 @@ const User = require("./models/User")
 const Chat = require("./models/Chat")
 const UserChat = require("./models/UserChat")
 const Message = require("./models/Message")
-global.users = []
-
 
 
 io.on('connection', (socket) => {
-  // console.log(`New client connected: ${socket.id}`);
   let socket_id = socket.id
-  // socket.on('register', async (token) => {
-  //   socket.join("room")
-  //   if (!token) return false
-  //   const decoded = jwt.verify(token, process.env.JWT_SECRET)
-  //   let user = await User.findById(decoded.user_id)
-  //   global.users.push({ socket_id, user_id: decoded.user_id })
-  //   // console.log('a',global.users)
-  // })
-
 
   socket.on('join', async (data) => {
     if (!data.chat_id) return false
     const decoded = jwt.verify(data.token, process.env.JWT_SECRET)
-    console.log('joinin', data.chat_id)
+    console.log('joining', data.chat_id)
     const hasAccess = await UserChat.find({ chat_id: data.chat_id, user_id: decoded.user_id })
     if (!hasAccess) { return false }
     await socket.join(data.chat_id)
   })
-
 
 
 
@@ -139,7 +127,10 @@ io.on('connection', (socket) => {
 });
 
 server.listen(3000, () => {
-  console.log('Server started on port 3000');
+  console.log('Chat Socket started on port 3000');
 });
+
+
+
 
 module.exports = app

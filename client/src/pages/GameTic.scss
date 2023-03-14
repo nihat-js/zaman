@@ -1,0 +1,16 @@
+.game-tic{
+  .timer{
+    background-color: blue;
+    animation: 10s timer  infinite;
+  }
+}
+
+
+@keyframes timer {
+  0%{
+    width: 50px;
+  }
+  100%{
+    width:  0 ;
+  }
+}
