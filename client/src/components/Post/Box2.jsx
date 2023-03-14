@@ -94,51 +94,52 @@ export default function PostBox2(props) {
 
   return (
 
-    <div className={`bg-slate-50 mb-6 py-5 px-5 rounded-md post-box flex gap-8 ${theme == "dark" ? "bg-slate-700 text-slate-800" : ""}  `} >
+    <div className={` mt-5 bg-slate-50 mb-6 py-5 px-5 rounded-md post-box ${theme == "dark" ? "bg-slate-700 text-slate-800" : ""}  `} >
 
-      {showReportModal && <ReportModal post_id={_id} closeModal={() => setShowReportModal(false)} />}
-      <div className="left w-7/12">
-        <Gallery sources={sources} />
+    {showReportModal && <ReportModal post_id={_id} closeModal={() => setShowReportModal(false)} />}
+
+    <header className="flex justify-between px-2 mb-5 items-center" >
+      <div className="left flex gap-3">
+        <Avatar avatar={avatar} username={username} stories_count={stories_count} />
+        <Username username={username} className="font-semibold text-xl hover:text-gray-500 " />
+
       </div>
-      <div className="right w-7/12">
-        <header className="flex justify-between px-2 mb-5 items-center" >
-          <div className="left flex gap-3">
-            <Avatar avatar={avatar} username={username} stories_count={stories_count} />
-            <Username username={username} className="font-semibold text-xl hover:text-gray-500 " />
-          </div>
-          <div className="right relative">
-            <img onClick={() => setShowOptions(true)}
-              className="three w-8 p-1 rounded-full cursor-pointer hover:bg-slate-200 " src={threeDotsSvg} alt="" />
-            <Options showOptions={showOptions} setShowOptions={setShowOptions}
-              setShowReportModal={setShowReportModal} deletePost={deletePost} username={username} setIsEditing={setIsEditing} />
-          </div>
-        </header>
-        <div className="text mt-2 "  >
-          <input spellCheck={false} disabled={!isEditing} className={` bg-transparent text font-semibold mb-1 mt-1 px-2  text-xl outline-none w-full   ${isEditing ? "border-b-2 border-b-gray-300 " : ""} `}
-            onChange={(e) => setText(e.target.value)} value={text} />
-          {
-            isEditing && <div className="flex justify-end mt-3 gap-2">
-              <button className="text-blue-700  font-bold py-2 px-4   hover:bg-white rounded-md"
-                onClick={() => setIsEditing(false)}> Cancel  </button>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => { setIsEditing(false); edit() }} > Save  </button>
-
-            </div>
-          }
-        </div>
-        <div className="text-gray-400 text-sm hover:opacity-50 px-2  " > {calculateTimeForUser(createdAt)} </div>
-        <Actions _id={_id} saved={saved} reaction={reaction} loadComments={loadComments}
-          commentsStatus={commentsStatus} comments_count={comments_count} reactions_count={reactions_count} />
-        <div className="comments">
-          {commentsStatus != "closed" && <AddComment post_id={_id} refresh={loadComments} />}
-          {/* <hr /> */}
-          {commentsStatus == "loading" && [...new Array(3)].map((item, index) => <Skleton key={index} />)}
-          {commentsStatus == "open" && comments.length > 0 ? comments.map((item, index) => <CommentBox key={index} data={item} />) : ""}
-          {commentsStatus == "open" && comments.length == 0 && <div> <p className="text text-gray-500" > Oops, An awesome chance to make  a first comment </p> </div>}
-        </div>
+      <div className="right relative">
+        <img onClick={() => setShowOptions(true)}
+          className="three w-8 p-1 rounded-full cursor-pointer hover:bg-slate-200 " src={threeDotsSvg} alt="" />
+        <Options showOptions={showOptions} setShowOptions={setShowOptions}
+          setShowReportModal={setShowReportModal} deletePost={deletePost} username={username} setIsEditing={setIsEditing} />
       </div>
+    </header>
+    <Gallery sources={sources} />
 
+    <div className="text mt-2 "  >
+      <input spellCheck={false} disabled={!isEditing} className={` bg-transparent text font-semibold mb-1 mt-1 px-2  text-xl outline-none w-full   ${isEditing ? "border-b-2 border-b-gray-300 " : ""} `}
+        onChange={(e) => setText(e.target.value)} value={text} />
+      {
+        isEditing && <div className="flex justify-end mt-3 gap-2">
+          <button className="text-blue-700  font-bold py-2 px-4   hover:bg-white rounded-md"
+            onClick={() => setIsEditing(false)}> Cancel  </button>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => { setIsEditing(false); edit() }} > Save  </button>
+
+        </div>
+      }
     </div>
+
+    <div className="text-gray-400 text-sm hover:opacity-50 px-2  " > {calculateTimeForUser(createdAt)} </div>
+
+    <Actions _id={_id} saved={saved} reaction={reaction} loadComments={loadComments}
+      commentsStatus={commentsStatus} comments_count={comments_count} reactions_count={reactions_count} />
+    <div className="comments">
+      {commentsStatus != "closed" && <AddComment post_id={_id} refresh={loadComments} />}
+      {/* <hr /> */}
+      {commentsStatus == "loading" && [...new Array(3)].map((item, index) => <Skleton key={index} />)}
+      {commentsStatus == "open" && comments.length > 0 ? comments.map((item, index) => <CommentBox key={index} data={item} />) : ""}
+      {commentsStatus == "open" && comments.length == 0 && <div> <p className="text text-gray-500" > Oops, An awesome chance to make  a first comment </p> </div>}
+    </div>
+
+  </div>
 
 
 

@@ -14,7 +14,7 @@ import OptionsSvg from "../../assets/svg/three-dots.svg"
 import './Modal.css'
 export default function StoryModal({ arr,index ,  setShowStory }) {
   const [data, setData] = useState([])
-  const [arrIndex, setArrIndex] = useState(index ? index  :  0 )
+  const [arrIndex, setArrIndex] = useState(  0 )
   const [dataIndex, setDataIndex] = useState(0)
   let timerId
   async function get() {

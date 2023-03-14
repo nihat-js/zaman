@@ -4,17 +4,19 @@ import { useContext, useEffect, useState } from 'react'
 import { host } from '../../config/config'
 import StoryModal from '../Story/Modal'
 export default function Avatar(props) {
-  let { className, avatar, username, stories_count, style, me, disableStory, arr,  } = props
+  let { className, avatar, username, stories_count, style, me, disableStory, arr,index  } = props
   const { user } = useContext(MainContext)
   const [showZoom, setShowZoom] = useState(false)
   const [showStory, setShowStory] = useState(false)
   let src, to
-  
-    // if (typeof arr =="object") {
-    //   avatar = arr[index].avatar
-    //   username = arr[index].username
-    //   stories_count = arr[index].stories_count
-    // }
+
+    if (typeof arr =="object") {
+      avatar = arr[index].avatar
+      username = arr[index].username
+      stories_count = arr[index].stories_count
+    }else{
+      arr = [{avatar,username}]
+    }
     if (me) {
       src = user.avatar ? host + "/avatars/" + user.avatar : host + "/avatars/default.svg"
       to = "/profile/" + user.username
