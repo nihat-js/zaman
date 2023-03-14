@@ -8,13 +8,11 @@
     "**/Thumbs.db": true,
     "server/.env": true,
     "server/.rest": true,
-    "server/package-lock.json": true,
-    "server/package.json": true
+    "server/package-lock.json": true
   },
   "hide-files.files": [
     "server/.env",
     "server/.rest",
-    "server/package-lock.json",
-    "server/package.json"
+    "server/package-lock.json"
   ]
 }

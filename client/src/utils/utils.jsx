@@ -61,3 +61,12 @@ export async function cropImage(image, crop,) {
   }, 'image/jpeg'))
   return croppedImage
 }
+
+export  const calculateTimeForStory = (stringDate) =>{
+  let text;
+  let original = new Date(stringDate);
+  let current = new Date()
+  let dif = Math.floor ( (current - original) / 36e5 )
+
+  return dif + " hours ago"
+}

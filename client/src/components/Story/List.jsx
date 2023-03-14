@@ -14,7 +14,6 @@ import EditImage from './EditImage';
 export default function Story() {
 
   const { user } = useContext(MainContext)
- 
   const [file, setFile] = useState()
   const [users, setUsers] = useState([])
 
@@ -39,7 +38,7 @@ export default function Story() {
       {file && <EditImage  setFile={setFile} src={URL.createObjectURL(file)}   />}
 
       <div className="me relative ">
-        <Avatar me={true} style={{ width: "60px", height: "60px" }} />
+        <Avatar  me={true} style={{ width: "60px", height: "60px" }} />
         <label htmlFor="file">
           <img className='w-5  z-5 rounded-full cursor-pointer hover:bg-blue-500 ' src={addStorySvg} alt="" />
         </label>
@@ -47,7 +46,7 @@ export default function Story() {
       </div>
       {users.map((i, j) => <div key={j}>
         <div className="avatar-wrap"  >
-          <Avatar  username={i.username} avatar={i.avatar} stories_count={i.stories_count} />
+          <Avatar arr={users} index={j}  />
         </div>
         <p> {i.username} </p>
       </div>)}

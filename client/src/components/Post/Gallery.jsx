@@ -12,7 +12,7 @@ export default function Gallery({sources}) {
     <div>
 
       <div className="gallery relative mb-4 z-10">
-        {5 > 3 ? <img className='rounded-md'  style={{ width: "100%" }} onDoubleClick={() => reactToPost('up')} src={host + "images/" + sources[sourceIndex]} /> : ""}
+        {5 > 3 ? <img className='rounded-md'  style={{ width: "100%" , height: "350px" }} onDoubleClick={() => reactToPost('up')} src={host + "images/" + sources[sourceIndex]} /> : ""}
         {sources.length > 1 &&
           <img onClick={() => sourceIndex + 1 == sources.length ? setSourceIndex(0) : setSourceIndex(sourceIndex + 1)}
             className="w-8 absolute top-1/2 right-4 bg-slate-50 rounded-full p-2 cursor-pointer hover:bg-slate-200  opacity-50 hover:opacity-90 " src={arrowRightSvg} />

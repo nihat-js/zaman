@@ -11,16 +11,17 @@ import { MainContext } from "../../contexts/Main";
 import Avatar from "../User/Avatar";
 import { host } from "../../config/config";
 import InputEmoji from "react-input-emoji";
+import EditImage from "./EditImage";
 
 export default function CreatePost() {
-  const {user,theme} = useContext(MainContext)
+  const { user, theme } = useContext(MainContext)
   const { username, avatar } = user
 
   const [text, setText] = useState('');
   const inputFile = useRef()
+  const [file, setFile] = useState()
   const [arr, setArr] = useState([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-
 
   async function handleImageButton() {
     // console.log("started")
@@ -50,7 +51,7 @@ export default function CreatePost() {
         formData.append("image" + index, item)
       })
       formData.append("text", text)
-      formData.append("token", token )
+      formData.append("token", token)
       let response = await axios.post(host + "api/post/create", formData)
       console.log(response.data)
       setText('')
@@ -64,19 +65,22 @@ export default function CreatePost() {
 
   return (
     <section className={`start py-2  `}>
+      {file ? <EditImage src={URL.createObjectURL(file)} setFile={setFile} arr={arr} setArr={setArr} /> : ""}
+
+
       <form action="" encType="multipart/form-data" >
-        <input  className="hidden" onChange={handleImageUpload} ref={inputFile} type="file" multiple />
+        <input ref={inputFile} className="hidden" onChange={(e) => e.target.files.length > 0 ? setFile(e.target.files[0]) : ""} type="file" />
       </form>
-      <div className={`container mx-auto bg-slate-50 rounded-lg shadow-md ${theme == "dark" ? "bg-slate-600" : "" }   `}>
+      <div className={`container mx-auto bg-slate-50 rounded-lg shadow-md ${theme == "dark" ? "bg-slate-600" : ""}   `}>
         <div className="row flex gap-2  py-4 px-5">
           <div className="left">
-              <Avatar me />
+            <Avatar me />
           </div>
           <div className="right ">
             <header className="flex gap-1">
               {/* <InputEmoji value={text} onChange={ (e) =>  setText(e) } placeholder="How good  " /> */}
               <textarea spellCheck="false" rows={1} cols={80}
-                className={`w-full py-2 px-4 bg-gray-200  border-gray-200 outline-none resize-none rounded-lg ${theme == "dark" ? "bg-slate-500" : "" }  `} value={text}
+                className={`w-full py-2 px-4 bg-gray-200  border-gray-200 outline-none resize-none rounded-lg ${theme == "dark" ? "bg-slate-500" : ""}  `} value={text}
                 onChange={(e) => setText(e.target.value)} type="text"
                 placeholder=" If you win the lattery ... " />
             </header>

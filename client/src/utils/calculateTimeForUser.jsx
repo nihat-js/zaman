@@ -8,7 +8,7 @@ const getMonthName = (month, lang = "en") => {
   }
 }
 
-const calculateTimeForUser = (stringDate) => {
+export const calculateTimeForUser = (stringDate) => {
   let text;
   let original = new Date(stringDate);
   let current = new Date()
@@ -22,6 +22,7 @@ const calculateTimeForUser = (stringDate) => {
   }
   return text
 }
+
 
 
 export default calculateTimeForUser

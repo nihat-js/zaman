@@ -1,0 +1,20 @@
+.story-modal .active {
+  -webkit-animation-name: change-color;
+  animation-name: change-color;
+  -webkit-animation-duration: 4s;
+  animation-duration: 4s;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+
+}
+
+@keyframes change-color {
+  0% {
+    width: 0px !important;
+    color: #fff;
+  }
+  100% {
+    width: 100px  !important;
+    color: #6A78D1;
+  }
+}

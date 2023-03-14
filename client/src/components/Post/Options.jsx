@@ -8,7 +8,7 @@ export default function Options({ showOptions, setShowOptions, setShowReportModa
   const {user} = useContext(MainContext)
 
   return (
-    <div className={`post-options absolute bg-white   rounded-md  shadow-md z-10  right-2  w-fit ${showOptions ? "" : "hidden"} `}>
+    <div className={`post-options absolute bg-white   rounded-md  shadow-md   right-2  w-fit ${showOptions ? "" : "hidden"} z-20 `}>
 
       {username == user.username &&
         <button className="px-2 py-3  rounded hover:bg-slate-100  "
