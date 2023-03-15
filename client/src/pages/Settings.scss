@@ -1,0 +1,15 @@
+@media screen and (max-width:768px) {
+  .settings-page {
+    main {
+      // background-color: blue !important;
+      flex-wrap: wrap !important ;
+      .left{
+        width: 100% !important ;
+      }
+      .right{
+        width: 100% !important;
+      }
+    }
+  }
+
+}
