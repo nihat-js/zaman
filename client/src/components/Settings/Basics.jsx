@@ -17,6 +17,7 @@ export default function Basics() {
   let [data, setData] = useState("loading")
   let [copy, setCopy] = useState()
   let [isDataLoading, setIsDataLoading] = useState(true)
+  const [file,setFile] = useState()
 
 
   async function uploadAvatar(e) {
@@ -157,6 +158,7 @@ function UsernameInput(props) {
 
 function EmailInput(props) {
   const { data, setData, isDataLoading } = props
+  console.log('email',data)
   return (
     <div style={{ maxWidth: "500px" }} className=" flex  mt-10 gap-4 items-center">
       <label htmlFor='email' className="email w-3/12  font-semibold text-xl text-gray-500 "> Email </label>
@@ -210,6 +212,7 @@ function PhoneInput(props) {
 
 function GenderInput(props) {
   const { data, setData, isDataLoading } = props
+  console.log('g',data)
   return (<div style={{ maxWidth: "500px" }} className="gender-group flex  mt-8 gap-4 items-center">
     <p className='w-3/12' > Gender </p>
     <div className='bg-slate-200 py-2 px-2 rounded-md'>

@@ -35,7 +35,7 @@ export default function DashBoard(props) {
 
   async function loadMostFollowedUsers() {
     try {
-      let result = await axios.post(host + "api/admin/graphql", { token  , model: "user", sortObj: { followings_count: 1 } })
+      let result = await axios.post(host + "api/admin/graphql", { token  , model: "user", sortObj: { followers_count: -1 } })
       console.log('start');
       setMostFollowedUsers(result.data)
       console.log(result)

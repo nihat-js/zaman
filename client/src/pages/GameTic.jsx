@@ -54,6 +54,9 @@ export default function GameTic() {
         }
         return m
       })
+      setInterval(()=>{
+        setGame({})
+      },1000)
 
     })
     if (id) {

@@ -4,6 +4,7 @@ import axios from "axios";
 import { host } from "../../config/config";
 import { token } from "../../utils/utils";
 import leftArrow from "../../assets/svg/arrow-left.svg"
+import sadSvg from "../../assets/svg/sad.png"
 import ContactsBox from "./ContactsBox"
 export default function ContactsList({ currentChat,setCurrentChat , socket, leaveRoom }) {
 
