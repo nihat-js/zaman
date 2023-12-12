@@ -8,21 +8,31 @@ export const MainContext = createContext()
 
 const chatThemes = [
   {
-    "bgColor" : "bg-slate-50"
+    "bgColor" : "bg-slate-50",
+    "bubbleBgColor" :"bg-sky-600"
   },
   {
     "bgColor" : "bg-sky-800",
+    "bubbleBgColor" :" bg-sky-600"
+
   },
   {
     "bgColor" : "bg-indigio-800",
+    "bubbleBgColor" :"bg-indigo-600"
+
   },
   {
     "bgColor" : "bg-green-800",
+    "bubbleBgColor" :"bg-green-600"
+
   },
   {
-    "bgColor" : "bg-yellow-800"
+    "bgColor" : "bg-yellow-800",
+    "bubbleBgColor" :"bg-yellow-600"
+
   }
 ]
+
 
 
 
