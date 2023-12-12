@@ -6,6 +6,24 @@ import { useNavigate} from 'react-router-dom'
 export const MainContext = createContext()
 
 
+const chatThemes = [
+  {
+    "bgColor" : "bg-slate-50"
+  },
+  {
+    "bgColor" : "bg-sky-800",
+  },
+  {
+    "bgColor" : "bg-indigio-800",
+  },
+  {
+    "bgColor" : "bg-green-800",
+  },
+  {
+    "bgColor" : "bg-yellow-800"
+  }
+]
+
 
 
 export default function Index({ children }) {
@@ -47,7 +65,7 @@ export default function Index({ children }) {
   }
 
   return (
-    <MainContext.Provider value={{ user, updateUser, theme,reverseTheme }} >
+    <MainContext.Provider value={{ user, updateUser, theme,reverseTheme,chatThemes }} >
       {children}
     </MainContext.Provider>
   )

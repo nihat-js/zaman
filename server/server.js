@@ -50,10 +50,10 @@ app.use("/api/story/", auth, story)
 app.post('/api/search', search)
 
 
-app.post('/ok', (req, res) => res.send('ok'))
 
 
 app.listen(process.env.PORT || 2000, () => { console.log(`Express Server is running on ${process.env.PORT} `) })
+
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGODB_URI, () => { console.log("Connected to MongoDB") })
 

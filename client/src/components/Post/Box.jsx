@@ -24,7 +24,7 @@ export default function PostBox(props) {
   let { user, theme } = useContext(MainContext)
 
   let { _id, createdAt, reactions_count, reaction, reactions, author_id, comments_count, sources, saved } = props.data
-  let { avatar, username , stories_count } = props.data.author_id
+  let { avatar, username , stories_count } = props?.data?.author_id
 
 
   let [isPostDeleted, setIsPostDeleted] = useState(false)

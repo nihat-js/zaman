@@ -74,7 +74,7 @@ export default function Chat() {
             <ContactsList socket={socket} leaveRoom={leaveRoom} currentChat={currentChat}  setCurrentChat={setCurrentChat} />
           </div>
           <div className="right w-9/12">
-            <Conversation chatTheme={chatTheme} currentChat={currentChat} messages={messages} deleteMessage={deleteMessage} send={send} />
+            <Conversation updateTheme={updateTheme} chatTheme={chatTheme} currentChat={currentChat} messages={messages} deleteMessage={deleteMessage} send={send} />
           </div>
         </div >
       </main>
