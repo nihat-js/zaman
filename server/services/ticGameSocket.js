@@ -8,15 +8,17 @@ const io = socketio(server2, { cors: { origin: "*" } });
 
 let online = []  // {}
 let rooms = []
-let games = []
 let timers = []
+let games = []
+
 io.on('connection', async (socket) => {
   let socketId = socket.id
   socket.on('createRoom', async (data) => {
-    console.log('connected',socketId)
+    console.log('creating...room',socketId)
     const decoded = jwt.verify(data.token, process.env.JWT_SECRET)
     const user = await User.findById(decoded.user_id).select("username avatar")
     await socket.join(data.gameId)
+    console.log("testing...")
     games.push({
       gameId: data.gameId,
       user1: { number: 1, mark: 'x', socketId, username: user.username, avatar: user.avatar },

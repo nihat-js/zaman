@@ -7,6 +7,20 @@ server2 = http.createServer();
 const io = socketio(server2, { cors: { origin: "*" } });
 
 let games = []
+
+// 90r1j903few => nihat => 001ci otaqdadi
+// who is in which room
+// {
+  //  309ifakso => 001
+      // 90890r1ioqfp => 002
+// } 
+// userRoomMap => 
+  // rooms : ["1251124","512121"]
+  // games
+//
+
+
+
 io.on('connection', async (socket) => {
   let socketId = socket.id
   console.log('a user connected');
